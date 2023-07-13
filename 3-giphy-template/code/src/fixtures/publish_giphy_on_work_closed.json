@@ -1,0 +1,148 @@
+[
+  {
+    "payload": {
+      "id": "don:integration:dvrv-us-1:devo/xN4ULzK1:webhook/ZsnfNyy2:webhook_event/2L7GfFYkHZw",
+      "timestamp": "2023-03-23T09:03:34.584501Z",
+      "type": "work_updated",
+      "unique_key": "ZG9uOmludGVncmF0aW9uOmR2cnYtdXMtMTpkZXZvL3hONFVMeksxOmV2ZW50X3NvdXJjZS8xNTI1ZGUzYy01NTAxLTQ3YzItYjQxMS1lMzA3NzA5ZTNmNjM=",
+      "webhook_id": "don:integration:dvrv-us-1:devo/xN4ULzK1:webhook/ZsnfNyy2",
+      "work_updated": {
+        "old_work": {
+          "applies_to_part": {
+            "display_id": "PROD-1",
+            "id": "don:core:dvrv-us-1:devo/xN4ULzK1:product/1",
+            "id_v1": "don:DEV-xN4ULzK1:product:1",
+            "name": "BestProd",
+            "type": "product"
+          },
+          "body": "please work",
+          "created_by": {
+            "display_handle": "kapil-garg",
+            "display_id": "DEVU-1",
+            "display_name": "kapil-garg",
+            "email": "kapil.garg@devrev.ai",
+            "full_name": "Kapil Garg",
+            "id": "don:identity:dvrv-us-1:devo/xN4ULzK1:devu/1",
+            "id_v1": "don:DEV-xN4ULzK1:dev_user:DEVU-1",
+            "state": "active",
+            "type": "dev_user"
+          },
+          "created_date": "2023-03-23T03:10:37.816Z",
+          "custom_fields": null,
+          "display_id": "ISS-3",
+          "id": "don:core:dvrv-us-1:devo/xN4ULzK1:issue/3",
+          "id_v1": "don:DEV-xN4ULzK1:issue:3",
+          "modified_by": {
+            "display_handle": "kapil-garg",
+            "display_id": "DEVU-1",
+            "display_name": "kapil-garg",
+            "email": "kapil.garg@devrev.ai",
+            "full_name": "Kapil Garg",
+            "id": "don:identity:dvrv-us-1:devo/xN4ULzK1:devu/1",
+            "id_v1": "don:DEV-xN4ULzK1:dev_user:DEVU-1",
+            "state": "active",
+            "type": "dev_user"
+          },
+          "modified_date": "2023-03-23T05:22:00.018Z",
+          "owned_by": [
+            {
+              "display_handle": "kapil-garg",
+              "display_id": "DEVU-1",
+              "display_name": "kapil-garg",
+              "email": "kapil.garg@devrev.ai",
+              "full_name": "Kapil Garg",
+              "id": "don:identity:dvrv-us-1:devo/xN4ULzK1:devu/1",
+              "id_v1": "don:DEV-xN4ULzK1:dev_user:DEVU-1",
+              "state": "active",
+              "type": "dev_user"
+            }
+          ],
+          "priority": "p2",
+          "stage": { "name": "triage", "ordinal": 500 },
+          "state": "open",
+          "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/297342",
+          "title": "new issue",
+          "type": "issue"
+        },
+        "work": {
+          "actual_close_date": "2023-03-23T09:03:11.224Z",
+          "applies_to_part": {
+            "display_id": "PROD-1",
+            "id": "don:core:dvrv-us-1:devo/xN4ULzK1:product/1",
+            "id_v1": "don:DEV-xN4ULzK1:product:1",
+            "name": "BestProd",
+            "type": "product"
+          },
+          "body": "please work",
+          "created_by": {
+            "display_handle": "kapil-garg",
+            "display_id": "DEVU-1",
+            "display_name": "kapil-garg",
+            "email": "kapil.garg@devrev.ai",
+            "full_name": "Kapil Garg",
+            "id": "don:identity:dvrv-us-1:devo/xN4ULzK1:devu/1",
+            "id_v1": "don:DEV-xN4ULzK1:dev_user:DEVU-1",
+            "state": "active",
+            "type": "dev_user"
+          },
+          "created_date": "2023-03-23T03:10:37.816Z",
+          "custom_fields": null,
+          "display_id": "ISS-3",
+          "id": "don:core:dvrv-us-1:devo/xN4ULzK1:issue/3",
+          "id_v1": "don:DEV-xN4ULzK1:issue:3",
+          "modified_by": {
+            "display_handle": "kapil-garg",
+            "display_id": "DEVU-1",
+            "display_name": "kapil-garg",
+            "email": "kapil.garg@devrev.ai",
+            "full_name": "Kapil Garg",
+            "id": "don:identity:dvrv-us-1:devo/xN4ULzK1:devu/1",
+            "id_v1": "don:DEV-xN4ULzK1:dev_user:DEVU-1",
+            "state": "active",
+            "type": "dev_user"
+          },
+          "modified_date": "2023-03-23T09:03:11.224Z",
+          "owned_by": [
+            {
+              "display_handle": "kapil-garg",
+              "display_id": "DEVU-1",
+              "display_name": "kapil-garg",
+              "email": "kapil.garg@devrev.ai",
+              "full_name": "Kapil Garg",
+              "id": "don:identity:dvrv-us-1:devo/xN4ULzK1:devu/1",
+              "id_v1": "don:DEV-xN4ULzK1:dev_user:DEVU-1",
+              "state": "active",
+              "type": "dev_user"
+            }
+          ],
+          "priority": "p2",
+          "stage": { "name": "completed", "notes": "", "ordinal": 8000 },
+          "state": "closed",
+          "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/297342",
+          "title": "new issue",
+          "type": "issue"
+        }
+      }
+    },
+    "context": {
+      "dev_oid": "don:identity:dvrv-us-1:devo/xN4ULzK1",
+      "automation_id": "don:integration:dvrv-us-1:devo/xN4ULzK1:automation/535277e6-fd23-4c67-93af-a2a03ac55b52",
+      "source_id": "don:integration:dvrv-us-1:devo/xN4ULzK1:automation/535277e6-fd23-4c67-93af-a2a03ac55b52",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/xN4ULzK1:snap_in/f5a26f38-3323-4ca5-a5f5-8ac7253a64d9",
+      "snap_in_version_id": "don:integration:dvrv-us-1:devo/xN4ULzK1:snap_in_package/66e0bc57-4e28-4b2b-8c65-ff7b9a1e0ef5:snap_in_version/ec6cb03c-1b99-42de-bef3-fd212f9e3f5c"
+    },
+    "execution_metadata": {
+      "request_id": "",
+      "function_name": "publish_giphy_on_work_closed"
+    },
+    "input_data": {
+      "global_values": { "giphy_api_key": "6RLulw7No4cxWYvBSc0MfDUrMPM34TRB" },
+      "event_sources": {
+        "devrev-webhook": "don:integration:dvrv-us-1:devo/xN4ULzK1:event_source/1525de3c-5501-47c2-b411-e307709e3f63"
+      },
+      "keyrings": {
+        "devrev_token": ""
+      }
+    }
+  }
+]

@@ -1,0 +1,87 @@
+{
+  "context": {
+    "dev_oid": "don:identity:dvrv-us-1:devo/0",
+    "automation_id": "",
+    "source_id": "don:integration:dvrv-us-1:devo/0:snap_in/00000001-0001-0001-0001-00000001:snap_kit_action/giphy",
+    "snap_in_id": "don:integration:dvrv-us-1:devo/0:snap_in/00000001-0001-0001-0001-00000001",
+    "snap_in_version_id": "don:integration:dvrv-us-1:devo/0:snap_in_package/00000001-0001-0001-0001-00000001:snap_in_version/00000001-0001-0001-0001-00000001"
+  },
+  "execution_metadata": { "request_id": "", "function_name": "render_giphy" },
+  "input_data": {
+    "global_values": { "giphy_api_key": "" },
+    "event_sources": {},
+    "keyrings": {
+        "devrev" : ""
+    }
+  },
+  "payload": {
+    "action": {
+      "block_id": "NIL",
+      "id": "shuffle",
+      "timestamp": 1679548914,
+      "type": "BUTTON",
+      "value": "shuffle"
+    },
+    "action_id": "don:integration:dvrv-us-1:devo/0:snap_in/00000001-0001-0001-0001-00000001:snap_kit_action/giphy",
+    "actor_id": "don:identity:dvrv-us-1:devo/0:devu/1",
+    "body": {
+      "snaps": [
+        {
+          "elements": [
+            {
+              "elements": [
+                {
+                  "alt_text": "Awesome GIF",
+                  "block_id": "https://media4.giphy.com/media/NP7ze37HW5ZYI/giphy.gif?cid=f5f0348f2d17b38c6bff8f0640bc7a683a47c99096c08556\u0026rid=giphy.gif\u0026ct=g",
+                  "image_url": "https://media4.giphy.com/media/NP7ze37HW5ZYI/200w_d.gif?cid=f5f0348f2d17b38c6bff8f0640bc7a683a47c99096c08556\u0026rid=200w_d.gif\u0026ct=g",
+                  "type": "image"
+                }
+              ],
+              "type": "content"
+            },
+            {
+              "direction": "row",
+              "elements": [
+                {
+                  "action_id": "send",
+                  "action_type": "remote",
+                  "style": "primary",
+                  "text": { "text": "Send", "type": "plain_text" },
+                  "type": "button",
+                  "value": "send"
+                },
+                {
+                  "action_id": "shuffle",
+                  "action_type": "remote",
+                  "style": "primary",
+                  "text": { "text": "Shuffle", "type": "plain_text" },
+                  "type": "button",
+                  "value": "shuffle"
+                },
+                {
+                  "action_id": "cancel",
+                  "action_type": "remote",
+                  "style": "danger",
+                  "text": { "text": "Cancel", "type": "plain_text" },
+                  "type": "button",
+                  "value": "cancel"
+                }
+              ],
+              "justify": "center",
+              "type": "actions"
+            }
+          ],
+          "title": { "text": "music", "type": "plain_text" },
+          "type": "card"
+        }
+      ]
+    },
+    "context": {
+      "entry_id": "don:core:dvrv-us-1:devo/0:issue/3:comment/rxmj54irqfrk4",
+      "parent_core_object_id": "don:core:dvrv-us-1:devo/0:issue/3"
+    },
+    "dev_org": "don:identity:dvrv-us-1:devo/0",
+    "parent_id": "don:integration:dvrv-us-1:devo/0:snap_in/00000001-0001-0001-0001-00000001",
+    "request_id": ""
+  }
+}
