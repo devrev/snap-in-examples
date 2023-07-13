@@ -1,0 +1,24 @@
+version: "1"
+
+service_account:
+  display_name: "DevRev Bot"
+
+event-sources:
+  - name: devrev-webhook
+    description: Source listening for work_updated events from DevRev.
+    display_name: DevRev Webhook
+    type: devrev-webhook
+    config:
+      event_types:
+        - work_updated
+
+functions:
+  - name: ticket_stage_change
+    description: Function to post a comment on a ticket when its stage changes to "Awaiting Product Assist".
+
+automations:
+  - name: add_comment_on_ticket_stage_change
+    source: devrev-webhook
+    event_types:
+      - work_updated
+    function: ticket_stage_change

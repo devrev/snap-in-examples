@@ -1,0 +1,204 @@
+{
+  "payload": {
+    "id": "don:integration:dvrv-us-1:devo/8m46cp7R:webhook/qtuelXOO:webhook_event/Pvqbdx-9nvk",
+    "timestamp": "2023-05-04T06:49:29.565614Z",
+    "type": "work_updated",
+    "unique_key": "ZG9uOmludGVncmF0aW9uOmR2cnYtdXMtMTpkZXZvLzhtNDZjcDdSOmV2ZW50X3NvdXJjZS9hMzZhYmY0Ni1mZmNhLTQ5YzMtYjRhZC1lY2E5ZDE0YmEwZDc=",
+    "webhook_id": "don:integration:dvrv-us-1:devo/8m46cp7R:webhook/qtuelXOO",
+    "work_updated": {
+      "old_work": {
+        "applies_to_part": {
+          "display_id": "PROD-1",
+          "id": "don:core:dvrv-us-1:devo/8m46cp7R:product/1",
+          "id_v1": "don:DEV-8m46cp7R:product:1",
+          "name": "Slack for Build",
+          "type": "product"
+        },
+        "body": "desc",
+        "created_by": {
+          "display_handle": "i-vedansh-srivastava",
+          "display_id": "DEVU-1",
+          "display_name": "i-vedansh-srivastava",
+          "email": "i-vedansh.srivastava@devrev.ai",
+          "full_name": "Vedansh Srivastava",
+          "id": "don:identity:dvrv-us-1:devo/8m46cp7R:devu/1",
+          "id_v1": "don:DEV-8m46cp7R:dev_user:DEVU-1",
+          "state": "active",
+          "thumbnail": "https://api.devrev.ai/internal/display-picture/Vedansh%20Srivastava.svg",
+          "type": "dev_user"
+        },
+        "created_date": "2023-03-29T06:27:38.983Z",
+        "custom_fields": null,
+        "display_id": "TKT-126",
+        "id": "don:core:dvrv-us-1:devo/8m46cp7R:ticket/126",
+        "id_v1": "don:DEV-8m46cp7R:ticket:126",
+        "modified_by": {
+          "display_handle": "devrev-bot",
+          "display_id": "SYSU-1",
+          "display_name": "devrev-bot",
+          "full_name": "DevRev Bot",
+          "id": "don:identity:dvrv-us-1:devo/8m46cp7R:sysu/1",
+          "id_v1": "don:DEV-8m46cp7R:sys_user:SYSU-1",
+          "thumbnail": "https://api.devrev.ai/internal/display-picture/DevRev%20Bot.svg",
+          "type": "sys_user"
+        },
+        "modified_date": "2023-04-21T13:07:57.769Z",
+        "owned_by": [
+          {
+            "display_handle": "i-vedansh-srivastava",
+            "display_id": "DEVU-1",
+            "display_name": "i-vedansh-srivastava",
+            "email": "i-vedansh.srivastava@devrev.ai",
+            "full_name": "Vedansh Srivastava",
+            "id": "don:identity:dvrv-us-1:devo/8m46cp7R:devu/1",
+            "id_v1": "don:DEV-8m46cp7R:dev_user:DEVU-1",
+            "state": "active",
+            "thumbnail": "https://api.devrev.ai/internal/display-picture/Vedansh%20Srivastava.svg",
+            "type": "dev_user"
+          }
+        ],
+        "severity": "medium",
+        "stage": {
+          "name": "queued",
+          "notes": "",
+          "ordinal": 700,
+          "stage": {
+            "id": "don:core:dvrv-us-1:devo/8m46cp7R:custom_stage/4"
+          },
+          "state": {
+            "id": "don:core:dvrv-us-1:devo/8m46cp7R:custom_state/1"
+          }
+        },
+        "state": "open",
+        "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/297381",
+        "tags": [
+          {
+            "id": {
+              "display_id": "TAG-133",
+              "id": "don:core:dvrv-us-1:devo/8m46cp7R:tag/133",
+              "id_v1": "don:DEV-8m46cp7R:tag:133",
+              "name": ""
+            },
+            "tag": {
+              "display_id": "TAG-133",
+              "id": "don:core:dvrv-us-1:devo/8m46cp7R:tag/133",
+              "id_v1": "don:DEV-8m46cp7R:tag:133",
+              "name": ""
+            }
+          }
+        ],
+        "title": "titel",
+        "type": "ticket"
+      },
+      "work": {
+        "applies_to_part": {
+          "display_id": "PROD-1",
+          "id": "don:core:dvrv-us-1:devo/8m46cp7R:product/1",
+          "id_v1": "don:DEV-8m46cp7R:product:1",
+          "name": "Slack for Build",
+          "type": "product"
+        },
+        "body": "desc",
+        "created_by": {
+          "display_handle": "i-vedansh-srivastava",
+          "display_id": "DEVU-1",
+          "display_name": "i-vedansh-srivastava",
+          "email": "i-vedansh.srivastava@devrev.ai",
+          "full_name": "Vedansh Srivastava",
+          "id": "don:identity:dvrv-us-1:devo/8m46cp7R:devu/1",
+          "id_v1": "don:DEV-8m46cp7R:dev_user:DEVU-1",
+          "state": "active",
+          "thumbnail": "https://api.devrev.ai/internal/display-picture/Vedansh%20Srivastava.svg",
+          "type": "dev_user"
+        },
+        "created_date": "2023-03-29T06:27:38.983Z",
+        "custom_fields": null,
+        "display_id": "TKT-126",
+        "id": "don:core:dvrv-us-1:devo/8m46cp7R:ticket/126",
+        "id_v1": "don:DEV-8m46cp7R:ticket:126",
+        "modified_by": {
+          "display_handle": "i-vedansh-srivastava",
+          "display_id": "DEVU-1",
+          "display_name": "i-vedansh-srivastava",
+          "email": "i-vedansh.srivastava@devrev.ai",
+          "full_name": "Vedansh Srivastava",
+          "id": "don:identity:dvrv-us-1:devo/8m46cp7R:devu/1",
+          "id_v1": "don:DEV-8m46cp7R:dev_user:DEVU-1",
+          "state": "active",
+          "thumbnail": "https://api.devrev.ai/internal/display-picture/Vedansh%20Srivastava.svg",
+          "type": "dev_user"
+        },
+        "modified_date": "2023-05-04T06:49:26.096Z",
+        "owned_by": [
+          {
+            "display_handle": "i-vedansh-srivastava",
+            "display_id": "DEVU-1",
+            "display_name": "i-vedansh-srivastava",
+            "email": "i-vedansh.srivastava@devrev.ai",
+            "full_name": "Vedansh Srivastava",
+            "id": "don:identity:dvrv-us-1:devo/8m46cp7R:devu/1",
+            "id_v1": "don:DEV-8m46cp7R:dev_user:DEVU-1",
+            "state": "active",
+            "thumbnail": "https://api.devrev.ai/internal/display-picture/Vedansh%20Srivastava.svg",
+            "type": "dev_user"
+          }
+        ],
+        "severity": "medium",
+        "stage": {
+          "name": "awaiting_product_assist",
+          "notes": "",
+          "ordinal": 3250,
+          "stage": {
+            "id": "don:core:dvrv-us-1:devo/8m46cp7R:custom_stage/8"
+          },
+          "state": {
+            "id": "don:core:dvrv-us-1:devo/8m46cp7R:custom_state/2"
+          }
+        },
+        "state": "in_progress",
+        "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/297381",
+        "tags": [
+          {
+            "id": {
+              "display_id": "TAG-133",
+              "id": "don:core:dvrv-us-1:devo/8m46cp7R:tag/133",
+              "id_v1": "don:DEV-8m46cp7R:tag:133",
+              "name": ""
+            },
+            "tag": {
+              "display_id": "TAG-133",
+              "id": "don:core:dvrv-us-1:devo/8m46cp7R:tag/133",
+              "id_v1": "don:DEV-8m46cp7R:tag:133",
+              "name": ""
+            }
+          }
+        ],
+        "title": "titel",
+        "type": "ticket"
+      }
+    }
+  },
+  "context": {
+    "dev_oid": "don:identity:dvrv-us-1:devo/8m46cp7R",
+    "automation_id": "don:integration:dvrv-us-1:devo/8m46cp7R:automation/c70b70a4-9f32-494d-87a8-7d5ab2ecc6a0",
+    "source_id": "don:integration:dvrv-us-1:devo/8m46cp7R:automation/c70b70a4-9f32-494d-87a8-7d5ab2ecc6a0",
+    "snap_in_id": "don:integration:dvrv-us-1:devo/8m46cp7R:snap_in/ed50cab3-c7cc-4a74-ae03-89acdcb5a737",
+    "snap_in_version_id": "don:integration:dvrv-us-1:devo/8m46cp7R:snap_in_package/7a3afa93-1e09-44f1-81af-67a1573cd66a:snap_in_version/de4a3dbf-61d5-41df-90a1-34f3e5c26606",
+    "secrets": {
+      "service_account_token": "eyJhbGciOiJSUzI1NiIsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJraWQiOiJzdHNfa2lkX3JzYSIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiamFudXMiXSwiYXpwIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzhtNDZjcDdSOnN5c3UvMSIsImV4cCI6MTY4MzE4MzI3MSwiaHR0cDovL2RldnJldi5haS9hYXRfYWxsb3dfbGlzdGVkIjp0cnVlLCJodHRwOi8vZGV2cmV2LmFpL2NsaWVudGlkIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzhtNDZjcDdSOnN2Y2FjYy84IiwiaHR0cDovL2RldnJldi5haS9kZXZvX2RvbiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by84bTQ2Y3A3UiIsImh0dHA6Ly9kZXZyZXYuYWkvZGV2b2lkIjoiREVWLThtNDZjcDdSIiwiaHR0cDovL2RldnJldi5haS9zdmNhY2MiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vOG00NmNwN1I6c3ZjYWNjLzgiLCJodHRwOi8vZGV2cmV2LmFpL3Rva2VudHlwZSI6InVybjpkZXZyZXY6cGFyYW1zOm9hdXRoOnRva2VuLXR5cGU6YWF0IiwiaWF0IjoxNjgzMTgyOTcxLCJpc3MiOiJodHRwczovL2F1dGgtdG9rZW4uZGV2LmRldnJldi1lbmcuYWkvIiwianRpIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzhtNDZjcDdSOnRva2VuLzE5SVhRazc1SiIsInN1YiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by84bTQ2Y3A3UjpzdmNhY2MvOCJ9.LcloQt9H1z1XvNCijP64BWsJB39kzc-6z3MC0TGceVcTaSoDtwu5odvd5ktXMdbowf_Qt-wf_yNrJI48WjxYK6WycWA60eKKLcHW9hrauXugOEtfCZqUH0TS14NxMQldh3bzdca6L2E2rAlq8lzXaCcY-sbQi0bQRKjfL1YIjHAoLg243xtKuYsO3yVuLS3pw7itsA_7oAXJw6PQP6HV4TiJqPJuSDs9t6pSvq9c-txqlnakCTotBiMvU5QdqxltSWTp38IpXh1bpGlgsK1kgLzNjgeDN5rEAhkslRMxylW8nMcJxBXV-36_gfLLocYUZqUPLU2x9YsKmBG2IK4zBw"
+    }
+  },
+  "execution_metadata": {
+    "request_id": "",
+    "function_name": "ticket_stage_update"
+  },
+  "input_data": {
+    "global_values": {},
+    "event_sources": {
+      "devrev-webhook": "don:integration:dvrv-us-1:devo/8m46cp7R:event_source/a36abf46-ffca-49c3-b4ad-eca9d14ba0d7"
+    },
+    "keyrings": {
+      "devrev": "eyJhbGciOiJSUzI1NiIsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJraWQiOiJzdHNfa2lkX3JzYSIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiamFudXMiXSwiYXpwIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzhtNDZjcDdSOmRldnUvMSIsImV4cCI6MTc3MjQ1NzM1MSwiaHR0cDovL2RldnJldi5haS9hdXRoMF91c2VyX2lkIjoiZ29vZ2xlLW9hdXRoMnwxMTAyNTY2MTA1MDQ0ODQ1NDE4NjQiLCJodHRwOi8vZGV2cmV2LmFpL2Rldm9fZG9uIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzhtNDZjcDdSIiwiaHR0cDovL2RldnJldi5haS9kZXZvaWQiOiJERVYtOG00NmNwN1IiLCJodHRwOi8vZGV2cmV2LmFpL2RldnVpZCI6IkRFVlUtMSIsImh0dHA6Ly9kZXZyZXYuYWkvZGlzcGxheW5hbWUiOiJpLXZlZGFuc2gtc3JpdmFzdGF2YSIsImh0dHA6Ly9kZXZyZXYuYWkvZW1haWwiOiJpLXZlZGFuc2guc3JpdmFzdGF2YUBkZXZyZXYuYWkiLCJodHRwOi8vZGV2cmV2LmFpL2Z1bGxuYW1lIjoiVmVkYW5zaCBTcml2YXN0YXZhIiwiaHR0cDovL2RldnJldi5haS90b2tlbnR5cGUiOiJ1cm46ZGV2cmV2OnBhcmFtczpvYXV0aDp0b2tlbi10eXBlOnBhdCIsImlhdCI6MTY3Nzg0OTM1MSwiaXNzIjoiaHR0cHM6Ly9hdXRoLXRva2VuLmRldi5kZXZyZXYtZW5nLmFpLyIsImp0aSI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by84bTQ2Y3A3Ujp0b2tlbi9hZnpXVUVGUiIsIm9yZ19pZCI6Im9yZ19XblB4cEdtNDVlZUZhVlp4Iiwic3ViIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzhtNDZjcDdSOmRldnUvMSJ9.LQjppwAc1yvN8D_Gws8zrzufXDpGGGNYPNtLpMgCFaBUbu4_-ttbF8sICJCgriC523t-nzLchaCMYa_0V1N2AOy9LlAtZ1NpGLICgyBYAu4yYytg2VCnU56-RRktta-iQ-FiO6n5OSCMQ0mYuLJ0pYicdlj-7DWoWPuhn3dzpjQ3NeOY_4vX5VLqPWAPXRrH5tnW7iKYy_RiAryRx62TP1w5KAQwYbz7SfVQb1KbMG0ZdezkQL5LnU31ILGJ2bWAqNT19yaxqbsp7Y9Gz1cznvR46EChtKsBVXafXE4FExr5JDKhO8QV9IJa3bM4TF9C2KSQ5Jq76eapQodVyMEDOw"
+    }
+  }
+}
