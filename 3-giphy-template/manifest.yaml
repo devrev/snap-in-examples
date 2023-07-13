@@ -1,0 +1,56 @@
+version: "1"
+
+service_account:
+  display_name: Giphy Bot
+
+event-sources:
+  - name: devrev-webhook
+    description: Event coming from DevRev
+    display_name: Devrev
+    type: devrev-webhook
+    config:
+      event_types:
+        - work_updated
+
+globals:
+  - name: giphy_api_key
+    description: Giphy API key
+    devrev_field_type: text
+    default_value:
+
+functions:
+ - name: search_giphy
+   description: Search a gif with given tag on giphy.com
+ - name: render_giphy
+   description: Render a given gif
+ - name: publish_giphy_on_work_closed
+   description: Published giphy
+
+commands:
+  - name: giphy
+    namespace: devrev
+    description: Create a new gif
+    surfaces:
+      - surface: discussions
+        object_types:
+          - issue
+          - ticket
+          - conversation
+          - part
+          - rev_user
+          - rev_org
+    usage_hint: "[text]"
+    function: search_giphy
+
+snap_kit_actions:
+  - name: giphy
+    description: Snap kit action for showing gif created using `giphy` command
+    function: render_giphy
+
+
+automations:
+  - name: Add giphy when issue closed
+    source: devrev-webhook
+    event_types:
+      - work_updated
+    function: publish_giphy_on_work_closed

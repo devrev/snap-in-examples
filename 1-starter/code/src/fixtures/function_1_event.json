@@ -1,0 +1,193 @@
+{
+  "context": {
+    "dev_oid": "don:identity:dvrv-us-1:devo/0",
+    "automation_id": "don:integration:dvrv-us-1:devo/0:automation/00000001-0001-0001-0001-00000001",
+    "snap_in_id": "don:integration:dvrv-us-1:devo/0:snap_in/00000001-0001-0001-0001-00000001",
+    "snap_in_version_id": "don:integration:dvrv-us-1:devo/0:snap_in_package/00000001-0001-0001-0001-00000001:snap_in_version/00000001-0001-0001-0001-00000001"
+  },
+  "execution_metadata": {
+    "request_id": "4QtCBSKJcKKqwQhoJKZvRQ",
+    "function_name": "foobar"
+  },
+  "input_data": {
+    "global_values": {
+      "message": "tokens",
+      "ticket_id": "don:core:dvrv-us-1:devo/0:product/1"
+    },
+    "event_sources": {},
+    "keyrings": {
+      "devrev" : ""
+    }
+  },
+  "payload": {
+    "id": "don:integration:dvrv-us-1:devo/0:webhook/WRVqEXT7:webhook_event/31WPF0QWh8M",
+    "timestamp": "2023-02-07T10:08:42.591611Z",
+    "type": "work_updated",
+    "unique_key": "ZG9uOmludGVncmF0aW9uOmR2cnYtdXMtMTpkZXZvLzhtNDZjcDdSOmV2ZW50X3NvdXJjZS8zMjAxMDIzOS00MjA5LTRjOGEtYjcyMy1hYmZkYjAyMzkxOGE=",
+    "webhook_id": "don:integration:dvrv-us-1:devo/0:webhook/WRVqEXT7",
+    "work_updated": {
+      "old_work": {
+        "applies_to_part": {
+          "display_id": "FEAT-5",
+          "id": "don:core:dvrv-us-1:devo/0:feature/5",
+          "id_v1": "don:DEV-0:feature:5",
+          "name": "Default Feature 5",
+          "type": "feature"
+        },
+        "body": "Install the PLuG widget into your application with just a few lines of code and immediately bring the voice of your customer to your entire team. \n\nYou can also test the PLuG widget by clicking DevRev Org settings (top left DevRev icon) -\u003e Support -\u003e Try out PLuG.\n\nFollow step by step guide and copy and paste code from the link here -\u003e https://devrev.ai/docs/plug/installation",
+        "created_by": {
+          "display_handle": "devrev-bot",
+          "display_id": "SYSU-1",
+          "display_name": "devrev-bot",
+          "full_name": "DevRev Bot",
+          "id": "don:identity:dvrv-us-1:devo/0:sysu/1",
+          "id_v1": "don:DEV-0:sys_user:SYSU-1",
+          "type": "sys_user"
+        },
+        "created_date": "2023-01-31T12:04:25.946Z",
+        "custom_fields": null,
+        "display_id": "ISS-12",
+        "id": "don:core:dvrv-us-1:devo/0:issue/12",
+        "id_v1": "don:DEV-0:issue:12",
+        "links": [
+          {
+            "link_id": "don:core:dvrv-us-1:devo/0:link/11",
+            "link_id_v1": "don:DEV-0:link:11",
+            "link_type": "is_dependency_of",
+            "target": "don:core:dvrv-us-1:devo/0:ticket/4",
+            "target_object_type": "ticket",
+            "target_v1": "don:DEV-0:ticket:4"
+          }
+        ],
+        "modified_by": {
+          "display_handle": "devrev-bot",
+          "display_id": "SYSU-1",
+          "display_name": "devrev-bot",
+          "full_name": "DevRev Bot",
+          "id": "don:identity:dvrv-us-1:devo/0:sysu/1",
+          "id_v1": "don:DEV-0:sys_user:SYSU-1",
+          "type": "sys_user"
+        },
+        "modified_date": "2023-01-31T12:04:49.215Z",
+        "owned_by": [
+          {
+            "display_handle": "devrev-bot",
+            "display_id": "SYSU-1",
+            "display_name": "devrev-bot",
+            "full_name": "DevRev Bot",
+            "id": "don:identity:dvrv-us-1:devo/0:sysu/1",
+            "id_v1": "don:DEV-0:sys_user:SYSU-1",
+            "type": "sys_user"
+          }
+        ],
+        "priority": "p1",
+        "stage": {
+          "name": "next",
+          "ordinal": 3000
+        },
+        "state": "open",
+        "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/292711",
+        "tags": [
+          {
+            "id": {
+              "display_id": "TAG-1",
+              "id": "don:core:dvrv-us-1:devo/0:tag/1",
+              "id_v1": "don:DEV-0:tag:1",
+              "name": ""
+            },
+            "tag": {
+              "display_id": "TAG-1",
+              "id": "don:core:dvrv-us-1:devo/0:tag/1",
+              "id_v1": "don:DEV-0:tag:1",
+              "name": ""
+            }
+          }
+        ],
+        "title": "'Install PLuG Today!' - Needs Dev Attention",
+        "type": "issue"
+      },
+      "work": {
+        "applies_to_part": {
+          "display_id": "FEAT-5",
+          "id": "don:core:dvrv-us-1:devo/0:feature/5",
+          "id_v1": "don:DEV-0:feature:5",
+          "name": "Default Feature 5",
+          "type": "feature"
+        },
+        "body": "Install the PLuG widget into your application with just a few lines of code and immediately bring the voice of your customer to your entire team. \n\nYou can also test the PLuG widget by clicking DevRev Org settings (top left DevRev icon) -\u003e Support -\u003e Try out PLuG.\n\nFollow step by step guide and copy and paste code from the link here -\u003e https://devrev.ai/docs/plug/installation",
+        "created_by": {
+          "display_handle": "devrev-bot",
+          "display_id": "SYSU-1",
+          "display_name": "devrev-bot",
+          "full_name": "DevRev Bot",
+          "id": "don:identity:dvrv-us-1:devo/0:sysu/1",
+          "id_v1": "don:DEV-0:sys_user:SYSU-1",
+          "type": "sys_user"
+        },
+        "created_date": "2023-01-31T12:04:25.946Z",
+        "custom_fields": null,
+        "display_id": "ISS-12",
+        "id": "don:core:dvrv-us-1:devo/0:issue/12",
+        "id_v1": "don:DEV-0:issue:12",
+        "links": [
+          {
+            "link_id": "don:core:dvrv-us-1:devo/0:link/11",
+            "link_id_v1": "don:DEV-0:link:11",
+            "link_type": "is_dependency_of",
+            "target": "don:core:dvrv-us-1:devo/0:ticket/4",
+            "target_object_type": "ticket",
+            "target_v1": "don:DEV-0:ticket:4"
+          }
+        ],
+        "modified_by": {
+          "display_handle": "i-dev-user",
+          "display_id": "DEVU-2",
+          "display_name": "i-dev-user",
+          "email": "i-dev-user@devrev.ai",
+          "full_name": "Dev User",
+          "id": "don:identity:dvrv-us-1:devo/0:devu/2",
+          "id_v1": "don:DEV-0:dev_user:DEVU-2",
+          "state": "active",
+          "type": "dev_user"
+        },
+        "modified_date": "2023-02-07T10:08:09.59Z",
+        "owned_by": [
+          {
+            "display_handle": "devrev-bot",
+            "display_id": "SYSU-1",
+            "display_name": "devrev-bot",
+            "full_name": "DevRev Bot",
+            "id": "don:identity:dvrv-us-1:devo/0:sysu/1",
+            "id_v1": "don:DEV-0:sys_user:SYSU-1",
+            "type": "sys_user"
+          }
+        ],
+        "priority": "p1",
+        "stage": {
+          "name": "next",
+          "ordinal": 3000
+        },
+        "state": "open",
+        "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/292711",
+        "tags": [
+          {
+            "id": {
+              "display_id": "TAG-1",
+              "id": "don:core:dvrv-us-1:devo/0:tag/1",
+              "id_v1": "don:DEV-0:tag:1",
+              "name": ""
+            },
+            "tag": {
+              "display_id": "TAG-1",
+              "id": "don:core:dvrv-us-1:devo/0:tag/1",
+              "id_v1": "don:DEV-0:tag:1",
+              "name": ""
+            }
+          }
+        ],
+        "title": "'Install PLuG Today!' - Needs Dev Attention",
+        "type": "issue"
+      }
+    }
+  }
+}

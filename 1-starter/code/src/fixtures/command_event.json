@@ -1,0 +1,28 @@
+{
+  "payload": {
+    "actor_id": "don:identity:dvrv-us-1:devo/0:devu/1",
+    "command_id": "don:integration:dvrv-us-1:devo/0:namespace/cns:command/cname",
+    "dev_org": "don:identity:dvrv-us-1:devo/0",
+    "parameters": "commands parameters string passed by user",
+    "parent_id": "don:integration:dvrv-us-1:devo/0:snap_in/00000001-0001-0001-0001-00000001",
+    "request_id": "4QtCBSKJcKKqwQhoJKZvRQ",
+    "source_id": "don:core:dvrv-us-1:devo/0:issue/1"
+  },
+  "context": {
+    "dev_oid": "don:identity:dvrv-us-1:devo/0",
+    "source_id": "don:integration:dvrv-us-1:devo/0:namespace/devrev:command/complete_comm_k",
+    "snap_in_id": "don:integration:dvrv-us-1:devo/0:snap_in/00000001-0001-0001-0001-00000001",
+    "snap_in_version_id": "don:integration:dvrv-us-1:devo/0:snap_in_package/00000001-0001-0001-0001-00000001:snap_in_version/00000001-0001-0001-0001-00000001"
+  },
+  "execution_metadata": {
+    "request_id": "4QtCBSKJcKKqwQhoJKZvRQ",
+    "function_name": "foobar"
+  },
+  "input_data": {
+    "global_values": {},
+    "event_sources": {},
+    "keyrings": {
+      "devrev" : ""
+    }
+  }
+}

@@ -1,0 +1,148 @@
+[
+  {
+    "payload": {
+      "id": "don:integration:dvrv-us-1:devo/test-org:webhook/ZsnfNyy2:webhook_event/2L7GfFYkHZw",
+      "timestamp": "2023-03-23T09:03:34.584501Z",
+      "type": "work_updated",
+      "unique_key": "ZG9uOmludGVncmF0aW9uOmR2cnYtdXMtMTpkZXZvL3hONFVMeksxOmV2ZW50X3NvdXJjZS8xNTI1ZGUzYy01NTAxLTQ3YzItYjQxMS1lMzA3NzA5ZTNmNjM=",
+      "webhook_id": "don:integration:dvrv-us-1:devo/test-org:webhook/ZsnfNyy2",
+      "work_updated": {
+        "old_work": {
+          "applies_to_part": {
+            "display_id": "PROD-1",
+            "id": "don:core:dvrv-us-1:devo/test-org:product/1",
+            "id_v1": "don:DEV-test-org:product:1",
+            "name": "BestProd",
+            "type": "product"
+          },
+          "body": "please work",
+          "created_by": {
+            "display_handle": "test-user",
+            "display_id": "DEVU-1",
+            "display_name": "test-user",
+            "email": "test-user@example.com",
+            "full_name": "Test User",
+            "id": "don:identity:dvrv-us-1:devo/test-org:devu/1",
+            "id_v1": "don:DEV-test-org:dev_user:DEVU-1",
+            "state": "active",
+            "type": "dev_user"
+          },
+          "created_date": "2023-03-23T03:10:37.816Z",
+          "custom_fields": null,
+          "display_id": "ISS-3",
+          "id": "don:core:dvrv-us-1:devo/test-org:issue/3",
+          "id_v1": "don:DEV-test-org:issue:3",
+          "modified_by": {
+            "display_handle": "test-user",
+            "display_id": "DEVU-1",
+            "display_name": "test-user",
+            "email": "test-user@example.com",
+            "full_name": "Test User",
+            "id": "don:identity:dvrv-us-1:devo/test-org:devu/1",
+            "id_v1": "don:DEV-test-org:dev_user:DEVU-1",
+            "state": "active",
+            "type": "dev_user"
+          },
+          "modified_date": "2023-03-23T05:22:00.018Z",
+          "owned_by": [
+            {
+              "display_handle": "test-user",
+              "display_id": "DEVU-1",
+              "display_name": "test-user",
+              "email": "test-user@example.com",
+              "full_name": "Test User",
+              "id": "don:identity:dvrv-us-1:devo/test-org:devu/1",
+              "id_v1": "don:DEV-test-org:dev_user:DEVU-1",
+              "state": "active",
+              "type": "dev_user"
+            }
+          ],
+          "priority": "p2",
+          "stage": { "name": "triage", "ordinal": 500 },
+          "state": "open",
+          "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/297342",
+          "title": "new issue",
+          "type": "issue"
+        },
+        "work": {
+          "actual_close_date": "2023-03-23T09:03:11.224Z",
+          "applies_to_part": {
+            "display_id": "PROD-1",
+            "id": "don:core:dvrv-us-1:devo/test-org:product/1",
+            "id_v1": "don:DEV-test-org:product:1",
+            "name": "BestProd",
+            "type": "product"
+          },
+          "body": "please work",
+          "created_by": {
+            "display_handle": "test-user",
+            "display_id": "DEVU-1",
+            "display_name": "test-user",
+            "email": "test-user@example.com",
+            "full_name": "Test User",
+            "id": "don:identity:dvrv-us-1:devo/test-org:devu/1",
+            "id_v1": "don:DEV-test-org:dev_user:DEVU-1",
+            "state": "active",
+            "type": "dev_user"
+          },
+          "created_date": "2023-03-23T03:10:37.816Z",
+          "custom_fields": null,
+          "display_id": "ISS-3",
+          "id": "don:core:dvrv-us-1:devo/test-org:issue/3",
+          "id_v1": "don:DEV-test-org:issue:3",
+          "modified_by": {
+            "display_handle": "test-user",
+            "display_id": "DEVU-1",
+            "display_name": "test-user",
+            "email": "test-user@example.com",
+            "full_name": "Test User",
+            "id": "don:identity:dvrv-us-1:devo/test-org:devu/1",
+            "id_v1": "don:DEV-test-org:dev_user:DEVU-1",
+            "state": "active",
+            "type": "dev_user"
+          },
+          "modified_date": "2023-03-23T09:03:11.224Z",
+          "owned_by": [
+            {
+              "display_handle": "test-user",
+              "display_id": "DEVU-1",
+              "display_name": "test-user",
+              "email": "test-user@example.com",
+              "full_name": "Test User",
+              "id": "don:identity:dvrv-us-1:devo/test-org:devu/1",
+              "id_v1": "don:DEV-test-org:dev_user:DEVU-1",
+              "state": "active",
+              "type": "dev_user"
+            }
+          ],
+          "priority": "p2",
+          "stage": { "name": "completed", "notes": "", "ordinal": 8000 },
+          "state": "closed",
+          "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/297342",
+          "title": "new issue",
+          "type": "issue"
+        }
+      }
+    },
+    "context": {
+      "dev_oid": "don:identity:dvrv-us-1:devo/test-org",
+      "automation_id": "don:integration:dvrv-us-1:devo/test-org:automation/00000001-0001-0001-0001-00000001",
+      "source_id": "don:integration:dvrv-us-1:devo/test-org:automation/00000001-0001-0001-0001-00000001",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/test-org:snap_in/00000001-0001-0001-0001-00000001",
+      "snap_in_version_id": "don:integration:dvrv-us-1:devo/test-org:snap_in_package/00000001-0001-0001-0001-00000001:snap_in_version/00000001-0001-0001-0001-00000001"
+    },
+    "execution_metadata": {
+      "request_id": "",
+      "function_name": "publish_giphy_on_work_closed"
+    },
+    "input_data": {
+      "global_values": { "giphy_api_key": "super-secret-key" },
+      "event_sources": {
+        "devrev-webhook": "don:integration:dvrv-us-1:devo/test-org:event_source/00000001-0001-0001-0001-00000001"
+      },
+      "keyrings": {
+        "devrev_token": ""
+      }
+    }
+  }
+]

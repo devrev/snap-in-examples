@@ -1,0 +1,204 @@
+{
+  "payload": {
+    "id": "don:integration:dvrv-us-1:devo/test-org:webhook/qtuelXOO:webhook_event/Pvqbdx-9nvk",
+    "timestamp": "2023-05-04T06:49:29.565614Z",
+    "type": "work_updated",
+    "unique_key": "ZG9uOmludGVncmF0aW9uOmR2cnYtdXMtMTpkZXZvLzhtNDZjcDdSOmV2ZW50X3NvdXJjZS9hMzZhYmY0Ni1mZmNhLTQ5YzMtYjRhZC1lY2E5ZDE0YmEwZDc=",
+    "webhook_id": "don:integration:dvrv-us-1:devo/test-org:webhook/qtuelXOO",
+    "work_updated": {
+      "old_work": {
+        "applies_to_part": {
+          "display_id": "PROD-1",
+          "id": "don:core:dvrv-us-1:devo/test-org:product/1",
+          "id_v1": "don:DEV-test-org:product:1",
+          "name": "Slack for Build",
+          "type": "product"
+        },
+        "body": "desc",
+        "created_by": {
+          "display_handle": "test-user",
+          "display_id": "DEVU-1",
+          "display_name": "test-user",
+          "email": "test-user@example.com",
+          "full_name": "Test User",
+          "id": "don:identity:dvrv-us-1:devo/test-org:devu/1",
+          "id_v1": "don:DEV-test-org:dev_user:DEVU-1",
+          "state": "active",
+          "thumbnail": "https://api.devrev.ai/internal/display-picture/TestUser.svg",
+          "type": "dev_user"
+        },
+        "created_date": "2023-03-29T06:27:38.983Z",
+        "custom_fields": null,
+        "display_id": "TKT-126",
+        "id": "don:core:dvrv-us-1:devo/test-org:ticket/126",
+        "id_v1": "don:DEV-test-org:ticket:126",
+        "modified_by": {
+          "display_handle": "devrev-bot",
+          "display_id": "SYSU-1",
+          "display_name": "devrev-bot",
+          "full_name": "DevRev Bot",
+          "id": "don:identity:dvrv-us-1:devo/test-org:sysu/1",
+          "id_v1": "don:DEV-test-org:sys_user:SYSU-1",
+          "thumbnail": "https://api.devrev.ai/internal/display-picture/DevRev%20Bot.svg",
+          "type": "sys_user"
+        },
+        "modified_date": "2023-04-21T13:07:57.769Z",
+        "owned_by": [
+          {
+            "display_handle": "test-user",
+            "display_id": "DEVU-1",
+            "display_name": "test-user",
+            "email": "test-user@example.com",
+            "full_name": "Test User",
+            "id": "don:identity:dvrv-us-1:devo/test-org:devu/1",
+            "id_v1": "don:DEV-test-org:dev_user:DEVU-1",
+            "state": "active",
+            "thumbnail": "https://api.devrev.ai/internal/display-picture/TestUser.svg",
+            "type": "dev_user"
+          }
+        ],
+        "severity": "medium",
+        "stage": {
+          "name": "queued",
+          "notes": "",
+          "ordinal": 700,
+          "stage": {
+            "id": "don:core:dvrv-us-1:devo/test-org:custom_stage/4"
+          },
+          "state": {
+            "id": "don:core:dvrv-us-1:devo/test-org:custom_state/1"
+          }
+        },
+        "state": "open",
+        "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/297381",
+        "tags": [
+          {
+            "id": {
+              "display_id": "TAG-133",
+              "id": "don:core:dvrv-us-1:devo/test-org:tag/133",
+              "id_v1": "don:DEV-test-org:tag:133",
+              "name": ""
+            },
+            "tag": {
+              "display_id": "TAG-133",
+              "id": "don:core:dvrv-us-1:devo/test-org:tag/133",
+              "id_v1": "don:DEV-test-org:tag:133",
+              "name": ""
+            }
+          }
+        ],
+        "title": "titel",
+        "type": "ticket"
+      },
+      "work": {
+        "applies_to_part": {
+          "display_id": "PROD-1",
+          "id": "don:core:dvrv-us-1:devo/test-org:product/1",
+          "id_v1": "don:DEV-test-org:product:1",
+          "name": "Slack for Build",
+          "type": "product"
+        },
+        "body": "desc",
+        "created_by": {
+          "display_handle": "test-user",
+          "display_id": "DEVU-1",
+          "display_name": "test-user",
+          "email": "test-user@example.com",
+          "full_name": "Test User",
+          "id": "don:identity:dvrv-us-1:devo/test-org:devu/1",
+          "id_v1": "don:DEV-test-org:dev_user:DEVU-1",
+          "state": "active",
+          "thumbnail": "https://api.devrev.ai/internal/display-picture/TestUser.svg",
+          "type": "dev_user"
+        },
+        "created_date": "2023-03-29T06:27:38.983Z",
+        "custom_fields": null,
+        "display_id": "TKT-126",
+        "id": "don:core:dvrv-us-1:devo/test-org:ticket/126",
+        "id_v1": "don:DEV-test-org:ticket:126",
+        "modified_by": {
+          "display_handle": "test-user",
+          "display_id": "DEVU-1",
+          "display_name": "test-user",
+          "email": "test-user@example.com",
+          "full_name": "Test User",
+          "id": "don:identity:dvrv-us-1:devo/test-org:devu/1",
+          "id_v1": "don:DEV-test-org:dev_user:DEVU-1",
+          "state": "active",
+          "thumbnail": "https://api.devrev.ai/internal/display-picture/TestUser.svg",
+          "type": "dev_user"
+        },
+        "modified_date": "2023-05-04T06:49:26.096Z",
+        "owned_by": [
+          {
+            "display_handle": "test-user",
+            "display_id": "DEVU-1",
+            "display_name": "test-user",
+            "email": "test-user@example.com",
+            "full_name": "Test User",
+            "id": "don:identity:dvrv-us-1:devo/test-org:devu/1",
+            "id_v1": "don:DEV-test-org:dev_user:DEVU-1",
+            "state": "active",
+            "thumbnail": "https://api.devrev.ai/internal/display-picture/TestUser.svg",
+            "type": "dev_user"
+          }
+        ],
+        "severity": "medium",
+        "stage": {
+          "name": "awaiting_product_assist",
+          "notes": "",
+          "ordinal": 3250,
+          "stage": {
+            "id": "don:core:dvrv-us-1:devo/test-org:custom_stage/8"
+          },
+          "state": {
+            "id": "don:core:dvrv-us-1:devo/test-org:custom_state/2"
+          }
+        },
+        "state": "in_progress",
+        "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/297381",
+        "tags": [
+          {
+            "id": {
+              "display_id": "TAG-133",
+              "id": "don:core:dvrv-us-1:devo/test-org:tag/133",
+              "id_v1": "don:DEV-test-org:tag:133",
+              "name": ""
+            },
+            "tag": {
+              "display_id": "TAG-133",
+              "id": "don:core:dvrv-us-1:devo/test-org:tag/133",
+              "id_v1": "don:DEV-test-org:tag:133",
+              "name": ""
+            }
+          }
+        ],
+        "title": "titel",
+        "type": "ticket"
+      }
+    }
+  },
+  "context": {
+    "dev_oid": "don:identity:dvrv-us-1:devo/test-org",
+    "automation_id": "don:integration:dvrv-us-1:devo/test-org:automation/00000001-0001-0001-0001-00000001",
+    "source_id": "don:integration:dvrv-us-1:devo/test-org:automation/00000001-0001-0001-0001-00000001",
+    "snap_in_id": "don:integration:dvrv-us-1:devo/test-org:snap_in/00000001-0001-0001-0001-00000001",
+    "snap_in_version_id": "don:integration:dvrv-us-1:devo/test-org:snap_in_package/00000001-0001-0001-0001-00000001:snap_in_version/00000001-0001-0001-0001-00000001",
+    "secrets": {
+      "service_account_token": "secret-account-token-value"
+    }
+  },
+  "execution_metadata": {
+    "request_id": "",
+    "function_name": "ticket_stage_update"
+  },
+  "input_data": {
+    "global_values": {},
+    "event_sources": {
+      "devrev-webhook": "don:integration:dvrv-us-1:devo/test-org:event_source/00000001-0001-0001-0001-00000001"
+    },
+    "keyrings": {
+      "devrev": "secret-key-value"
+    }
+  }
+}
