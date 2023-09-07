@@ -1,0 +1,159 @@
+[
+  {
+    "payload": {
+      "id": "don:integration:dvrv-us-1:devo/XXXXXX:webhook/ovtfa4mg:webhook_event/uzX6Pqe9tQc",
+      "timestamp": "2023-08-03T06:03:21.932268Z",
+      "type": "work_created",
+      "unique_key": "XXXX=",
+      "webhook_id": "don:integration:dvrv-us-1:devo/XXXXXX:webhook/ovtfa4mg",
+      "work_created": {
+        "work": {
+          "type": "issue",
+          "age_days": 13.75945837962963,
+          "applies_to_part": {
+            "type": "product",
+            "display_id": "PROD-4",
+            "id": "don:core:dvrv-us-1:devo/XXXXXX:product/4",
+            "id_v1": "don:DEV-XXXXXX:product:4",
+            "name": "Others"
+          },
+          "body": "body of the issue",
+          "created_by": {
+            "type": "dev_user",
+            "display_handle": "john-doe",
+            "display_id": "DEVU-1046",
+            "display_name": "john-doe",
+            "email": "john.doe@gmail.com",
+            "full_name": "john doe",
+            "id": "don:identity:dvrv-us-1:devo/XXXXXX:devu/1046",
+            "id_v1": "don:DEV-XXXXXX:dev_user:DEVU-1046",
+            "state": "shadow",
+            "thumbnail": "https://api.devrev.ai/internal/display-picture/john%20doe.svg"
+          },
+          "created_date": "2023-08-04T17:09:39.278Z",
+          "custom_schema_fragments": [
+            "don:core:dvrv-us-1:devo/XXXXXX:custom_type_fragment/18"
+          ],
+          "display_id": "ISS-9",
+          "id": "don:core:dvrv-us-1:devo/XXXXXX:issue/9",
+          "id_v1": "don:DEV-XXXXXX:issue:9",
+          "modified_by": {
+            "type": "dev_user",
+            "display_handle": "dane-doe",
+            "display_id": "DEVU-4185",
+            "display_name": "dane-doe",
+            "email": "dane.doe@gmail.com",
+            "full_name": "John Doe doe",
+            "id": "don:identity:dvrv-us-1:devo/XXXXXX:devu/4185",
+            "id_v1": "don:DEV-XXXXXX:dev_user:DEVU-4185",
+            "state": "shadow",
+            "thumbnail": "https://api.devrev.ai/internal/display-picture/John%20Sai%20doe.svg"
+          },
+          "modified_date": "2023-08-04T22:09:19.164Z",
+          "owned_by": [
+            {
+              "type": "dev_user",
+              "display_handle": "jane-doe",
+              "display_id": "DEVU-2588",
+              "display_name": "jane-doe",
+              "email": "jane.doe@gmail.com",
+              "full_name": "doe jane",
+              "id": "don:identity:dvrv-us-1:devo/XXXXXX:devu/2588",
+              "id_v1": "don:DEV-XXXXXX:dev_user:DEVU-2588",
+              "state": "shadow",
+              "thumbnail": "https://api.devrev.ai/internal/display-picture/doe%20jane%20.svg"
+            }
+          ],
+          "priority": "p3",
+          "stage": {
+            "name": "backlog",
+            "notes": "Open",
+            "ordinal": 1000,
+            "stage": {
+              "id": "don:core:dvrv-us-1:devo/XXXXXX:custom_stage/1"
+            },
+            "state": {
+              "id": "don:core:dvrv-us-1:devo/XXXXXX:custom_state/1"
+            }
+          },
+          "state": "open",
+          "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/5597",
+          "subtype": "jira_gmail.atlassian.net_support",
+          "tags": [
+            {
+              "id": {
+                "display_id": "TAG-45",
+                "id": "don:core:dvrv-us-1:devo/XXXXXX:tag/45",
+                "id_v1": "don:DEV-XXXXXX:tag:45",
+                "name": "src_id",
+                "style": "{\"color\":{\"code\":\"#991199\",\"name\":\"CustomPurple\"}}",
+                "style_new": {
+                  "color": "#991199"
+                }
+              },
+              "tag": {
+                "display_id": "TAG-45",
+                "id": "don:core:dvrv-us-1:devo/XXXXXX:tag/45",
+                "id_v1": "don:DEV-XXXXXX:tag:45",
+                "name": "src_id",
+                "style": "{\"color\":{\"code\":\"#991199\",\"name\":\"CustomPurple\"}}",
+                "style_new": {
+                  "color": "#991199"
+                }
+              },
+              "value": "980305"
+            },
+            {
+              "id": {
+                "display_id": "TAG-22",
+                "id": "don:core:dvrv-us-1:devo/XXXXXX:tag/22",
+                "id_v1": "don:DEV-XXXXXX:tag:22",
+                "name": "Jira import",
+                "style": "{\"color\":{\"code\":\"#AAF0BD\",\"name\":\"Mint\"}}",
+                "style_new": {
+                  "color": "#AAF0BD"
+                }
+              },
+              "tag": {
+                "display_id": "TAG-22",
+                "id": "don:core:dvrv-us-1:devo/XXXXXX:tag/22",
+                "id_v1": "don:DEV-XXXXXX:tag:22",
+                "name": "Jira import",
+                "style": "{\"color\":{\"code\":\"#AAF0BD\",\"name\":\"Mint\"}}",
+                "style_new": {
+                  "color": "#AAF0BD"
+                }
+              },
+              "value": "c6e7ee09-c708-4b42-bfc1-a1d054a66c9e"
+            }
+          ],
+          "title": "Internal Associates Showing up as External Customers"
+        }
+      }
+    },
+    "context": {
+      "dev_oid": "don:identity:dvrv-us-1:devo/XXXXXX",
+      "automation_id": "don:integration:dvrv-us-1:devo/XXXXXX:automation/d6776732-c90e-4dd0-aa21-3f7115dc965f",
+      "source_id": "don:integration:dvrv-us-1:devo/XXXXXX:automation/d6776732-c90e-4dd0-aa21-3f7115dc965f",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in/6525667a-7e10-4c13-bb21-a69f779fabcd",
+      "snap_in_version_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in_package/401582f8-c516-4b74-9783-da592989e220:snap_in_version/20b7f15b-3f58-4806-b124-b86953b90bb1",
+      "service_account_id": "don:identity:dvrv-us-1:devo/XXXXXX:svcacc/10",
+      "secrets": {
+        "service_account_token": "XXXXXXXXXX"
+      }
+    },
+    "execution_metadata": {
+      "request_id": "",
+      "function_name": "function_1",
+      "event_type": "work_created",
+      "devrev_endpoint": "https://api.devrev.ai"
+    },
+    "input_data": {
+      "global_values": {},
+      "event_sources": {
+        "devrev-webhook": "don:integration:dvrv-us-1:devo/XXXXXX:event_source/62d7cea0-7529-42a2-949d-550e0c93ac6a"
+      },
+      "keyrings": null,
+      "resources": { "keyrings": {}, "tags": {} }
+    }
+  }]
