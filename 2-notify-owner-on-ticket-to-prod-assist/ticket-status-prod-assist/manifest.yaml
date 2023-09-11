@@ -1,4 +1,6 @@
 version: "1"
+name: "Notify On Prod Assist"
+description: "Snap-In to post a comment on a ticket when its stage changes to 'Awaiting Product Assist'"
 
 service_account:
   display_name: "DevRev Bot"

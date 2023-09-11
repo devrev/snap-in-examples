@@ -1,4 +1,6 @@
 version: "1"
+name: "Giphy Snapin"
+description: "Snap-In to search and post gif on DevRev Timeline"
 
 service_account:
   display_name: Giphy Bot
@@ -19,12 +21,12 @@ globals:
     default_value:
 
 functions:
- - name: search_giphy
-   description: Search a gif with given tag on giphy.com
- - name: render_giphy
-   description: Render a given gif
- - name: publish_giphy_on_work_closed
-   description: Published giphy
+  - name: search_giphy
+    description: Search a gif with given tag on giphy.com
+  - name: render_giphy
+    description: Render a given gif
+  - name: publish_giphy_on_work_closed
+    description: Published giphy
 
 commands:
   - name: giphy
@@ -46,7 +48,6 @@ snap_kit_actions:
   - name: giphy
     description: Snap kit action for showing gif created using `giphy` command
     function: render_giphy
-
 
 automations:
   - name: Add giphy when issue closed
