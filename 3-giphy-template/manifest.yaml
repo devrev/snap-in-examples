@@ -1,6 +1,6 @@
 version: "1"
 name: "Giphy Snapin"
-description: "Snapin to search and post gif on DevRev Timeline"
+description: "Snap-In to search and post gif on DevRev Timeline"
 
 service_account:
   display_name: Giphy Bot
