@@ -1,18 +1,19 @@
-version: "1"
+version: "2"
 name: "Notify On Prod Assist"
 description: "Snap-In to post a comment on a ticket when its stage changes to 'Awaiting Product Assist'"
 
 service_account:
   display_name: "DevRev Bot"
 
-event-sources:
-  - name: devrev-webhook
-    description: Source listening for work_updated events from DevRev.
-    display_name: DevRev Webhook
-    type: devrev-webhook
-    config:
-      event_types:
-        - work_updated
+event_sources:
+  organization:
+    - name: devrev-webhook
+      description: Source listening for work_updated events from DevRev.
+      display_name: DevRev Webhook
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_updated
 
 functions:
   - name: ticket_stage_change

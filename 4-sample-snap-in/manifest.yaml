@@ -1,4 +1,4 @@
-version: '1'
+version: '2'
 
 name: Sample Snap-Ins for DevRev Hackathon
 description: Snap In to add Comments for demonstration purpose.
@@ -6,14 +6,14 @@ description: Snap In to add Comments for demonstration purpose.
 service_account:
   display_name: "DevRev Bot"
 
-event-sources:
-  - name: devrev-webhook
-    description: Event coming from DevRev
-    display_name: DevRev
-    type: devrev-webhook
-    config:
-      event_types:
-        - work_created
+event_sources:
+  organization:
+    - name: devrev-webhook
+      display_name: DevRev
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_created
 
 functions:
   - name: function_1
