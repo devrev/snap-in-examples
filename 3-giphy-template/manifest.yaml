@@ -19,7 +19,7 @@ inputs:
   organization:
     - name: giphy_api_key
       description: Giphy API key
-      devrev_field_type: text
+      field_type: text
       default_value:
 
 functions:
