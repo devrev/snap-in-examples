@@ -1,24 +1,26 @@
-version: "1"
+version: "2"
 name: "Giphy Snapin"
 description: "Snap-In to search and post gif on DevRev Timeline"
 
 service_account:
   display_name: Giphy Bot
 
-event-sources:
-  - name: devrev-webhook
-    description: Event coming from DevRev
-    display_name: Devrev
-    type: devrev-webhook
-    config:
-      event_types:
-        - work_updated
+event_sources:
+  organization:
+    - name: devrev-webhook
+      description: Event coming from DevRev
+      display_name: Devrev
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_updated
 
-globals:
-  - name: giphy_api_key
-    description: Giphy API key
-    devrev_field_type: text
-    default_value:
+inputs:
+  organization:
+    - name: giphy_api_key
+      description: Giphy API key
+      field_type: text
+      default_value:
 
 functions:
   - name: search_giphy
