@@ -1,0 +1,40 @@
+version: "1"
+
+name: "External Event Source"
+description: "Sample external event source snap in" 
+
+service_account:
+  display_name: "External Event Bot"
+
+event-sources:
+  - name: external-alerts
+    description: Event coming from external source
+    display_name: External Event
+    type: flow-custom-webhook
+    setup_instructions: |
+      ## External Event Webhook
+
+      1. Enter the webhook URL as `{{source.trigger_url}}`
+      2. Enter the webhook PAYLOAD as
+      `{        
+        'work_created': <WORK_ID>,
+        'body': <EVENT_BODY>,
+      }`
+    config: 
+      policy: |
+        package rego
+        output = {"event": event, "event_key": event_key} {             
+          event := input.request.body
+          event_key := "external.alert-event"
+        }
+
+functions:
+  - name: on_work_creation
+    description: Function to send notification to potentially relevant users.
+
+automations:
+  - name: Send notification on External Event alerts
+    source: external-alerts
+    event_types:
+      - custom:external.alert-event
+    function: on_work_creation

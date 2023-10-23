@@ -1,0 +1,23 @@
+[
+  {
+    "payload": {
+      "work_created": "don:core:dvrv-us-1:devo/XXXX:issue/25",
+      "body": "I want to add this as a comment"
+  },
+    "context": {
+      "dev_oid": "don:identity:dvrv-us-1:devo/XXXXXX",
+      "automation_id": "don:integration:dvrv-us-1:devo/XXXXXX:automation/be9f0869-77a4-4210-9f84-47409e67c781",
+      "source_id": "don:integration:dvrv-us-1:devo/XXXXXX:automation/be9f0869-77a4-4210-9f84-47409e67c781",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in/641c009b-0476-40ef-b728-f3ce6fb77bb9",
+      "snap_in_version_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in_package/fd20d23b-372c-48ad-ac24-d13c271c63d6:snap_in_version/d506f96a-131f-451c-87d6-e73605fac8df",
+      "secrets": {
+        "service_account_token": "TEST-TOKEN"
+      }
+    },
+    "input_data": {
+      "keyrings": {
+        "devrev": "TEST-TOKEN"
+      }
+    }
+  }
+]
