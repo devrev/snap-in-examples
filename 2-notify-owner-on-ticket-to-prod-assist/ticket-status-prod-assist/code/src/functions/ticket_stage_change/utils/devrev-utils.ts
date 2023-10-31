@@ -2,20 +2,24 @@
  * Copyright (c) 2023 DevRev, Inc. All rights reserved.
  */
 
-import { postCall, getCall, generateQueryString } from "./api-utils"
+import { client } from "@devrev/typescript-sdk";
 
 const DEVREV_API_BASE = "https://api.devrev.ai/";
 
 export async function getPart(partID: string, token: string) {
-    const partGetPath = "parts.get?";
-    let params: any = {
-        ...(partID && { id: partID }),
-    };
-    let endpoint = DEVREV_API_BASE + partGetPath + generateQueryString(params);
-    let part = await getCall(endpoint, token);
-    if (!part)
-        console.error("Unable to fetch part from the Part Id : " + partID);
-    return part;
+    const devrevSDK = client.setup({
+        endpoint: DEVREV_API_BASE,
+        token: token,
+    })
+    try {
+        let response = await devrevSDK.partsGet({
+            id: partID,
+        });
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
 }
 
 export async function getPartOwnersString(partObject: any) {
@@ -33,12 +37,14 @@ export async function getPartOwnersString(partObject: any) {
 }
 
 export async function ticketTimelineEntryCreate(ticketID: string, body: string, token: string) {
-    const timelineEntryCreatePath = "timeline-entries.create";
-    let endpoint = DEVREV_API_BASE + timelineEntryCreatePath;
+    const devrevSDK = client.setup({
+        endpoint: DEVREV_API_BASE,
+        token: token,
+    })
     let payload: any = {
         object: ticketID,
         type: "timeline_comment",
         body: body,
     }
-    await postCall(endpoint, payload, token);
+    await devrevSDK.timelineEntriesCreate(payload);
 }
