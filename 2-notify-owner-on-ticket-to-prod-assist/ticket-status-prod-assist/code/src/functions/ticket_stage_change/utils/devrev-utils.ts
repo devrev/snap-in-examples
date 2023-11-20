@@ -6,9 +6,9 @@ import { client } from "@devrev/typescript-sdk";
 
 const DEVREV_API_BASE = "https://api.devrev.ai/";
 
-export async function getPart(partID: string, token: string) {
+export async function getPart(partID: string, token: string, api_base: string) {
     const devrevSDK = client.setup({
-        endpoint: DEVREV_API_BASE,
+        endpoint: api_base,
         token: token,
     })
     try {
@@ -36,9 +36,9 @@ export async function getPartOwnersString(partObject: any) {
     return partOwnersString;
 }
 
-export async function ticketTimelineEntryCreate(ticketID: string, body: string, token: string) {
+export async function ticketTimelineEntryCreate(ticketID: string, body: string, token: string, api_base: string ) {
     const devrevSDK = client.setup({
-        endpoint: DEVREV_API_BASE,
+        endpoint: api_base,
         token: token,
     })
     let payload: any = {
