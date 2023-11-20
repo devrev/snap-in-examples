@@ -2,7 +2,7 @@
  * Copyright (c) 2023 DevRev, Inc. All rights reserved.
  */
 
-import { client } from "@devrev/typescript-sdk";
+import { client, betaSDK } from "@devrev/typescript-sdk";
 
 async function handleEvent(
   event: any,
@@ -15,12 +15,14 @@ async function handleEvent(
   })
   const workCreated = event.payload.work_created;
   const bodyComment = event.payload.body;
-  const body = {
-    object: workCreated,
-    type: 'timeline_comment',
+  const timelinePayload: betaSDK.TimelineEntriesCreateRequest = {
     body: bodyComment,
-  }
-  const response = await devrevSDK.timelineEntriesCreate(body as any);
+    body_type: betaSDK.TimelineCommentBodyType.Text,
+    object: workCreated,
+    type: betaSDK.TimelineEntriesCreateRequestType.TimelineComment,
+    visibility: betaSDK.TimelineEntryVisibility.Internal,
+  };
+  const response = await devrevSDK.timelineEntriesCreate(timelinePayload);
   if (!response.success) {
     console.log(response.errMessage);
     return response;
