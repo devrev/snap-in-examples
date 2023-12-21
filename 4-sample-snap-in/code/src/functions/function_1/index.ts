@@ -14,7 +14,8 @@ async function handleEvent(
     token: devrevPAT,
   })
   const workCreated = event.payload.work_created.work;
-  const bodyComment = 'Hello World is printed on the work ' + workCreated.display_id + ' from the automation.';
+  const messageInput = event.input_data.global_values.input_field_1;
+  const bodyComment = 'Hello World is printed on the work ' + workCreated.display_id + ' from the automation, with message: ' + messageInput;
   const body = {
     object: workCreated.id,
     type: 'timeline_comment',

@@ -15,6 +15,15 @@ event_sources:
         event_types:
           - work_created
 
+inputs:
+  organization:
+    - name: input_field_1
+      description: Input field to add comment to the work item.
+      field_type: text
+      default_value: "Message from the input field."
+      ui:
+        display_name: Input Field 1
+
 functions:
   - name: function_1
     description: Function to create a timeline entry comment on a DevRev work item created.
