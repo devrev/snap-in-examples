@@ -33,6 +33,7 @@ inputs:
 
     - name: input_field_array
       description: List of names to add as comment.
+      base_type: text
       field_type: array
       default_value: ["name1", "name2"]
       ui:
