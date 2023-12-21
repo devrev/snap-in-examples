@@ -17,8 +17,11 @@ async function handleEvent(
   const messageInput = event.input_data.global_values.input_field_1;
   let bodyComment = 'Hello World is printed on the work ' + workCreated.display_id + ' from the automation, with message: ' + messageInput;
   const extraComment = event.input_data.global_values.input_field_2;
+  const extraNames = event.input_data.global_values.input_field_array;
   if (extraComment) {
-    bodyComment += ' and extra comment' ;
+    for (let name of extraNames) {
+      bodyComment = bodyComment + ' ' + name;
+    }
   }
   const body = {
     object: workCreated.id,

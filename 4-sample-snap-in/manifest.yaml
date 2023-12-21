@@ -31,6 +31,13 @@ inputs:
       ui:
         display_name: Should extra comment be added?
 
+    - name: input_field_array
+      description: List of names to add as comment.
+      field_type: array
+      default_value: ["name1", "name2"]
+      ui:
+        display_name: List of extra names
+
 functions:
   - name: function_1
     description: Function to create a timeline entry comment on a DevRev work item created.
