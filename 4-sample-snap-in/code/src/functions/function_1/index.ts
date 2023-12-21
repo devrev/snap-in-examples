@@ -15,7 +15,11 @@ async function handleEvent(
   })
   const workCreated = event.payload.work_created.work;
   const messageInput = event.input_data.global_values.input_field_1;
-  const bodyComment = 'Hello World is printed on the work ' + workCreated.display_id + ' from the automation, with message: ' + messageInput;
+  let bodyComment = 'Hello World is printed on the work ' + workCreated.display_id + ' from the automation, with message: ' + messageInput;
+  const extraComment = event.input_data.global_values.input_field_2;
+  if (extraComment) {
+    bodyComment += ' and extra comment' ;
+  }
   const body = {
     object: workCreated.id,
     type: 'timeline_comment',

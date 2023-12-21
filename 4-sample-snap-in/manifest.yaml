@@ -24,6 +24,13 @@ inputs:
       ui:
         display_name: Input Field 1
 
+    - name: input_field_2
+      description: Add extra comment.
+      field_type: bool
+      default_value: true
+      ui:
+        display_name: Should extra comment be added?
+
 functions:
   - name: function_1
     description: Function to create a timeline entry comment on a DevRev work item created.
