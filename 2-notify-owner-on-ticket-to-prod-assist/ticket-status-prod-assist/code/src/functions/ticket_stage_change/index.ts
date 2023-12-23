@@ -20,6 +20,7 @@ async function EventListener(event: any) {
 	const currStage: string = event.payload.work_updated.work.stage.name;
 	const workType: string = event.payload.work_updated.work.type;
 	const snap_in_token = event.context.secrets.service_account_token;
+	const api_base = event.execution_metadata.devrev_endpoint;
 	try {
 		if (!(
 			currStage === "awaiting_product_assist" &&
@@ -29,18 +30,18 @@ async function EventListener(event: any) {
 
 		const ticketID = event.payload.work_updated.work.id;
 		const partID = event.payload.work_updated.work.applies_to_part.id;
-		const partObject = await getPart(partID, snap_in_token);
+		const partObject = await getPart(partID, snap_in_token, api_base);
 
 		console.log(`Ticket ${ticketID} moved to Product Assist stage`);
 
 		if ((partObject.part.owned_by).length == 1 && partObject.part.owned_by[0].type != "dev_user") {
 			console.log("A bot is the part owner");
-			await ticketTimelineEntryCreate(ticketID, BOT_PART_OWNER_NOTIF, snap_in_token);
+			await ticketTimelineEntryCreate(ticketID, BOT_PART_OWNER_NOTIF, snap_in_token, api_base);
 		} else {
 			let partOwners = await getPartOwnersString(partObject);
 			if (partOwners != "") {
 				console.log("Creating timeline entry for the part owners");
-				await ticketTimelineEntryCreate(ticketID, sprintf(PART_OWNER_NOTIF, [partOwners]), snap_in_token);
+				await ticketTimelineEntryCreate(ticketID, sprintf(PART_OWNER_NOTIF, [partOwners]), snap_in_token, api_base);
 			} else
 				console.log("No part owners to notify regarding the stage change");
 		}

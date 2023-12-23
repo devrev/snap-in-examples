@@ -18,7 +18,7 @@ async function handleEvent(
   const body = {
     object: workCreated,
     type: 'timeline_comment',
-    body:  bodyComment,
+    body: bodyComment,
   }
   const response = await devrevSDK.timelineEntriesCreate(body as any);
   return response;
