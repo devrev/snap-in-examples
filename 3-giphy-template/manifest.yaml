@@ -20,7 +20,7 @@ inputs:
     - name: giphy_api_key
       description: Giphy API key
       field_type: text
-      default_value:
+      default_value: dummy_giphy_key
 
 functions:
   - name: search_giphy
