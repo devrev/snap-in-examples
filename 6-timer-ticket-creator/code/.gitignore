@@ -34,4 +34,5 @@ Thumbs.db
 deps.json
 results.json
 before-run-data.json 
+build.tar.gz
 
