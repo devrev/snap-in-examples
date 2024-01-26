@@ -1,0 +1,35 @@
+# For reference: https://github.com/devrev/snap-in-docs/blob/main/references/manifest.md.
+# Refactor the code based on your business logic.
+
+version: "2"
+
+name: "Timely Ticketer"
+description: "Snap-in to create ticket every 10 minutes"
+
+# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
+service_account:
+    display_name: Automatic Ticket Creator Bot
+
+event_sources:
+    organization:
+        - name: timer-event-source
+          description: Event source that sends events every 10 minutes.
+          display_name: Timer Event Source
+          type: timer-events
+          config:
+            # CRON expression for triggering every 10 minutes.
+            cron: "*/10 * * * *"
+            metadata:
+                event_key: ten_minute_event
+
+functions:
+    - name: ticket_creator
+      description: Function to create a new ticket when triggered.
+
+automations:
+    - name: periodic_ticket_creator
+      description: Automation to create a ticket every 10 minutes
+      source: timer-event-source
+      event_types:
+        - timer.tick
+      function: ticket_creator
