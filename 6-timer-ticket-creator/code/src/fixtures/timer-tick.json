@@ -1,0 +1,41 @@
+[
+  {
+    "payload": {
+      "dev_oid": "don:identity:dvrv-us-1:devo/15oifb8Ev",
+      "event_source_id": "don:integration:dvrv-us-1:devo/15oifb8Ev:event_source/a36913d9-0e0c-455f-8812-9f80ff6b65f6",
+      "metadata": {
+        "event_key": "ten_minute_event"
+      },
+      "scheduled_time": 1706519400000
+    },
+    "context": {
+      "dev_oid": "don:identity:dvrv-us-1:devo/15oifb8Ev",
+      "automation_id": "don:integration:dvrv-us-1:devo/15oifb8Ev:automation/76910aff-49da-458f-897a-868420c889ad",
+      "source_id": "don:integration:dvrv-us-1:devo/15oifb8Ev:automation/76910aff-49da-458f-897a-868420c889ad",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/15oifb8Ev:snap_in/460514ab-c055-4a9f-aae7-e96b97781691",
+      "snap_in_version_id": "don:integration:dvrv-us-1:devo/15oifb8Ev:snap_in_package/2de3e1c3-12bf-45bb-b7e3-788d15c94b15:snap_in_version/08a868e4-4bb9-4010-8059-fa176ac9ab37",
+      "service_account_id": "don:identity:dvrv-us-1:devo/15oifb8Ev:svcacc/146",
+      "secrets": {
+        "service_account_token": "********"
+      },
+      "user_id": "don:identity:dvrv-us-1:devo/15oifb8Ev:svcacc/146"
+    },
+    "execution_metadata": {
+      "request_id": "",
+      "function_name": "ticket_creator",
+      "event_type": "timer.tick",
+      "devrev_endpoint": "https://api.dev.devrev-eng.ai"
+    },
+    "input_data": {
+      "global_values": {},
+      "event_sources": {
+        "timer-event-source": "don:integration:dvrv-us-1:devo/15oifb8Ev:event_source/a36913d9-0e0c-455f-8812-9f80ff6b65f6"
+      },
+      "keyrings": null,
+      "resources": {
+        "keyrings": {},
+        "tags": {}
+      }
+    }
+  }
+]
