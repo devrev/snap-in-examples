@@ -17,7 +17,7 @@ export const run = async (events: any[]) => {
       title: ticketName,
       body: ticketBody,
       // The ticket will be created in the PROD-1 part. Rename this to match your part.
-      applies_to_part: 'PROD-4',
+      applies_to_part: 'PROD-1',
       // The ticket will be owned by the DEVU-1 team. Rename this to match the required user.
       owned_by: ['DEVU-1'],
       type: publicSDK.WorkType.Ticket,
