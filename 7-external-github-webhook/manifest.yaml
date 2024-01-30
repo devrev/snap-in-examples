@@ -1,0 +1,47 @@
+version: "2"
+
+name: GitHub Commit Tracker
+description: Reflects commits that happen on GitHub in DevRev posting to timeline of issue.
+
+service_account:
+  display_name: "GitHub-Commit Bot"
+
+inputs:
+  organization:
+    - name: part_id
+      field_type: id
+      default_value: don:core:dvrv-us-1:devo/XXXXXXX:product/1
+      is_required: true
+      id_type:
+        - product
+      description: The default part on which to post commits.
+      ui:
+        display_name: The part on which to post commits.
+
+event_sources:
+  organization:
+    - name: github-app-source
+      type: flow-custom-webhook
+      description: Event coming from Github app.
+      config:
+        policy: |
+          package rego
+          status_code = 200 
+          output = {"event": body, "event_key": event_key} {
+            body := input.request.body
+            event_key := "github-event"
+          } else = {"response": response} {
+            response := {"status_code": status_code}
+          }
+      setup_instructions: "Please copy the source URL from here: \n\n `{{ source.trigger_url  }}`"
+      
+functions:
+  - name: github_handler
+    description: Function to reflect Github activities on DevRev.
+
+automations:
+  - name: github-commit-tracker
+    source: github-app-source
+    event_types:
+      - custom:github-event
+    function: github_handler
