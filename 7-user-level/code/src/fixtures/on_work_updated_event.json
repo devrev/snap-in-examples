@@ -1,0 +1,199 @@
+{
+    "payload": {
+        "id": "don:integration:dvrv-us-1:devo/n7yNN3WP:webhook/mCYoEUV6:webhook_event/DWNFM-JmyGI",
+        "timestamp": "2024-02-01T20:25:41.693203Z",
+        "type": "work_updated",
+        "unique_key": "ZG9uOmludGVncmF0aW9uOmR2cnYtdXMtMTpkZXZvL243eU5OM1dQOmV2ZW50X3NvdXJjZS9jNWEzZjA5Yy00Yzk4LTQ4OGItOWQyYy1jMjA3YjkzZGZmODc=",
+        "webhook_id": "don:integration:dvrv-us-1:devo/n7yNN3WP:webhook/mCYoEUV6",
+        "work_updated": {
+            "old_work": {
+                "applies_to_part": {
+                    "display_id": "FEAT-5",
+                    "id": "don:core:dvrv-us-1:devo/n7yNN3WP:feature/5",
+                    "id_v1": "don:DEV-n7yNN3WP:feature:5",
+                    "name": "Default Feature 5",
+                    "type": "feature"
+                },
+                "body": "woohoo",
+                "created_by": {
+                    "display_handle": "navneel-mandal",
+                    "display_id": "DEVU-1",
+                    "display_name": "navneel-mandal",
+                    "email": "navneel.mandal@devrev.ai",
+                    "full_name": "Navneel Mandal",
+                    "id": "don:identity:dvrv-us-1:devo/n7yNN3WP:devu/1",
+                    "id_v1": "don:DEV-n7yNN3WP:dev_user:DEVU-1",
+                    "state": "active",
+                    "thumbnail": "https://api.dev.devrev-eng.ai/internal/display-picture/Navneel%20Mandal.svg",
+                    "type": "dev_user"
+                },
+                "created_date": "2024-02-01T20:23:58.455Z",
+                "custom_fields": null,
+                "display_id": "ISS-20",
+                "id": "don:core:dvrv-us-1:devo/n7yNN3WP:issue/20",
+                "id_v1": "don:DEV-n7yNN3WP:issue:20",
+                "modified_by": {
+                    "display_handle": "navneel-mandal",
+                    "display_id": "DEVU-1",
+                    "display_name": "navneel-mandal",
+                    "email": "navneel.mandal@devrev.ai",
+                    "full_name": "Navneel Mandal",
+                    "id": "don:identity:dvrv-us-1:devo/n7yNN3WP:devu/1",
+                    "id_v1": "don:DEV-n7yNN3WP:dev_user:DEVU-1",
+                    "state": "active",
+                    "thumbnail": "https://api.dev.devrev-eng.ai/internal/display-picture/Navneel%20Mandal.svg",
+                    "type": "dev_user"
+                },
+                "modified_date": "2024-02-01T20:23:58.455Z",
+                "owned_by": [
+                    {
+                        "display_handle": "navneel-mandal",
+                        "display_id": "DEVU-1",
+                        "display_name": "navneel-mandal",
+                        "email": "navneel.mandal@devrev.ai",
+                        "full_name": "Navneel Mandal",
+                        "id": "don:identity:dvrv-us-1:devo/n7yNN3WP:devu/1",
+                        "id_v1": "don:DEV-n7yNN3WP:dev_user:DEVU-1",
+                        "state": "active",
+                        "thumbnail": "https://api.dev.devrev-eng.ai/internal/display-picture/Navneel%20Mandal.svg",
+                        "type": "dev_user"
+                    }
+                ],
+                "priority": "p2",
+                "priority_v2": {
+                    "id": 3,
+                    "label": "P2",
+                    "ordinal": 3
+                },
+                "stage": {
+                    "name": "triage",
+                    "notes": "",
+                    "ordinal": 500,
+                    "stage": {
+                        "id": "don:core:dvrv-us-1:devo/n7yNN3WP:custom_stage/5"
+                    },
+                    "state": {
+                        "id": "don:core:dvrv-us-1:devo/n7yNN3WP:custom_state/2"
+                    }
+                },
+                "state": "open",
+                "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/298108",
+                "title": "testing",
+                "type": "issue"
+            },
+            "work": {
+                "applies_to_part": {
+                    "display_id": "FEAT-5",
+                    "id": "don:core:dvrv-us-1:devo/n7yNN3WP:feature/5",
+                    "id_v1": "don:DEV-n7yNN3WP:feature:5",
+                    "name": "Default Feature 5",
+                    "type": "feature"
+                },
+                "body": "woohoo",
+                "created_by": {
+                    "display_handle": "navneel-mandal",
+                    "display_id": "DEVU-1",
+                    "display_name": "navneel-mandal",
+                    "email": "navneel.mandal@devrev.ai",
+                    "full_name": "Navneel Mandal",
+                    "id": "don:identity:dvrv-us-1:devo/n7yNN3WP:devu/1",
+                    "id_v1": "don:DEV-n7yNN3WP:dev_user:DEVU-1",
+                    "state": "active",
+                    "thumbnail": "https://api.dev.devrev-eng.ai/internal/display-picture/Navneel%20Mandal.svg",
+                    "type": "dev_user"
+                },
+                "created_date": "2024-02-01T20:23:58.455Z",
+                "custom_fields": null,
+                "display_id": "ISS-20",
+                "id": "don:core:dvrv-us-1:devo/n7yNN3WP:issue/20",
+                "id_v1": "don:DEV-n7yNN3WP:issue:20",
+                "modified_by": {
+                    "display_handle": "navneel-mandal",
+                    "display_id": "DEVU-1",
+                    "display_name": "navneel-mandal",
+                    "email": "navneel.mandal@devrev.ai",
+                    "full_name": "Navneel Mandal",
+                    "id": "don:identity:dvrv-us-1:devo/n7yNN3WP:devu/1",
+                    "id_v1": "don:DEV-n7yNN3WP:dev_user:DEVU-1",
+                    "state": "active",
+                    "thumbnail": "https://api.dev.devrev-eng.ai/internal/display-picture/Navneel%20Mandal.svg",
+                    "type": "dev_user"
+                },
+                "modified_date": "2024-02-01T20:25:40.23Z",
+                "owned_by": [
+                    {
+                        "display_handle": "navneel-mandal",
+                        "display_id": "DEVU-1",
+                        "display_name": "navneel-mandal",
+                        "email": "navneel.mandal@devrev.ai",
+                        "full_name": "Navneel Mandal",
+                        "id": "don:identity:dvrv-us-1:devo/n7yNN3WP:devu/1",
+                        "id_v1": "don:DEV-n7yNN3WP:dev_user:DEVU-1",
+                        "state": "active",
+                        "thumbnail": "https://api.dev.devrev-eng.ai/internal/display-picture/Navneel%20Mandal.svg",
+                        "type": "dev_user"
+                    }
+                ],
+                "priority": "p2",
+                "priority_v2": {
+                    "id": 3,
+                    "label": "P2",
+                    "ordinal": 3
+                },
+                "stage": {
+                    "name": "in_development",
+                    "notes": "",
+                    "ordinal": 4000,
+                    "stage": {
+                        "id": "don:core:dvrv-us-1:devo/n7yNN3WP:custom_stage/10"
+                    },
+                    "state": {
+                        "id": "don:core:dvrv-us-1:devo/n7yNN3WP:custom_state/3"
+                    }
+                },
+                "state": "in_progress",
+                "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/298108",
+                "title": "testing",
+                "type": "issue"
+            }
+        }
+    },
+    "context": {
+        "dev_oid": "don:identity:dvrv-us-1:devo/n7yNN3WP",
+        "automation_id": "don:integration:dvrv-us-1:devo/n7yNN3WP:automation/52d9fdbb-f3ea-417d-8cca-71a6c733136e",
+        "source_id": "don:integration:dvrv-us-1:devo/n7yNN3WP:automation/52d9fdbb-f3ea-417d-8cca-71a6c733136e",
+        "snap_in_id": "don:integration:dvrv-us-1:devo/n7yNN3WP:snap_in/cb9fa506-8f16-4642-acb4-24f0b0683ce4",
+        "snap_in_version_id": "don:integration:dvrv-us-1:devo/n7yNN3WP:snap_in_package/81d4b11c-ea87-4b8e-ba7f-c5a6a850fa64:snap_in_version/c7c701d6-2d87-41fc-a4ca-3a2b4127e393",
+        "service_account_id": "don:identity:dvrv-us-1:devo/n7yNN3WP:svcacc/65",
+        "secrets": {
+            "service_account_token": "********"
+        },
+        "user_id": "don:identity:dvrv-us-1:devo/n7yNN3WP:devu/1"
+    },
+    "execution_metadata": {
+        "request_id": "",
+        "function_name": "on_work_updation",
+        "event_type": "work_updated",
+        "devrev_endpoint": "https://api.dev.devrev-eng.ai"
+    },
+    "input_data": {
+        "global_values": {
+            "work_description": "This issue was created by a user-scoped Snap-in"
+        },
+        "event_sources": {
+            "devrev-event-source": "don:integration:dvrv-us-1:devo/n7yNN3WP:event_source/aa4d1295-4908-49a0-bb4c-12a320efcae9"
+        },
+        "keyrings": {
+            "org_scoped_keyring": "********"
+        },
+        "resources": {
+            "keyrings": {
+                "org_scoped_keyring": {
+                    "id": "don:integration:dvrv-us-1:devo/n7yNN3WP:keyring/ed66f851-5f9c-45b8-b6bb-27becaf52fcb",
+                    "secret": "********"
+                }
+            },
+            "tags": {}
+        }
+    }
+}

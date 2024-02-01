@@ -1,0 +1,84 @@
+version: "2"
+name: "User scoped Snap-in"
+description: "TODO"
+
+# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
+service_account:
+  display_name: User-scoped Bot
+
+# Add any external connection, reference: https://github.com/devrev/snap-in-docs/blob/main/references/connections.md.
+
+# Add global values, reference: https://github.com/devrev/snap-in-docs/blob/main/references/manifest.md#globals.
+inputs:
+  organization:
+    - name: work_description
+      description: Description of the issue created by this Snap-in.
+      field_type: text
+      is_required: true
+      default_value: "This issue was created by a user-scoped Snap-in"
+      ui:
+        display_name: Work description
+        
+  user:
+    - name: work_part_picker
+      description: Select the part of the work-item.
+      field_type: array
+      base_type: id
+      id_type:
+        - product
+        - capability
+        - feature
+      ui:
+        display_name: Work part picker
+
+keyrings:
+  organization:
+    - name: org_scoped_keyring
+      description: Keyring scoped to the organization
+      types:
+        - snap_in_secret
+      display_name: Org scoped keyring
+  user:
+    - name: user_scoped_keyring
+      description: Keyring scoped to the user
+      types:
+        - snap_in_secret
+      display_name: User scoped keyring
+
+     
+
+event_sources:
+  organization:
+    - name: devrev-event-source
+      description: Event source listening on DevRev events.
+      display_name: DevRev events listener
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_created
+  user:
+    - name: devrev-user-event-source
+      description: Event source per user listening on DevRev events.
+      display_name: DevRev user events listener
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_updated
+
+functions:
+  - name: on_work_creation
+    description: function to trigger on work creation
+  - name: on_work_updation
+    description: function to trigger on work updation 
+
+automations:
+  - name: handle-work-created-event
+    source: devrev-event-source
+    event_types:
+      - work_created
+    function: on_work_creation
+  - name: handle-work-updated-event
+    source: devrev-user-event-source
+    event_types:
+      - work_updated
+    function: on_work_updation
