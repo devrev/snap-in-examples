@@ -7,4 +7,4 @@ If it fails to categorize a ticket, it adds a tag `failed_to_infer_category`.
 
 ## Demo
 
-[Demo.webm](demo.webm)
+[demo.webm](https://github.com/devrev/snap-in-examples/assets/32142363/1ba54b18-424f-4e5e-b150-da7c67e67d5e)
