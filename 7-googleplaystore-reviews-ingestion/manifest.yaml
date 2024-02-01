@@ -1,6 +1,6 @@
 version: "2"
 name: "Google playstore reviews to Tickets"
-description: "Creates tickets from Google playstore reviews"
+description: "Creates tickets from Google playstore reviews and categorize them into one-of `bug`, `feedback`, `feature_request` or `question`."
 
 service_account:
   display_name: Google Playstore Reviews Snap-in
@@ -83,7 +83,7 @@ inputs:
       is_required: true
       default_value: "mixtral-8x7b-instruct"
       ui:
-        display_name: LLM Model to use
+        display_name: LLM Model to use, not all might work perfectly, generally prefer a larger model with > 7b params.
 
 
 tags:
