@@ -52,7 +52,6 @@ export class ApiUtils {
   // Create a ticket
   async createTicket(payload: publicSDK.WorksCreateRequest): Promise<HTTPResponse> {
     try {
-      console.log('Ticket Payload: ', JSON.stringify(payload, null, 2));
       const response: AxiosResponse = await this.devrevSdk.worksCreate(payload);
       return { data: response.data, message: 'Ticket created successfully', success: true };
     } catch (error: any) {
@@ -146,7 +145,7 @@ class LLMUtils {
       ]
     )
     const outputParser = new JsonOutputParser();
-    const chain = chatPrompt.pipe(this.provider).pipe((o) => {console.log(`Model OUTPUT: ${o}`); return o;}).pipe(outputParser);
+    const chain = chatPrompt.pipe(this.provider).pipe(outputParser);
     const response = await chain.invoke(argsValues);
     return response;
   }
@@ -226,9 +225,7 @@ export const run = async (events: any[]) => {
       continue;
     }
     commentID = postResp.data.timeline_entry.id;
-    console.log(`"getReviewsResponse" = ${getReviewsResponse}\n\n${JSON.stringify(getReviewsResponse)}`);
     let reviews:gplay.IReviewsItem[] = getReviewsResponse.data;
-    console.log(`reviews = ${reviews}`);
     // For each review, create a ticket in DevRev.
     for(const review of reviews) {
       // Post a progress message saying creating ticket for review with review URL posted.
