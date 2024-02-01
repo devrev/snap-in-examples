@@ -1,7 +1,7 @@
 version: "2"
 
 name: GitHub Commit Tracker
-description: Reflects commits that happen on GitHub in DevRev posting to timeline of issue.
+description: Reflects commits that happen on GitHub in DevRev posting to timeline of a product part.
 
 service_account:
   display_name: "GitHub-Commit Bot"
@@ -26,14 +26,23 @@ event_sources:
       config:
         policy: |
           package rego
-          status_code = 200 
+          signature := crypto.hmac.sha256(base64.decode(input.request.body_raw), input.parameters.secret)
+          expected_header := sprintf("sha256=%v", [signature])
+          signature_header_name:= "X-Hub-Signature-256"
+          status_code = 200 {
+            input.request.headers[signature_header_name] == expected_header
+          } else = 401 {
+            true
+          }
           output = {"event": body, "event_key": event_key} {
             body := input.request.body
             event_key := "github-event"
           } else = {"response": response} {
             response := {"status_code": status_code}
           }
-      setup_instructions: "Please copy the source URL from here: \n\n `{{ source.trigger_url  }}`"
+        parameters:
+          secret: 6aVqEymevGZvkiUk30oWccVLEKNOqkcP
+      setup_instructions: "Please copy the source URL from here: \n\nURL: `{{ source.trigger_url  }}` \n\nSecret: `{{source.config.parameters.secret}}`."
       
 functions:
   - name: github_handler
