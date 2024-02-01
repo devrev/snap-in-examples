@@ -35,6 +35,7 @@ event_sources:
             true
           }
           output = {"event": body, "event_key": event_key} {
+            status_code == 200
             body := input.request.body
             event_key := "github-event"
           } else = {"response": response} {
