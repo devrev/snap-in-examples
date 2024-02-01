@@ -170,7 +170,6 @@ export const run = async (events: any[]) => {
     let commentID : string | undefined;
     if (parameters === 'help') {
       // Send a help message in CLI help format.
-      // the message contents could be something like: This snap-in fetches reviews from Google Playstore and creates tickets in DevRev. The number of reviews to fetch can be specified as a command argument. The command argument should be a number between 1 and 100. If no command argument is specified, it defaults to 10. For example, if you want to fetch 20 reviews, you can type "/playstore_reviews_process 20".
       const helpMessage = `playstore_reviews_process - Fetch reviews from Google Playstore and creates tickets in DevRev.\n\nUsage: /playstore_reviews_process <number_of_reviews_to_fetch>\n\n\`number_of_reviews_to_fetch\`: Number of reviews to fetch from Google Playstore. Should be a number between 1 and 100. If not specified, it defaults to 10.`;
       let postResp  = await apiUtil.postTextMessageWithVisibilityTimeout(snapInId, helpMessage, 1);
       if (!postResp.success) {
