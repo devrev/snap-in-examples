@@ -44,7 +44,7 @@ inputs:
       ui:
         display_name: Default Owner
     - name: llm_model_to_use
-      description: "Which LLM model to use for the review categorization."
+      description: "Which LLM model to use for the review categorization. Not all might work perfectly, generally prefer a larger model with >= 7B params"
       field_type: enum
       allowed_values:
         - qwen-72b-chat
@@ -83,7 +83,7 @@ inputs:
       is_required: true
       default_value: "mixtral-8x7b-instruct"
       ui:
-        display_name: LLM Model to use, not all might work perfectly, generally prefer a larger model with > 7b params.
+        display_name: LLM Model to use.
 
 
 tags:
