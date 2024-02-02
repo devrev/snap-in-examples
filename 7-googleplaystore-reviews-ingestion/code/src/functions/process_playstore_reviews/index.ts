@@ -21,7 +21,7 @@ export const run = async (events: any[]) => {
     let commentID : string | undefined;
     if (parameters === 'help') {
       // Send a help message in CLI help format.
-      const helpMessage = `playstore_reviews_process - Fetch reviews from Google Playstore and creates tickets in DevRev.\n\nUsage: /playstore_reviews_process <number_of_reviews_to_fetch>\n\n\`number_of_reviews_to_fetch\`: Number of reviews to fetch from Google Playstore. Should be a number between 1 and 100. If not specified, it defaults to 10.`;
+      const helpMessage = `playstore_reviews_process - Fetch reviews from Google Play Store and create tickets in DevRev.\n\nUsage: /playstore_reviews_process <number_of_reviews_to_fetch>\n\n\`number_of_reviews_to_fetch\`: Number of reviews to fetch from Google Playstore. Should be a number between 1 and 100. If not specified, it defaults to 10.`;
       let postResp  = await apiUtil.postTextMessageWithVisibilityTimeout(snapInId, helpMessage, 1);
       if (!postResp.success) {
         console.error(`Error while creating timeline entry: ${postResp.message}`);
@@ -87,7 +87,7 @@ export const run = async (events: any[]) => {
       const reviewText = `Ticket created from Playstore review ${review.url}\n\n${review.text}`;
       const reviewTitle = review.title || `Ticket created from Playstore review ${review.url}`;
       const reviewID = review.id;
-      const systemPrompt = `You are an expert at labeling a given Google Playstore Review as bug, feature_request, question or feedback. You are given a review provided by a user for the app ${inputs['app_id']}. You have to label the review as bug, feature_request, question or feedback. The output should be a JSON with fields "category" and "reason". The "category" field should be one of "bug", "feature_request", "question" or "feedback". The "reason" field should be a string explaining the reason for the category. \n\nReview: {review}\n\nOutput:`;
+      const systemPrompt = `You are an expert at labelling a given Google Play Store Review as bug, feature_request, question or feedback. You are given a review provided by a user for the app ${inputs['app_id']}. You have to label the review as bug, feature_request, question or feedback. The output should be a JSON with fields "category" and "reason". The "category" field should be one of "bug", "feature_request", "question" or "feedback". The "reason" field should be a string explaining the reason for the category. \n\nReview: {review}\n\nOutput:`;
       const humanPrompt = ``;
 
       let llmResponse = {};
