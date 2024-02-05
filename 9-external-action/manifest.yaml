@@ -6,12 +6,6 @@ description: "Create a GitHub issue from work in DevRev."
 service_account:
   display_name: GitHub Issue Creator
 
-# connections:
-#   - name: GitHub 
-#     description: GitHub Personal Access Token (PAT).
-#     types:
-#       - devrev-snap-in-secret
-
 keyrings:
   organization:
     - name: github_connection
