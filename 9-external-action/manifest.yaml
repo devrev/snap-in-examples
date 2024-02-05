@@ -1,0 +1,45 @@
+version: "2"
+name: "GitHub Issue Creator"
+description: "Create a GitHub issue from work in DevRev."
+
+# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
+service_account:
+  display_name: GitHub Issue Creator
+
+# connections:
+#   - name: GitHub 
+#     description: GitHub Personal Access Token (PAT).
+#     types:
+#       - devrev-snap-in-secret
+
+keyrings:
+  organization:
+    - name: github_connection
+      display_name: Github Connection
+      description: Github PAT
+      types:
+        - snap_in_secret
+
+inputs:
+  organization:
+    - name: sample_value
+      description: Sample input value.
+      field_type: text
+      default_value: "primary"
+      ui:
+        display_name: Sample Value
+
+functions:
+  - name: command_handler
+    description: function to create a GitHub issue
+
+commands:
+  - name: gh_issue
+    namespace: devrev
+    description: Command to create a GitHub issue.
+    surfaces:
+      - surface: discussions
+        object_types:
+          - issue
+    usage_hint: "[OrgName] [RepoName]"
+    function: command_handler
