@@ -14,15 +14,6 @@ keyrings:
       types:
         - snap_in_secret
 
-inputs:
-  organization:
-    - name: sample_value
-      description: Sample input value.
-      field_type: text
-      default_value: "primary"
-      ui:
-        display_name: Sample Value
-
 functions:
   - name: command_handler
     description: function to create a GitHub issue
