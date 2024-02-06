@@ -1,4 +1,4 @@
-import { client } from '@devrev/typescript-sdk';
+import { client, betaSDK } from '@devrev/typescript-sdk';
 
 // Handles the event from GitHub
 async function handleEvent(event: any) {
@@ -23,10 +23,10 @@ async function handleEvent(event: any) {
   }
 
   // Prepare the body for creating a timeline comment
-  const body = {
+  const body: betaSDK.TimelineEntriesCreateRequest = {
     body: bodyComment,
     object: partID,
-    type: 'timeline_comment',
+    type: betaSDK.TimelineEntriesCreateRequestType.TimelineComment,
   };
 
   // Create a timeline comment using the DevRev SDK
