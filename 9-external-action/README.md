@@ -20,7 +20,7 @@ npm run start -- --functionName=command_handler --fixturePath=on_command.json
 ```
 
 ### Adding external dependencies
-You can also add dependencies on external packages in package.json under the “dependencies” key. These dependencies will be made available to your function at runtime and testing.
+You can also add dependencies on external packages in `package.json` under the “dependencies” key. These dependencies will be made available to your function at runtime and testing.
 
 ### Linting
 
@@ -30,7 +30,7 @@ To check for lint errors, run the following command:
 npm run lint
 ```
 
-To automatically fix fixable lint errors, run:
+To automatically fix lint errors, run:
 
 ```bash
 npm run lint:fix

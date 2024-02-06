@@ -4,7 +4,7 @@ import { Octokit } from '@octokit/core';
 // Function to get the title and description of the issue
 const getIssueDetails = async (workId: string, devrevSDK: any) => {
   try {
-    // Get the issue details from the database using the workId
+    // Get the issue details using the `worksGet` method
     const workItemResp = await devrevSDK.worksGet({
       id: workId,
     });
@@ -74,7 +74,7 @@ const createGitHubIssue = async (orgName: string, repoName: string, issueDetails
       },
       owner: orgName,
       repo: repoName,
-      title: '[' + issueDetails.issueDisplayName + '] ' + issueDetails.title,
+      title: `[${issueDetails.issueDisplayName}] ${issueDetails.title}`,
     });
   } catch (error) {
     console.error(error);
