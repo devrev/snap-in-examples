@@ -1,8 +1,14 @@
-import { client } from '@devrev/typescript-sdk';
+import { client, FunctionInput, publicSDK } from '@devrev/typescript-sdk';
 import { Octokit } from '@octokit/core';
 
+type IssueDetails = {
+  description: string | undefined;
+  issueDisplayName: string | undefined;
+  title: string;
+};
+
 // Function to get the title and description of the issue
-const getIssueDetails = async (workId: string, devrevSDK: any) => {
+const getIssueDetails = async (workId: string, devrevSDK: publicSDK.Api<any>) => {
   try {
     // Get the issue details using the `worksGet` method
     const workItemResp = await devrevSDK.worksGet({
@@ -11,7 +17,7 @@ const getIssueDetails = async (workId: string, devrevSDK: any) => {
     const workItem = workItemResp.data.work;
 
     // Populate the issue details
-    const issueDetails = {
+    const issueDetails: IssueDetails = {
       description: workItem.body,
       issueDisplayName: workItem.display_id,
       title: workItem.title,
@@ -34,7 +40,7 @@ const getOrgAndRepoNames = (paramString: string): string[] => {
 };
 
 // Function to verify if the orgName is valid
-const verifyOrgName = async (orgName: string, octokit: Octokit) => {
+const verifyOrgName = async (orgName: string, octokit: Octokit): Promise<void> => {
   try {
     await octokit.request('GET /orgs/{org}', {
       headers: {
@@ -49,7 +55,7 @@ const verifyOrgName = async (orgName: string, octokit: Octokit) => {
 };
 
 // Function to verify if the repoName is valid
-const verifyRepoName = async (orgName: string, repoName: string, octokit: Octokit) => {
+const verifyRepoName = async (orgName: string, repoName: string, octokit: Octokit): Promise<void> => {
   try {
     await octokit.request('GET /repos/{owner}/{repo}', {
       headers: {
@@ -65,7 +71,12 @@ const verifyRepoName = async (orgName: string, repoName: string, octokit: Octoki
 };
 
 // Function to create an issue
-const createGitHubIssue = async (orgName: string, repoName: string, issueDetails: any, octokit: Octokit) => {
+const createGitHubIssue = async (
+  orgName: string,
+  repoName: string,
+  issueDetails: IssueDetails,
+  octokit: Octokit
+): Promise<void> => {
   try {
     await octokit.request('POST /repos/{owner}/{repo}/issues', {
       body: issueDetails.description,
@@ -83,15 +94,15 @@ const createGitHubIssue = async (orgName: string, repoName: string, issueDetails
 };
 
 // Function to handle the command event
-const handleEvent = async (event: any | unknown) => {
+const handleEvent = async (event: FunctionInput) => {
   // Get the github token from the environment variables and initialise the Octokit client.
-  const githubPAT = event.input_data.keyrings.github_connection;
+  const githubPAT = event.input_data.keyrings['github_connection'];
   const octokit = new Octokit({
     auth: githubPAT,
   });
 
   // Get the devrev token and initialise the DevRev SDK.
-  const devrevToken = event.context.secrets.service_account_token;
+  const devrevToken = event.context.secrets['service_account_token'];
   const endpoint = event.execution_metadata.devrev_endpoint;
   const devrevSDK = client.setup({
     endpoint: endpoint,
@@ -99,11 +110,11 @@ const handleEvent = async (event: any | unknown) => {
   });
 
   // Retrieve the Issue Details from the command event.
-  const workId = event.payload.source_id;
+  const workId = event.payload['source_id'];
   const issueDetails = await getIssueDetails(workId, devrevSDK);
 
   // Get the command parameters from the event
-  const commandParams = event.payload.parameters;
+  const commandParams = event.payload['parameters'];
   const [orgName, repoName] = getOrgAndRepoNames(commandParams);
 
   // Verify if orgName is valid
@@ -116,7 +127,7 @@ const handleEvent = async (event: any | unknown) => {
   await createGitHubIssue(orgName, repoName, issueDetails, octokit);
 };
 
-export const run = async (events: any[]) => {
+export const run = async (events: FunctionInput[]) => {
   for (const event of events) {
     await handleEvent(event);
   }

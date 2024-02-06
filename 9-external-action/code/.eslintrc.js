@@ -1,6 +1,6 @@
 module.exports = {
-  extends: 'airbnb-typescript/base',
   extends: [
+    'airbnb-typescript/base',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended', // Makes ESLint and Prettier play nicely together
     'plugin:import/recommended',
@@ -22,12 +22,12 @@ module.exports = {
   plugins: ['prettier', 'unused-imports', 'import', 'simple-import-sort', 'sort-keys-fix'],
   root: true,
   rules: {
-    'import/first': 'error', 
+    'import/first': 'error',
     // Removes unused imports automatically,
-'@typescript-eslint/no-explicit-any': 'warn', 
-    
-// Ensures all imports are at the top of the file
-'import/newline-after-import': 'error', 
+    '@typescript-eslint/no-explicit-any': 'warn',
+
+    // Ensures all imports are at the top of the file
+    'import/newline-after-import': 'error',
     // Ensures there’s a newline after the imports
     'import/no-duplicates': 'error',
     // Merges import statements from the same file
