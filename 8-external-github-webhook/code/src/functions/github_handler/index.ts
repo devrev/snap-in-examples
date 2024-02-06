@@ -1,9 +1,9 @@
-import { client, betaSDK } from '@devrev/typescript-sdk';
+import { client, betaSDK, FunctionInput } from '@devrev/typescript-sdk';
 
 // Handles the event from GitHub
-async function handleEvent(event: any) {
+async function handleEvent(event: FunctionInput) {
   // Extract necessary information from the event
-  const token = event.context.secrets.service_account_token;
+  const token = event.context.secrets['service_account_token'];
   const endpoint = event.execution_metadata.devrev_endpoint;
 
   // Set up the DevRev SDK with the extracted information
@@ -13,8 +13,8 @@ async function handleEvent(event: any) {
   });
 
   // Extract the part ID and commits from the event
-  const partID = event.input_data.global_values.part_id;
-  const commits = event.payload.commits;
+  const partID = event.input_data.global_values['part_id'];
+  const commits = event.payload['commits'];
 
   // Iterate through commits and append the commit message to the body of the comment
   let bodyComment = 'Commits from GitHub:\n';
@@ -36,7 +36,7 @@ async function handleEvent(event: any) {
   return response;
 }
 
-export const run = async (events: any[]) => {
+export const run = async (events: FunctionInput[]) => {
   for (const event of events) {
     await handleEvent(event);
   }

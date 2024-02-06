@@ -1,4 +1,4 @@
-## Snap-in triggered by external source: GitHub
+## Snap-in triggered by an external source: GitHub
 
 Snap-in that adds a comment to the discussions tab of any part, which is configurable, from a GitHub push or commit event.
 
