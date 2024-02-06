@@ -8,9 +8,9 @@ async function handleEvent(
   event: any,
 ) {
   const devrevPAT = event.context.secrets.service_account_token;
-  const API_BASE = event.execution_metadata.devrev_endpoint;
+  const baseURL = event.execution_metadata.devrev_endpoint;
   const devrevSDK = client.setup({
-    endpoint: API_BASE,
+    endpoint: baseURL,
     token: devrevPAT,
   })
   const workCreated = event.payload.work_created;
