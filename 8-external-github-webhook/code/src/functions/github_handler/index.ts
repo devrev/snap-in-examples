@@ -30,7 +30,7 @@ async function handleEvent(event: any) {
   };
 
   // Create a timeline comment using the DevRev SDK
-  const response = await devrevSDK.timelineEntriesCreate(body as any);
+  const response = await devrevSDK.timelineEntriesCreate(body);
 
   // Return the response from the DevRev API
   return response;
