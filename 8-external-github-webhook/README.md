@@ -28,8 +28,8 @@ To automatically fix fixable lint errors, run:
 npm run lint:fix
 ```
 
-### Deploying snap-ins
-Once you are done with the testing, run the following commands to deploy your snap-in:
+### Activating snap-ins
+Once you are done with the testing, run the following commands to activate your snap-in:
 
 1. Authenticate to devrev CLI
 ```
@@ -47,7 +47,7 @@ devrev snap_in draft
 ```
 devrev snap_in update
 ```
-5. Deploy the snap_in
+5. Activate the snap_in
 ```
-devrev snap_in deploy
+devrev snap_in activate
 ```

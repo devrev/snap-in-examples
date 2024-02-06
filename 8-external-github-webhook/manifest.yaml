@@ -1,7 +1,7 @@
 version: "2"
 
 name: GitHub Commit Tracker
-description: Reflects commits that happen on GitHub in DevRev posting to timeline of a product part.
+description: Reflects commits that happen on GitHub in DevRev by posting to timeline of a product part.
 
 service_account:
   display_name: "GitHub-Commit Bot"
