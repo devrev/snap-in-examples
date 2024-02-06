@@ -17,7 +17,7 @@ async function handleEvent(event: any) {
   const commits = event.payload.commits;
 
   // Iterate through commits and append the commit message to the body of the comment
-  let bodyComment = '';
+  let bodyComment = 'Commits from GitHub:\n';
   for (const commit of commits) {
     bodyComment += commit.message + '\n';
   }
