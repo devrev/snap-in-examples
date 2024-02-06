@@ -1,0 +1,57 @@
+version: "2"
+
+name: GitHub Commit Tracker
+description: Reflects commits that happen on GitHub in DevRev by posting to timeline of a product part.
+
+service_account:
+  display_name: "GitHub-Commit Bot"
+
+inputs:
+  organization:
+    - name: part_id
+      field_type: id
+      default_value: don:core:dvrv-us-1:devo/XXXXXXX:product/1
+      is_required: true
+      id_type:
+        - product
+      description: The default part on which to post commits.
+      ui:
+        display_name: The part on which to post commits.
+
+event_sources:
+  organization:
+    - name: github-app-source
+      type: flow-custom-webhook
+      description: Event coming from Github app.
+      config:
+        policy: |
+          package rego
+          signature := crypto.hmac.sha256(base64.decode(input.request.body_raw), input.parameters.secret)
+          expected_header := sprintf("sha256=%v", [signature])
+          signature_header_name:= "X-Hub-Signature-256"
+          status_code = 200 {
+            input.request.headers[signature_header_name] == expected_header
+          } else = 401 {
+            true
+          }
+          output = {"event": body, "event_key": event_key} {
+            status_code == 200
+            body := input.request.body
+            event_key := "github-event"
+          } else = {"response": response} {
+            response := {"status_code": status_code}
+          }
+        parameters:
+          secret: 6aVqEymevGZvkiUk30oWccVLEKNOqkcP
+      setup_instructions: "Please copy the source URL from here: \n\nURL: `{{ source.trigger_url  }}` \n\nSecret: `{{source.config.parameters.secret}}`."
+      
+functions:
+  - name: github_handler
+    description: Function to reflect Github activities on DevRev.
+
+automations:
+  - name: github-commit-tracker
+    source: github-app-source
+    event_types:
+      - custom:github-event
+    function: github_handler
