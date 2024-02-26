@@ -3,12 +3,12 @@
 This snap-in showcases user level settings in a snap-in. When a user is assigned an issue while they are on vacation, a custom message shows up on the issue's timeline. 
 
 ### Testing locally
-You can test your code by adding test events under `src/fixtures` similar to the example event provided. You can add keyring values to the event payload to test API call   s as well.
+You can test your code by adding test events under `src/fixtures` similar to the example event provided. You can add keyring values to the event payload to test API calls as well.
 
 Once you have added the event, you can test your code by running:
 ```
 npm install
-npm run start -- --functionName=vacation_responder --fixturePath=on_work_created_event.json
+npm run start -- --functionName=vacation_responder --fixturePath=work_created.json
 ```
 
 ### Adding external dependencies
