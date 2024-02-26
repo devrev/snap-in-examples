@@ -1,10 +1,8 @@
-import on_work_creation from './functions/on_work_creation';
-import on_work_updation from './functions/on_work_updation';
+import vacation_responder from './functions/vacation_responder';
 
 export const functionFactory = {
   // Add your functions here
-  on_work_creation,
-  on_work_updation,
+  vacation_responder,
 } as const;
 
 export type FunctionFactoryType = keyof typeof functionFactory;

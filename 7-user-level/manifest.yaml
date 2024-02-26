@@ -1,61 +1,25 @@
 version: "2"
-name: "User scoped Snap-in"
-description: "TODO"
+name: "Vacation Responder"
+description: "Respond with a custom message when on vacation"
 
-# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
 service_account:
-  display_name: User-scoped Bot
+  display_name: Vacation Responder Bot
 
-# Add any external connection, reference: https://github.com/devrev/snap-in-docs/blob/main/references/connections.md.
-
-# Add global values, reference: https://github.com/devrev/snap-in-docs/blob/main/references/manifest.md#globals.
+# Add input values
 inputs:
-  organization:
-    - name: work_description
-      description: Description of the issue created by this Snap-in.
+  user:
+    - name: on_vacation
+      field_type: bool
+      ui:
+        display_name: On Vacation
+
+    - name: vacation_message
+      description: Message to send when on vacation
       field_type: text
-      is_required: true
-      default_value: "This issue was created by a user-scoped Snap-in"
       ui:
-        display_name: Work description
-        
-  user:
-    - name: work_part_picker
-      description: Select the part of the work-item.
-      field_type: array
-      base_type: id
-      id_type:
-        - product
-        - capability
-        - feature
-      ui:
-        display_name: Work part picker
-
-keyrings:
-  organization:
-    - name: org_scoped_keyring
-      description: Keyring scoped to the organization
-      types:
-        - snap_in_secret
-      display_name: Org scoped keyring
-  user:
-    - name: user_scoped_keyring
-      description: Keyring scoped to the user
-      types:
-        - snap_in_secret
-      display_name: User scoped keyring
-
-     
+        display_name: Vacation message
 
 event_sources:
-  organization:
-    - name: devrev-event-source
-      description: Event source listening on DevRev events.
-      display_name: DevRev events listener
-      type: devrev-webhook
-      config:
-        event_types:
-          - work_created
   user:
     - name: devrev-user-event-source
       description: Event source per user listening on DevRev events.
@@ -64,21 +28,27 @@ event_sources:
       config:
         event_types:
           - work_updated
-
+          - work_created
+      filter:
+        jq_query: |
+          if .type == "work_created" then
+            if (.work_created.work.type == "issue" and .work_created.work.owned_by[0].id == $user.id) then true
+            else false
+            end
+          else
+            if (.work_updated.work.type == "issue" and .work_updated.work.owned_by[0].id == $user.id) then true
+            else false
+            end
+          end
 functions:
-  - name: on_work_creation
-    description: function to trigger on work creation
-  - name: on_work_updation
-    description: function to trigger on work updation 
+  - name: vacation_responder
+    description: Function to respond on vacation
+
 
 automations:
-  - name: handle-work-created-event
-    source: devrev-event-source
-    event_types:
-      - work_created
-    function: on_work_creation
-  - name: handle-work-updated-event
+  - name: vacation_responder_automation
     source: devrev-user-event-source
     event_types:
+      - work_created
       - work_updated
-    function: on_work_updation
+    function: vacation_responder

@@ -47,6 +47,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "@devrev/typescript-sdk": "^1.1.22",
     "dotenv": "^16.0.3",
     "yargs": "^17.6.2"
   }
