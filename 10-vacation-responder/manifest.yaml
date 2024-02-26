@@ -1,0 +1,54 @@
+version: "2"
+name: "Vacation Responder"
+description: "Respond with a custom message when on vacation"
+
+service_account:
+  display_name: Vacation Responder Bot
+
+# Add input values
+inputs:
+  user:
+    - name: on_vacation
+      field_type: bool
+      ui:
+        display_name: On Vacation
+
+    - name: vacation_message
+      description: Message to send when on vacation
+      field_type: text
+      ui:
+        display_name: Vacation message
+
+event_sources:
+  user:
+    - name: devrev-user-event-source
+      description: Event source per user listening on DevRev events.
+      display_name: DevRev user events listener
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_updated
+          - work_created
+      filter:
+        jq_query: |
+          if .type == "work_created" then
+            if (.work_created.work.type == "issue" and .work_created.work.owned_by[0].id == $user.id) then true
+            else false
+            end
+          else
+            if (.work_updated.work.type == "issue" and .work_updated.work.owned_by[0].id == $user.id) then true
+            else false
+            end
+          end
+functions:
+  - name: vacation_responder
+    description: Function to respond on vacation
+
+
+automations:
+  - name: vacation_responder_automation
+    source: devrev-user-event-source
+    event_types:
+      - work_created
+      - work_updated
+    function: vacation_responder
