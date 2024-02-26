@@ -3,14 +3,8 @@
  */
 
 import { client } from '@devrev/typescript-sdk';
-import {
-  // TimelineCommentBodyType,
-  TimelineEntriesCreateRequestType,
-} from '@devrev/typescript-sdk/dist/auto-generated/beta/beta-devrev-sdk';
+import { TimelineEntriesCreateRequestType } from '@devrev/typescript-sdk/dist/auto-generated/beta/beta-devrev-sdk';
 import { AxiosError } from 'axios';
-/*
-  Update the part of the work-item with the one chosen by the user.
-*/
 
 function objectToMap(obj: { [key: string]: any }): Map<string, any> {
   const map = new Map<string, any>();
@@ -35,9 +29,13 @@ function validateEvent(event: any): boolean {
 
 async function engine(event: any) {
   const devrevPAT = event.context.secrets.service_account_token;
-  const API_BASE = event.execution_metadata.devrev_endpoint;
+  const apiBase = event.execution_metadata.devrev_endpoint;
   const betaClient = client.setupBeta({
-    endpoint: API_BASE,
+    endpoint: apiBase,
+    token: devrevPAT,
+  });
+  const apiClient = client.setup({
+    endpoint: apiBase,
     token: devrevPAT,
   });
 
@@ -59,7 +57,7 @@ async function engine(event: any) {
       if (inputsMap.get('on_vacation') == true) {
         const vacation_message = inputsMap.get('vacation_message') as string;
         if (vacation_message && vacation_message.length > 0) {
-          await betaClient.timelineEntriesCreate({
+          await apiClient.timelineEntriesCreate({
             body: vacation_message,
             type: TimelineEntriesCreateRequestType.TimelineComment,
             object: work.id,
@@ -86,7 +84,6 @@ async function engine(event: any) {
 
 export const run = async (events: any[]) => {
   for (const event of events) {
-    console.info('Event: ', event);
     await engine(event);
   }
 };

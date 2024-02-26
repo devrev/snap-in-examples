@@ -8,7 +8,7 @@ You can test your code by adding test events under `src/fixtures` similar to the
 Once you have added the event, you can test your code by running:
 ```
 npm install
-npm run start -- --functionName=on_work_creation --fixturePath=on_work_created_event.json
+npm run start -- --functionName=vacation_responder --fixturePath=on_work_created_event.json
 ```
 
 ### Adding external dependencies
