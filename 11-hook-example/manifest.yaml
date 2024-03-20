@@ -1,0 +1,61 @@
+version: '2'
+
+name: RevOrg Info
+description: Gets information about a revorg from an account.
+
+service_account:
+  display_name: 'RevOrg Bot'
+
+inputs:
+  organization:
+    - name: account_id
+      description: The ID of the account.
+      field_type: text
+      is_required: true
+      default_value: 'don:identity:dvrv-us-1:devo/XXXXX:account/XXXXX'
+      ui:
+        display_name: Account ID
+    - name: initial_stage
+      description: The Initial Stage from which the stage is to be updated.
+      field_type: enum
+      allowed_values:
+        [
+          'Queued',
+          'Awaiting Product Assist',
+          'Awaiting Development',
+          'In Development',
+          'Work In Progress',
+          'Awaiting Customer Response',
+          'Resolved',
+          'Canceled',
+          'Accepted',
+        ]
+      default_value: 'Awaiting Customer Response'
+      ui:
+        display_name: Initial Stage
+    - name: final_stage
+      description: The Final Stage to which the stage is to be updated.
+      field_type: enum
+      allowed_values:
+        [
+          'Queued',
+          'Awaiting Product Assist',
+          'Awaiting Development',
+          'In Development',
+          'Work In Progress',
+          'Awaiting Customer Response',
+          'Resolved',
+          'Canceled',
+          'Accepted',
+        ]
+      default_value: 'Work In Progress'
+      ui:
+        display_name: Final Stage
+
+functions:
+  - name: validate_input
+    description: Function to validate the input.
+
+hooks:
+  - type: validate
+    function: validate_input
