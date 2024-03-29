@@ -4,7 +4,6 @@ import {
   SurveysCreateAPIMethodPath,
   SurveysListAPIMethodPath,
   DefaultSurveyBody,
-  BluboxEventSurveyDispatch,
   ConversationsGetAPIMethodPath,
   WorksGetAPIMethodPath,
 } from './constants';
@@ -423,42 +422,6 @@ export async function getSurveyId(apiBase: string, auth: string, name: string) {
     console.error('Error: ', error);
   }
   return null;
-}
-
-export function trackEventsBody(devOid:string, objectId: string, eventId: string, dispatchId: string, dispatchedTo: string,
-  surveyId: string, sourceChannels: string[]) {
-  return {
-    'events_list': [
-      {
-        'event_time': new Date().toISOString(),
-        'name': BluboxEventSurveyDispatch,
-        'payload': {
-          'dev_oid': devOid,
-          'object_id': objectId,
-          'dispatch_id': dispatchId,
-          'dispatched_to': dispatchedTo,
-          'survey_id': surveyId,
-          'source_channel': sourceChannels,
-        },
-        'event_id': eventId,
-      },
-    ],
-  };
-}
-
-export function getUuidV4Pattern(input: string) {
-  const uuidV4Pattern = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}/;
-
-  const matches = input.match(uuidV4Pattern);
-  let uuidV4 = '';
-
-  if (matches !== null) {
-    uuidV4 = matches[0];
-    console.log(`Found UUIDv4 [${uuidV4}] in DON `, input);
-  } else {
-    console.log('No UUIDv4 found in DON ', input);
-  }
-  return uuidV4;
 }
 
 export async function getWork(apiBase: string, auth: string, objId: string) {
