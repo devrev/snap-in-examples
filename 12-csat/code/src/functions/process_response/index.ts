@@ -4,7 +4,6 @@ import {
   getAPIBase, getSurveyId,
   getTimelineCommentBody,
   getExpiryTimestamp,
-  dispatchIdAndRatingDeliminator,
 } from '../common/utils';
 
 import {
@@ -25,22 +24,12 @@ async function ProcessSurveyResponse(event: any) {
   const auth = event.context.secrets.service_account_token;
   const actorAuth = event.context.secrets.actor_session_token;
   const actorId = payload.actor_id;
-  const dispatchIdAndRating  = splitDispatchIdAndRating(payload.action.value);
-  let dispatchId = '';
-  let rating = 0;
+  const rating  = parseInt(payload.action.value);
   let privateToRev = [actorId];
   const surveyRespText = event.input_data.global_values.survey_resp_text;
   let sourceChannel = getSourceChannel(payload);
   // Currently hardcoded with 30minutes
   const commentExpireAt = getExpiryTimestamp(30).toISOString();
-
-  if (dispatchIdAndRating) {
-    [dispatchId, rating] = dispatchIdAndRating;
-
-  } else {
-    console.log('Invalid dispatch ID and Rating. returning...');
-    return;
-  }
 
   let parentObjId = '';
   if (payload.context.hasOwnProperty('parent_core_object_id')) {
@@ -58,7 +47,7 @@ async function ProcessSurveyResponse(event: any) {
   console.log(`SurveyId: [${surveyId}]`);
 
   // STEP-1 Submit survey for database storage.
-  const postBodyForSurveyResp = getSurveyResponseBody(surveyId, parentObjId, rating, dispatchId, sourceChannel);
+  const postBodyForSurveyResp = getSurveyResponseBody(surveyId, parentObjId, rating, sourceChannel);
   try {
     console.log('Posting survey response chosen by user to database.');
     const resp = await doDevRevPostAPICall(apiBase, SurveysSubmitAPIMethodPath, postBodyForSurveyResp, actorAuth);
@@ -175,8 +164,8 @@ function getDeleteTimelineEntryBody(entryId: string) {
   };
 }
 
-function getSurveyResponseBody(surveyId: string, objId: string, rating: number, dispatchId: string, sourceChannel: string) {
-  console.log(`SurveyId: [${surveyId}], ObjectId: [${objId}], Rating: [${rating}], DispatchId: [${dispatchId}]`);
+function getSurveyResponseBody(surveyId: string, objId: string, rating: number, sourceChannel: string) {
+  console.log(`SurveyId: [${surveyId}], ObjectId: [${objId}], Rating: [${rating}]`);
 
   let respBody: { [key: string]: any } = {};
 
@@ -186,23 +175,9 @@ function getSurveyResponseBody(surveyId: string, objId: string, rating: number, 
     'rating': rating,
   };
   respBody.response_score = rating;
-  respBody.dispatch_id = dispatchId;
   respBody.source_channel = sourceChannel;
 
   return respBody;
-}
-
-function splitDispatchIdAndRating(input: string): [string, number] | null {
-  const tokens = input.split(dispatchIdAndRatingDeliminator);
-  //case when only rating is present (for backward compatibility)
-  if (tokens.length === 1) {
-    return ['', parseInt(tokens[0])];
-  }
-  //case when dispatch id and rating is present
-  if (tokens.length === 2) {
-    return [tokens[0], parseInt(tokens[1])];
-  }
-  return null;
 }
 
 function getSourceChannel(payload: any) {

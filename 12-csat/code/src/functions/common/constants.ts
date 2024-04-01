@@ -19,16 +19,12 @@ export const SurveysSubmitAPIMethodPath = '/surveys.submit';
 export const SurveysListAPIMethodPath = '/surveys.list';
 export const SurveysSendAPIMethodPath = '/surveys.send';
 
-// Snap-kit Action
-export const SnapKitActionCreateDeferredAPIMethodPath = '/internal/snap-kit-action.create.deferred';
-
 export const EMAIL = 'email';
 export const EmailSubject = 'Support experience feedback for ';
 export const PLUG = 'plug';
 export const PORTAL = 'portal';
 export const CHAT = 'chat';
 export const DefaultCSATName = 'csat';
-export const BluboxEventSurveyDispatch = 'survey_dispatch';
 
 // Timeline Visibility
 export const PRIVATE = 'private';
