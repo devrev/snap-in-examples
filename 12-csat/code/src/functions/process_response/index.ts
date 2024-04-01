@@ -192,26 +192,6 @@ function getSourceChannel(payload: any) {
   return sourceChannel;
 }
 
-// Not required as timeline support v2 id
-async function donv2ActorToDonv1Actor(apiBase: string, auth: string, actorId: string) {
-  try {
-    console.log('Getting rev-users to get DON V1 Id.');
-    const resp = await doDevRevGetAPICall(apiBase, RevUsersGetAPIMethodPath, auth, { 'id' : actorId });
-    if (resp.ok) {
-      console.log('Successfully got rev-user.');
-      let respJsonBody = await resp.json();
-      return respJsonBody.rev_user.id_v1;
-    } else {
-      let body = await resp.text();
-      console.error('Error while getting rev user: ', resp.status, body);
-      return actorId;
-    }
-  } catch (error) {
-    console.error('Error: ', error);
-    return actorId;
-  }
-}
-
 export const run = async (events: any[]) => {
   console.log('Running SnapIn for processing survey response');
   for (let event of events) {
