@@ -1,0 +1,84 @@
+version: "1"
+
+name: "CSAT on Ticket"
+description: "Capture the satisfaction level for customer tickets on support portal to enhance the customer experience."
+
+service_account:
+  display_name: "DevRev Bot"
+
+event-sources:
+  - name: devrev-webhook
+    description: Event coming from DevRev
+    display_name: DevRev
+    type: devrev-webhook
+    config:
+      event_types:
+        - work_updated
+
+globals:
+  - name: survey_channel
+    description: The channel the survey is sent on.
+    devrev_field_type: '[]enum'
+    devrev_enum: ["Portal", "Email"]
+    default_value: ["Portal", "Email"]
+    ui:
+      display_name: Survey channel
+  - name: survey_text_header
+    description: Introductory text posted when survey is populated.
+    devrev_field_type: text
+    default_value: "We would love to hear your feedback."
+    ui:
+      display_name: Survey introductory text
+  - name: survey_resp_scale
+    description: Response values to be displayed on the survey scale (high to low).
+    devrev_field_type: text
+    default_value: "Great,Good,Average,Poor,Awful"
+    ui:
+      display_name: Survey response scale
+  - name: survey_text
+    description: Text posted when survey is populated.
+    devrev_field_type: text
+    default_value: "How satisfied were you with the support experience?"
+    ui:
+      display_name: Survey query
+  - name: survey_resp_text
+    description: Text posted when survey response is submitted.
+    devrev_field_type: text
+    default_value: "Thank you for sharing your valuable feedback with us! Your insights are greatly appreciated."
+    ui:
+      display_name: Survey response message
+  - name: survey_expires_after
+    description: "Indicates the time (in minutes) for which the survey remains active (minimum 1 minute)"
+    devrev_field_type: int
+    default_value: 1440
+    ui:
+      display_name: Survey expires after
+
+functions:
+  - name: post_survey
+    description: Create a survey comment on ticket closure.
+  - name: process_response
+    description: Process survey response on ticket survey response.
+
+commands:
+  - name: survey
+    namespace: csat_on_ticket
+    description: Capture the customer satisfaction level with ongoing interaction.
+    surfaces:
+      - surface: discussions
+        object_types:
+          - ticket
+    usage_hint: "[chat/email] [survey question]"
+    function: post_survey
+
+automations:
+  - name: Add survey as a comment on resolved object
+    source: devrev-webhook
+    event_types:
+      - work_updated
+    function: post_survey
+
+snap_kit_actions:
+  - name: survey
+    description: Snap kit action for processing `survey` response
+    function: process_response
