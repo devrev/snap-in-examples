@@ -1,0 +1,29 @@
+version: "2"
+name: "Custom Keyring Type Snap-in"
+description: "Creating custom keyring type for Freshdesk Basic connection"
+
+keyrings:
+    organization:
+      - name: freshdesk_connection
+        display_name: Freshdesk connection (must be set up as dev org connection)
+        description: The Freshdesk app connection for the organization.
+        types:
+            - freshdesk-basic-connection
+
+keyring_types:
+  - id: freshdesk-basic-connection
+    name: Freshdesk Connection
+    description: Freshdesk connection
+    kind: "Secret"
+    is_subdomain: true # The is_subdomain field is used to indicate that the subdomain is part of the URL.
+    secret_config: # The secret_config section is used to define the fields in the secret.
+      secret_transform: ".token+\":X\" | @base64" # The secret_config section is used to transform data from the input fields into the secret value (token).
+      fields: # optional: data that the user shall provide in the input form when creating the connection. Each element represents one input field. Fields will be included in the final JSON secret. If omitted, the user will be asked for a generic secret.
+        - id: token
+          name: Token
+          description: Freshdesk API token
+      token_verification: # The token_verification section is used to verify the token provided by the user.
+        url: "https://[SUBDOMAIN].freshdesk.com/api/v2/tickets"
+        method: "GET"
+        headers:
+          Authorization: "Basic [API_KEY]"

@@ -1,0 +1,68 @@
+version: "2"
+name: "Custom Keyring Type Snap-in"
+description: "Creating custom keyring type for GitLab OAuth connection"
+
+# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
+service_account:
+  display_name: DevRev Bot
+
+# Developer keyrings are used to store sensitive information like OAuth secrets.
+developer_keyrings:
+  - name: gitlab-oauth-secret
+    description: GitLab OAuth secret
+    display_name: GitLab OAuth secret
+
+keyrings:
+  organization:
+    - name: gitlab_connection
+      display_name: GitLab connection (must be set up as dev org connection)
+      description: The gitlab app connection for the organization.
+      types:
+        - gitlab-oauth-connection # The keyring type defined below
+
+keyring_types:
+  - id: gitlab-oauth-connection
+    name: "GitLab Connection"
+    description: "GitLab connection"
+    kind: "Oauth2"
+    scopes: # Scopes that the connection can request, add more scopes if needed for your use case. Each scope should have a name, description and value.
+      - name: read
+        description: Read access
+        value: "read_api"
+      - name: api
+        description: API access
+        value: "api"
+    scope_delimiter: " " # Space separated scopes
+    oauth_secret: gitlab-oauth-secret # developer keyring that contains OAuth2 client ID and client secret. Shall be of type `oauth-secret`.
+    authorize: # The authorize section is used to get the authorization code from the user and exchange it for an access token.
+      type: "config"
+      auth_url: "https://gitlab.com/oauth/authorize"
+      token_url: "https://gitlab.com/oauth/token"
+      grant_type: "authorization_code"
+      auth_query_parameters:
+        "client_id": "[CLIENT_ID]"
+        "scope": "[SCOPES]"
+        "response_type": "code"
+      token_query_parameters:
+        "client_id": "[CLIENT_ID]"
+        "client_secret": "[CLIENT_SECRET]"
+    refresh: # The refresh section is used to refresh the access token using the refresh token.
+      type: "config"
+      url: "https://gitlab.com/api/oauth.v2.access"
+      method: "POST"
+      query_parameters:
+        "client_id": "[CLIENT_ID]"
+        "client_secret": "[CLIENT_SECRET]"
+        "refresh_token": "[REFRESH_TOKEN]"
+      headers:
+        "Content-type": "application/x-www-form-urlencoded"
+    revoke: # The revoke section is used to revoke the access token.
+      type: "config"
+      url: "https://gitlab.com/oauth/revoke"
+      method: "POST"
+      headers:
+        "Content-type": "application/x-www-form-urlencoded"
+      query_parameters:
+        "client_id": "[CLIENT_ID]"
+        "client_secret": "[CLIENT_SECRET]"
+        "token": "[ACCESS_TOKEN]"
