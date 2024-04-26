@@ -2,6 +2,10 @@ version: "2"
 name: "Custom Keyring Type Snap-in"
 description: "Creating custom keyring type for Freshdesk Basic connection"
 
+# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
+service_account:
+  display_name: DevRev Bot
+
 keyrings:
     organization:
       - name: freshdesk_connection
@@ -18,7 +22,7 @@ keyring_types:
     is_subdomain: true # The is_subdomain field is used to indicate that the subdomain is part of the URL.
     secret_config: # The secret_config section is used to define the fields in the secret.
       secret_transform: ".token+\":X\" | @base64" # The secret_config section is used to transform data from the input fields into the secret value (token).
-      fields: # optional: data that the user shall provide in the input form when creating the connection. Each element represents one input field. Fields will be included in the final JSON secret. If omitted, the user will be asked for a generic secret.
+      fields: # The fields section is used to define the input fields for the user.
         - id: token
           name: Token
           description: Freshdesk API token
