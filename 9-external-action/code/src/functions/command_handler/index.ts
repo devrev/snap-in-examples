@@ -1,4 +1,4 @@
-import { client, FunctionInput, publicSDK } from '@devrev/typescript-sdk';
+import { client, publicSDK } from '@devrev/typescript-sdk';
 import { Octokit } from '@octokit/core';
 
 type IssueDetails = {
@@ -94,7 +94,7 @@ const createGitHubIssue = async (
 };
 
 // Function to handle the command event
-const handleEvent = async (event: FunctionInput) => {
+const handleEvent = async (event: any) => {
   // Get the github token from the environment variables and initialise the Octokit client.
   const githubPAT = event.input_data.keyrings['github_connection'];
   const octokit = new Octokit({
@@ -127,7 +127,7 @@ const handleEvent = async (event: FunctionInput) => {
   await createGitHubIssue(orgName, repoName, issueDetails, octokit);
 };
 
-export const run = async (events: FunctionInput[]) => {
+export const run = async (events: any) => {
   for (const event of events) {
     await handleEvent(event);
   }
