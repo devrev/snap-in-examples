@@ -127,7 +127,7 @@ const handleEvent = async (event: any) => {
   await createGitHubIssue(orgName, repoName, issueDetails, octokit);
 };
 
-export const run = async (events: any) => {
+export const run = async (events: any[]) => {
   for (const event of events) {
     await handleEvent(event);
   }
