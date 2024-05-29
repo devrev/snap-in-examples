@@ -1,7 +1,7 @@
-import { client, betaSDK, FunctionInput } from '@devrev/typescript-sdk';
+import { client, betaSDK } from '@devrev/typescript-sdk';
 
 // Handles the event from GitHub
-async function handleEvent(event: FunctionInput) {
+async function handleEvent(event: any) {
   // Extract necessary information from the event
   const token = event.context.secrets['service_account_token'];
   const endpoint = event.execution_metadata.devrev_endpoint;
@@ -36,7 +36,7 @@ async function handleEvent(event: FunctionInput) {
   return response;
 }
 
-export const run = async (events: FunctionInput[]) => {
+export const run = async (events: any[]) => {
   for (const event of events) {
     await handleEvent(event);
   }
