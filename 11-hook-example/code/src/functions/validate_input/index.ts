@@ -1,7 +1,7 @@
-import { client, FunctionInput } from '@devrev/typescript-sdk';
+import { client } from '@devrev/typescript-sdk';
 
 // Validating the input by fetching the account details.
-async function handleEvent(event: FunctionInput) {
+async function handleEvent(event: any) {
   // Extract necessary information from the event
   const token = event.context.secrets['service_account_token'];
   const endpoint = event.execution_metadata.devrev_endpoint;
@@ -39,7 +39,7 @@ async function handleEvent(event: FunctionInput) {
   }
 }
 
-export const run = async (events: FunctionInput[]) => {
+export const run = async (events: any[]) => {
   for (const event of events) {
     await handleEvent(event);
   }
