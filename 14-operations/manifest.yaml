@@ -1,18 +1,12 @@
-# For reference: https://docs.devrev.ai/snap-ins/references/manifest.
-# Refactor the code based on your business logic.
-
 version: "2"
 name: "3P Operation Get Temperature"
 description: "Logs a message when a work item is created"
 
-# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
 service_account:
-  display_name: DevRev Bot
+  display_name: 3P Operation Bot
 
 functions:
-  - name: on_work_creation
-    description: function to trigger on work creation
-  - name: handler
+  - name: operation_handler
     description: function to handle operations
 
 operations:
@@ -20,7 +14,7 @@ operations:
     display_name: Get Temperature
     description: Operation to get the temperature of a city
     slug: get_temperature
-    function: handler
+    function: operation_handler
     type: action
     inputs:
       fields:
@@ -36,10 +30,35 @@ operations:
           default_value: "New York"
           ui:
             display_name: City
-
     outputs:
       fields:
         - name: temperature
           field_type: double
           ui:
             display_name: Temperature
+  - name: post_comment_on_ticket
+    display_name: Post Comment on Ticket
+    description: Operation to post a comment on ticket
+    slug: post_comment_on_ticket
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: id
+          description: Ticket ID to post comment on.
+          field_type: string
+          is_required: true
+          ui:
+            display_name: Ticket ID
+        - name: comment
+          description: Comment to post on ticket.
+          field_type: string
+          is_required: true
+          ui:
+            display_name: Comment
+    outputs:
+      fields:
+        - name: comment_id
+          field_type: string
+          ui:
+            display_name: Comment ID

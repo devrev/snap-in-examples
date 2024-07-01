@@ -1,7 +1,9 @@
-import { GetTemperature } from './get_temperature';
 import { OperationFactory } from '../../operations';
 import { ExecuteOperationInput,FunctionInput, OperationMap } from '@devrev/typescript-sdk/dist/snap-ins';
 
+// Operations
+import { GetTemperature } from './get_temperature';
+import { PostCommentOnTicket } from './post_comment_on_ticket';
 
 /**
  * Map of operations with the slug mentioned in the manifest.
@@ -9,6 +11,7 @@ import { ExecuteOperationInput,FunctionInput, OperationMap } from '@devrev/types
  */
 const operationMap: OperationMap = {
   get_temperature: GetTemperature,
+  post_comment_on_ticket: PostCommentOnTicket,
 };
 
 export const run = async (events: FunctionInput[]) => {

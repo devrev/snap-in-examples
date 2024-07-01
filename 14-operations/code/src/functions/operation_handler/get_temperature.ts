@@ -19,7 +19,7 @@ export class GetTemperature extends OperationBase {
     super(e);
   }
 
-  // // This is optional and can be used to provide any extra context required.
+  // This is optional and can be used to provide any extra context required.
   override GetContext(): OperationContext {
     let baseMetadata = super.GetContext();
     const temperatures: Record<string, number> = {
