@@ -32,6 +32,17 @@ import {
   SnapInsSystemUpdateResponse,
 } from './types';
 
+
+import {
+  Context as SnapInContext,
+  ExecuteOperationResult,
+  ExecuteOperationResult_SerializationFormat,
+  ExecutionMetadata,
+  FunctionExecutionError,
+  FunctionInput,
+  OperationOutput,
+} from '@devrev/typescript-sdk/dist/snap-ins';
+
 const app: Express = express();
 app.use(bodyParser.json(), bodyParser.urlencoded({ extended: false }));
 
@@ -120,24 +131,27 @@ async function handleEvent(events: any[], isAsync: boolean, resp: Response) {
           console.error(error.err_msg);
           receivedError = true;
         } else {
-          result = run(f, [event]);
+          result = await run(f, [event]);
         }
       } catch (e) {
         error = { error: e } as FunctionError;
         console.error(e);
       }
 
-      // post processing. result is updated in the function
-      await postRun(event, error, result);
+    // Any common post processing goes here. The function returns
+    // only if the function execution was by an operation
     }
+    const opResult = await postRun(event,error, result);
 
     // Return result.
     let res: ExecutionResult = {};
 
-    if (result !== undefined) {
+    if (opResult !== undefined) {
+      res.function_result = opResult;
+    } else if (result !== undefined) {
       res.function_result = result;
     }
-
+  
     if (error !== undefined) {
       res.error = error;
     }
@@ -150,13 +164,25 @@ async function handleEvent(events: any[], isAsync: boolean, resp: Response) {
 }
 
 // post processing
-async function postRun(event: any, handlerError: HandlerError, result: any) {
+async function postRun(event: any, handlerError: HandlerError, result: any){
   console.debug('Function execution complete');
-  if (isActivateHook(event)) {
-    handleActivateHookResult(event, handlerError, result);
-  } else if (isDeactivateHook(event)) {
-    handleDeactivateHookResult(event, handlerError, result);
+  // Check if the function was invoked by an operation.
+  if (isInvokedFromOperation(event)) {
+    // handle operation specific logic
+    console.debug('Function was invoked by an operation');
+    const data: Uint8Array = OperationOutput.encode(result).finish();
+
+    return {
+      serialization_format: ExecuteOperationResult_SerializationFormat.Proto,
+      data: Buffer.from(data).toString('base64'),
+    } as ExecuteOperationResult;
   }
+  if (isActivateHook(event)) {
+    handleActivateHookResult(event,handlerError, result);
+  } else if (isDeactivateHook(event)) {
+    handleDeactivateHookResult(event,handlerError, result);
+  }
+  return undefined
 }
 
 function isActivateHook(event: any): boolean {
@@ -165,6 +191,10 @@ function isActivateHook(event: any): boolean {
 
 function isDeactivateHook(event: any): boolean {
   return event.execution_metadata.event_type === 'hook:snap_in_deactivate';
+}
+
+function isInvokedFromOperation(event: any): boolean {
+  return  event.execution_metadata.operation_slug !== undefined;
 }
 
 function handleActivateHookResult(event: any, handlerError: HandlerError, result: any) {

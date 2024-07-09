@@ -7,4 +7,7 @@ Operations are workflow node blueprint which are used to create worlkflow steps(
 
 ## Operations in the snap-in
 
+The snap-in contains the following operations:
+
+
 

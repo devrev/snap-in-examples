@@ -9,6 +9,10 @@ functions:
   - name: operation_handler
     description: function to handle operations
 
+
+keyring_types:
+
+
 operations:
   - name: get_temperature
     display_name: Get Temperature
@@ -46,19 +50,52 @@ operations:
       fields:
         - name: id
           description: Ticket ID to post comment on.
-          field_type: string
+          field_type: text
           is_required: true
           ui:
             display_name: Ticket ID
         - name: comment
           description: Comment to post on ticket.
-          field_type: string
+          field_type: text
           is_required: true
           ui:
             display_name: Comment
     outputs:
       fields:
         - name: comment_id
-          field_type: string
+          field_type: text
           ui:
             display_name: Comment ID
+  - name: send_slack_message
+    display_name: Send Slack Message
+    description: Operation to send a message to a Slack channel/thread
+    slug: send_slack_message
+    function: operation_handler
+    type: action
+    keyrings:
+      - name: slack_token
+        display_name: Slack Connection
+        description: Connection to Slack
+        types:
+          - slack
+    inputs:
+      fields:
+        - name: channel
+          description: Channel to send message to.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Channel
+        - name: message
+          description: Message to send.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Message
+    outputs:
+      fields:
+        - name: message_id
+          field_type: text
+          ui:
+            display_name: Message ID
+    
