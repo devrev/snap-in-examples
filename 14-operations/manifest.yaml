@@ -1,5 +1,5 @@
 version: "2"
-name: "3P Operation Get Temperature"
+name: "Insights Agent"
 description: "Logs a message when a work item is created"
 
 service_account:
@@ -14,88 +14,82 @@ keyring_types:
 
 
 operations:
-  - name: get_temperature
-    display_name: Get Temperature
-    description: Operation to get the temperature of a city
-    slug: get_temperature
+  - name: text_to_dataset
+    display_name: Text to Dataset
+    description: Operation to convert text to a dataset
+    slug: text_to_dataset
     function: operation_handler
     type: action
     inputs:
       fields:
-        - name: city
-          field_type: enum
-          allowed_values:
-          - New York
-          - San Francisco
-          - Los Angeles
-          - Chicago
-          - Houston
+        - name: query
+          field_type: text
           is_required: true
-          default_value: "New York"
           ui:
-            display_name: City
+            display_name: Query
     outputs:
       fields:
-        - name: temperature
-          field_type: double
+        - name: datasets
+          field_type: text
           ui:
-            display_name: Temperature
-  - name: post_comment_on_ticket
-    display_name: Post Comment on Ticket
-    description: Operation to post a comment on ticket
-    slug: post_comment_on_ticket
+            display_name: Datasets
+
+  - name: get_knowledge
+    display_name: Get Knowledge
+    description: Find answers from knowledge base
+    slug: get_knowledge
     function: operation_handler
     type: action
     inputs:
       fields:
-        - name: id
-          description: Ticket ID to post comment on.
+        - name: query
           field_type: text
           is_required: true
           ui:
-            display_name: Ticket ID
-        - name: comment
-          description: Comment to post on ticket.
-          field_type: text
-          is_required: true
-          ui:
-            display_name: Comment
+            display_name: Query
     outputs:
       fields:
-        - name: comment_id
+        - name: knowledge
           field_type: text
           ui:
-            display_name: Comment ID
-  - name: send_slack_message
-    display_name: Send Slack Message
-    description: Operation to send a message to a Slack channel/thread
-    slug: send_slack_message
+            display_name: Knowledge
+
+  - name: agent_callback_node
+    description: Operation to return the output of the workflow to the agent
+    slug: agent_callback_node
     function: operation_handler
     type: action
-    keyrings:
-      - name: slack_token
-        display_name: Slack Connection
-        description: Connection to Slack
-        types:
-          - slack
     inputs:
       fields:
-        - name: channel
-          description: Channel to send message to.
+        - name: agent_session_id
+          field_type: id
+          id_type:
+          - ai_agent_session
+          is_required: true
+          ui:
+            display_name: Agent Session
+        - name: skill_call_id
           field_type: text
           is_required: true
           ui:
-            display_name: Channel
-        - name: message
-          description: Message to send.
+            display_name: Skill Call ID
+        - name: skill_name
           field_type: text
           is_required: true
           ui:
-            display_name: Message
+            display_name: Skill Name
+        - name: output
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Output
+        - name: error
+          field_type: text
+          ui:
+            display_name: Error
     outputs:
       fields:
-        - name: message_id
-          field_type: text
+        - name: success
+          field_type: bool
           ui:
-            display_name: Message ID
-    
+            display_name: Success
