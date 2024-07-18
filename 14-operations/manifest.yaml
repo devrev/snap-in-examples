@@ -14,59 +14,6 @@ keyring_types:
 
 
 operations:
-  - name: get_temperature
-    display_name: Get Temperature
-    description: Operation to get the temperature of a city
-    slug: get_temperature
-    function: operation_handler
-    type: action
-    inputs:
-      fields:
-        - name: city
-          field_type: enum
-          allowed_values:
-          - New York
-          - San Francisco
-          - Los Angeles
-          - Chicago
-          - Houston
-          is_required: true
-          default_value: "New York"
-          ui:
-            display_name: City
-    outputs:
-      fields:
-        - name: temperature
-          field_type: double
-          ui:
-            display_name: Temperature
-  - name: post_comment_on_ticket
-    display_name: Post Comment on Ticket
-    description: Operation to post a comment on ticket
-    slug: post_comment_on_ticket
-    function: operation_handler
-    type: action
-    inputs:
-      fields:
-        - name: id
-          description: Ticket ID to post comment on.
-          field_type: text
-          is_required: true
-          ui:
-            display_name: Ticket ID
-        - name: comment
-          description: Comment to post on ticket.
-          field_type: text
-          is_required: true
-          ui:
-            display_name: Comment
-    outputs:
-      fields:
-        - name: comment_id
-          field_type: text
-          ui:
-            display_name: Comment ID
-  - name: send_slack_message
     display_name: Send Slack Message
     description: Operation to send a message to a Slack channel/thread
     slug: send_slack_message
@@ -98,4 +45,30 @@ operations:
           field_type: text
           ui:
             display_name: Message ID
-    
+  - name: send_devrev_comment
+    display_name: Send DevRev Comment
+    description: Operation to send a timeline comment on a DevRev issue
+    slug: send_devrev_comment
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: query
+          description: Query to retrieve something from DevRev.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Query
+        - name: external_sync_unit_objects
+          description: A list of stringified composite objects that each contain the external sync unit ID and a list of required object types.
+          field_type: array
+            base_type: text
+          is_required: true
+          ui:
+            display_name: External Sync Unit Objects
+    outputs:
+      fields:
+        - name: comment_id
+          field_type: text
+          ui:
+            display_name: Comment ID
