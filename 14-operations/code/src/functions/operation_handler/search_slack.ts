@@ -55,6 +55,7 @@ export class SearchSlack extends OperationBase {
   async run(context: OperationContext, input: ExecuteOperationInput, resources: any): Promise<OperationOutput> {
     const inputData = input.data as SearchSlackInput;
     const query = inputData.query;
+    const channel_ids = inputData.channel_ids;
 
     let err: OperationError | undefined = undefined;
     if (!query) {
@@ -70,9 +71,9 @@ export class SearchSlack extends OperationBase {
       });
     }
     
+    // PUT TOKEN HERE
     const slackToken = resources.keyrings.slack_token.secret;
-    // Change the token here.
-    let slackClient;
+    let slackClient:WebClient;
     try {
       slackClient = new WebClient(slackToken);
     } catch (e: any) {
@@ -89,23 +90,26 @@ export class SearchSlack extends OperationBase {
     }
 
 
-    var channel_names = [];
-    for (const channel_id in inputData.channel_ids) {
+    const channel_names_promises = channel_ids.map(async channel_id => {
       try {
-        const channelInfo = await slackClient.conversations.info({ channel: channel_id });
-        channel_names.push(channelInfo.channel?.name);
+        return slackClient.conversations.info({ channel: channel_id });
+        // channel_names.push(channelInfo.channel?.name);
       } catch (e: any) {
         err = {
           message: 'Error while fetching channel info:' + e.message,
           type: Error_Type.InvalidRequest,
         };
         console.log(err);
+        return undefined
       }
-    }
+    })
+
+    const channel_names = (await Promise.all(channel_names_promises)).map(channelInfo => channelInfo?.channel?.name).filter(Boolean);
 
     try {
       // Make in:channel_1 in_channel_2 in_channel_3 query
       const channelString = channel_names.map((name) => `in:${name}`).join(' '); // Apply channel filter
+      console.log('Query: ' + channelString + ' ' + query)
       const result = await slackClient.search.messages({ query: channelString + ' ' + query });
       const serializedResults = this.serializeSlackResults(result);
       // Assuming serializedResults is an array of objects as described
