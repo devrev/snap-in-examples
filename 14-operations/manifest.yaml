@@ -34,11 +34,17 @@ operations:
           is_required: true
           ui:
             display_name: Query
+        - name: channels
+          description: List of channel ids
+          base_type: text
+          field_type: array
+          is_required: false
+          ui:
+            display_name: Channels
     outputs:
       fields:
         - name: results
           description: Structured list of documents representing both messages and files found based on the query.
-          base_type: text
-          field_type: array
+          field_type: text
           ui:
             display_name: Search Results
