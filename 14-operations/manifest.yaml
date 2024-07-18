@@ -97,5 +97,30 @@ operations:
         - name: message_id
           field_type: text
           ui:
-            display_name: Message ID
-    
+  - name: search_slack
+    display_name: Search Slack
+    description: Operation to search for content in Slack, including messages and files
+    slug: search_slack
+    function: operation_handler
+    type: action
+    keyrings:
+      - name: slack_token
+        display_name: Slack Connection
+        description: Connection to Slack
+        types:
+          - slack
+    inputs:
+      fields:
+        - name: query
+          description: Query string to search for in Slack.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Query
+    outputs:
+      fields:
+        - name: results
+          description: Structured list of documents representing both messages and files found based on the query.
+          field_type: json
+          ui:
+            display_name: Search Results
