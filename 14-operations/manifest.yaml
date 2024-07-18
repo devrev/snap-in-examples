@@ -1,5 +1,5 @@
 version: "2"
-name: "3P Operation Get Temperature"
+name: "3P Operation"
 description: "Logs a message when a work item is created"
 
 service_account:
@@ -14,37 +14,6 @@ keyring_types:
 
 
 operations:
-    display_name: Send Slack Message
-    description: Operation to send a message to a Slack channel/thread
-    slug: send_slack_message
-    function: operation_handler
-    type: action
-    keyrings:
-      - name: slack_token
-        display_name: Slack Connection
-        description: Connection to Slack
-        types:
-          - slack
-    inputs:
-      fields:
-        - name: channel
-          description: Channel to send message to.
-          field_type: text
-          is_required: true
-          ui:
-            display_name: Channel
-        - name: message
-          description: Message to send.
-          field_type: text
-          is_required: true
-          ui:
-            display_name: Message
-    outputs:
-      fields:
-        - name: message_id
-          field_type: text
-          ui:
-            display_name: Message ID
   - name: send_devrev_comment
     display_name: Send DevRev Comment
     description: Operation to send a timeline comment on a DevRev issue
@@ -61,8 +30,8 @@ operations:
             display_name: Query
         - name: external_sync_unit_objects
           description: A list of stringified composite objects that each contain the external sync unit ID and a list of required object types.
+          base_type: text
           field_type: array
-            base_type: text
           is_required: true
           ui:
             display_name: External Sync Unit Objects
