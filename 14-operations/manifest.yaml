@@ -1,0 +1,50 @@
+version: "2"
+name: "3P Operation Get Temperature"
+description: "Logs a message when a work item is created"
+
+service_account:
+  display_name: 3P Operation Bot
+
+functions:
+  - name: operation_handler
+    description: function to handle operations
+
+
+keyring_types:
+
+
+operations:
+  - name: search_slack
+    display_name: Search Slack
+    description: Operation to search for content in Slack, including messages and files
+    slug: search_slack
+    function: operation_handler
+    type: action
+    keyrings:
+      - name: slack_token
+        display_name: Slack Connection
+        description: Connection to Slack
+        types:
+          - slack
+    inputs:
+      fields:
+        - name: query
+          description: Query string to search for in Slack.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Query
+        - name: channel_ids
+          description: List of channel ids
+          base_type: text
+          field_type: array
+          is_required: false
+          ui:
+            display_name: Channels
+    outputs:
+      fields:
+        - name: results
+          description: Structured list of documents representing both messages and files found based on the query.
+          field_type: text
+          ui:
+            display_name: Search Results
