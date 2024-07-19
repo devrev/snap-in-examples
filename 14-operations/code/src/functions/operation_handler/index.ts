@@ -2,14 +2,14 @@ import { OperationFactory } from '../../operations';
 import { ExecuteOperationInput, FunctionInput, OperationMap } from '@devrev/typescript-sdk/dist/snap-ins';
 
 // Operations
-import { SendDevRevComment } from './send_devrev_comment';
+import { GetDevRevObjects } from './get_devrev_objects';
 
 /**
  * Map of operations with the slug mentioned in the manifest.
  * The key is the slug of the operation mentioned in the manifest and value is the operation class.
  */
 const operationMap: OperationMap = {
-  send_devrev_comment: SendDevRevComment,
+  get_devrev_objects: GetDevRevObjects,
 };
 
 export const run = async (events: FunctionInput[]) => {

@@ -14,10 +14,10 @@ keyring_types:
 
 
 operations:
-  - name: send_devrev_comment
-    display_name: Send DevRev Comment
-    description: Operation to send a timeline comment on a DevRev issue
-    slug: send_devrev_comment
+  - name: get_devrev_objects
+    display_name: DevRev Retriever
+    description: Retrieves objects from DevRev.
+    slug: get_devrev_objects
     function: operation_handler
     type: action
     inputs:
@@ -37,7 +37,8 @@ operations:
             display_name: External Sync Unit Objects
     outputs:
       fields:
-        - name: comment_id
-          field_type: text
+        - name: results
+          base_type: text
+          field_type: array
           ui:
-            display_name: Comment ID
+            display_name: Search Results
