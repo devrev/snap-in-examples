@@ -1,17 +1,13 @@
 version: "2"
-name: "3P Operation Get Temperature"
-description: "Logs a message when a work item is created"
+name: "Operations"
+description: "Pack of operations"
 
 service_account:
-  display_name: 3P Operation Bot
+  display_name: Operations Bot
 
 functions:
   - name: operation_handler
     description: function to handle operations
-
-
-keyring_types:
-
 
 operations:
   - name: get_temperature
@@ -88,7 +84,7 @@ operations:
             display_name: Channel
         - name: message
           description: Message to send.
-          field_type: text
+          field_type: rich_text
           is_required: true
           ui:
             display_name: Message
@@ -98,4 +94,3 @@ operations:
           field_type: text
           ui:
             display_name: Message ID
-    
