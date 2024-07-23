@@ -19,7 +19,6 @@ const operationMap: OperationMap = {
 export const run = async (events: FunctionInput[]) => {
   const event = events[0];
   const payload = event.payload as ExecuteOperationInput
-  console.log("Event: ", event);
   const operationSlug = payload.metadata!.slug;
   const operationNamespace = payload.metadata!.namespace;
   console.log('running operation: ', operationSlug, ' in namespace: ', operationNamespace);
