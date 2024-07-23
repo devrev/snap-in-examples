@@ -1,0 +1,44 @@
+version: "2"
+name: "3P Operation"
+description: "Logs a message when a work item is created"
+
+service_account:
+  display_name: 3P Operation Bot
+
+functions:
+  - name: operation_handler
+    description: function to handle operations
+
+
+keyring_types:
+
+
+operations:
+  - name: get_devrev_objects
+    display_name: DevRev Retriever
+    description: Retrieves objects from DevRev.
+    slug: get_devrev_objects
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: query
+          description: Query to retrieve something from DevRev.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Query
+        - name: external_sync_unit_objects
+          description: A list of stringified composite objects that each contain the external sync unit ID and a list of required object types.
+          base_type: text
+          field_type: array
+          is_required: true
+          ui:
+            display_name: External Sync Unit Objects
+    outputs:
+      fields:
+        - name: results
+          base_type: text
+          field_type: array
+          ui:
+            display_name: Search Results
