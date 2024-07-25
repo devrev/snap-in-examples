@@ -16,6 +16,7 @@ operations:
     slug: get_temperature
     function: operation_handler
     type: action
+    # Inputs to the operation.
     inputs:
       fields:
         - name: city
@@ -30,6 +31,7 @@ operations:
           default_value: "New York"
           ui:
             display_name: City
+    #  Outputs of the operation.
     outputs:
       fields:
         - name: temperature
