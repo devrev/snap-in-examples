@@ -8,8 +8,8 @@ Operations are workflow node blueprint which are used to create workflow steps(n
 
 The snap-in contains the following operations:
 
-- Get Temperature: Prints the temperature of city from a map of temperatures in the backend. Shows how to override context in an operation
+- Get temperature: Prints the temperature of city from a map of temperatures in the backend. Shows how to override context in an operation
 
 - Post comment on Ticket: Posts a specific comment only on tickets. Shows the usage of the DevRev SDK.
 
-- Send Slack Message: Posts a message to specified slack channel. Shows the usage of keyrings to connect to external systems.
+- Send slack message: Posts a message to specified slack channel. Shows the usage of keyrings to connect to external systems.
