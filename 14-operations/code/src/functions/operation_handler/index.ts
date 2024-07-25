@@ -2,14 +2,16 @@ import { OperationFactory } from '../../operations';
 import { ExecuteOperationInput, FunctionInput, OperationMap } from '@devrev/typescript-sdk/dist/snap-ins';
 
 // Operations
-import { GetDevRevObjects } from './get_devrev_objects';
+import { TestingOrAgentRetriever } from './testingor_agent_retriever';
+import { SheeroAgentRetriever } from './sheero_agent_retriever';
 
 /**
  * Map of operations with the slug mentioned in the manifest.
  * The key is the slug of the operation mentioned in the manifest and value is the operation class.
  */
 const operationMap: OperationMap = {
-  get_devrev_objects: GetDevRevObjects,
+  testingor_agent_retriever: TestingOrAgentRetriever,
+  sheero_agent_retriever: SheeroAgentRetriever,
 };
 
 export const run = async (events: FunctionInput[]) => {

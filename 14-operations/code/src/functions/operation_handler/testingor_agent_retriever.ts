@@ -12,18 +12,13 @@ import {
 } from '@devrev/typescript-sdk/dist/snap-ins';
 import axios from 'axios';
 import { URLSearchParams } from 'url';
+import { WebClient } from '@slack/web-api';
 
-interface GetDevRevObjectsInput {
+interface AgentRetrieverInput {
     query: string;
-    external_sync_unit_objects: string[];
 }
 
-interface ExternalSyncUnitObject {
-    external_sync_unit_id: string;
-    object_types: string[];
-}
-
-export class GetDevRevObjects extends OperationBase {
+export class TestingOrAgentRetriever extends OperationBase {
     event: any;
 
     constructor(e: FunctionInput) {
@@ -76,10 +71,13 @@ export class GetDevRevObjects extends OperationBase {
                 });
             }
 
+            console.log('URL:', base_url);
+            console.log('Params:', params);
+
             const response = await axios.get(base_url, {
                 params: params,
             });
-
+            console.log('Response:', response.data)
             return response.data as string;
         }));
 
@@ -90,81 +88,145 @@ export class GetDevRevObjects extends OperationBase {
 
     }
 
-    async run(context: OperationContext, input: ExecuteOperationInput, resources: any): Promise<OperationOutput> {
-        const input_data = input.data as GetDevRevObjectsInput;
-        const query = input_data.query;
-        const external = input_data.external_sync_unit_objects;
 
-        const sync_unit_info = external.map((obj: string) => {
-            try {
-                const obj_data = JSON.parse(obj);
-                return {
-                    external_sync_unit_id: obj_data.external_sync_unit_id,
-                    object_types: obj_data.object_types,
-                };
-            } catch (e: any) {
-                console.log('Error while parsing external sync unit object:', e.message);
-                return {
-                    external_sync_unit_id: '',
-                    object_types: [],
-                };
+    private serializeSlackResults(response: any): any[] {
+        const results = [];
+        if (response.messages?.matches) {
+            for (const match of response.messages.matches) {
+                results.push(this.extractMessageData(match));
             }
-        }).filter((obj: ExternalSyncUnitObject) => obj.external_sync_unit_id !== '');
+        }
+        if (response.files?.matches) {
+            for (const match of response.files.matches) {
+                results.push(this.extractFilesData(match));
+            }
+        }
+        return results;
+    }
+
+    private extractMessageData(messageJson: any): any {
+        const document: any = { type: "message" };
+        if (messageJson.text) {
+            document.text = messageJson.text;
+        }
+        if (messageJson.permalink) {
+            document.url = messageJson.permalink;
+        }
+        if (messageJson.channel && messageJson.channel.name) {
+            document.title = messageJson.channel.name;
+        }
+        return document;
+    }
+
+    private extractFilesData(fileJson: any): any {
+        const document: any = { type: "file" };
+        if (fileJson.permalink) {
+            document.url = fileJson.permalink;
+        }
+        if (fileJson.title) {
+            document.title = fileJson.title;
+            document.text = fileJson.title;
+        }
+        return document;
+    }
+
+    async run(context: OperationContext, input: ExecuteOperationInput, resources: any): Promise<OperationOutput> {
+        const input_data = input.data as AgentRetrieverInput;
+        const query = input_data.query;
 
         let err: OperationError | undefined = undefined;
         if (!query) {
             err = {
-                message: 'Channel ID not found',
+                message: 'Query is required',
                 type: Error_Type.InvalidRequest,
             };
         }
 
+        const slackToken = "SLACK-TOKEN";
+        let slackClient: WebClient;
+        try {
+            slackClient = new WebClient(slackToken);
+        } catch (e: any) {
+            err = {
+                message: 'Error while creating slack client for search:' + e.message,
+                type: Error_Type.InvalidRequest,
+            };
+            return OperationOutput.fromJSON({
+                error: err,
+                output: {
+                    values: [],
+                } as OutputValue,
+            });
+        }
+
         const endpoint = context.devrev_endpoint;
         const token = context.secrets.access_token;
-        // const ISSUE_ID = "don:core:dvrv-us-1:devo/1116OUfuKu:issue/1";
 
         const devrevBetaClient = client.setupBeta({
             endpoint: endpoint,
             token: token,
         });
 
-        const object_types = Array.from(new Set(sync_unit_info.map((obj: ExternalSyncUnitObject) => obj.object_types).flat()));
+
+        const sync_unit_filters = `sync_metadata__last_sync_in.sync_unit_id:"don:integration:dvrv-us-1:devo/1wvHAzmDBB:external_system_type/ZENDESK:external_system/testingor:sync_unit/3a56e0a1-f38f-4483-8d5a-b2bb4151ada0"`;
+
+        const search_query = `${sync_unit_filters} ${query}`;
 
         let results: string[] = [];
         const ARTICLE_OBJ_TYPE = 'article';
 
         // If "articles" is in the object_types, then call searchHybrid since we only support articles for now
         // TODO: Add support for other object types later
-        if (object_types.includes(ARTICLE_OBJ_TYPE)) {
-            try {
-                const searchResponse = await devrevBetaClient.searchHybrid({
-                    query: query,
-                    namespace: SearchHybridNamespace.Article,
-                    limit: 5,
-                });
+        try {
+            const searchResponse = await devrevBetaClient.searchHybrid({
+                query: search_query,
+                namespace: SearchHybridNamespace.Article,
+                limit: 3,
+            });
 
-                results = await this.extractData(token, searchResponse.data);
-            }
-            catch (e: any) {
-                err = {
-                    message: 'Error while searching for articles:' + e.message,
-                    type: Error_Type.InvalidRequest,
-                };
-                return OperationOutput.fromJSON({
-                    error: JSON.stringify({ "message": err.message }),
-                });
-            }
+            results = await this.extractData(token, searchResponse.data);
+        }
+        catch (e: any) {
+            err = {
+                message: 'Error while searching for articles:' + e.message,
+                type: Error_Type.InvalidRequest,
+            };
+            return OperationOutput.fromJSON({
+                error: JSON.stringify({ "message": err.message }),
+            });
         }
 
+        try {
+            // Make in:channel_1 in_channel_2 in_channel_3 query
+            console.log('Query: ' + query)
+            const result = await slackClient.search.messages({ query: query });
+            const serializedResults = this.serializeSlackResults(result);
+            // Assuming serializedResults is an array of objects as described
 
-        return OperationOutput.fromJSON({
-            error: err,
-            output: {
-                values: [{ results: JSON.stringify({ "results": results }) }],
-            } as OutputValue,
-        });
-
-
+            for (const result of serializedResults) {
+                // Template literal to format the string as required
+                const formattedMessage = `Message: ${result.text}  URL: ${result.url}`;
+                results.push(formattedMessage);
+            }
+            console.log(results)
+            return OperationOutput.fromJSON({
+                error: err,
+                output: {
+                    values: [{ results: JSON.stringify(results) }],
+                } as OutputValue,
+            });
+        } catch (e: any) {
+            err = {
+                message: 'Error while searching:' + e.message,
+                type: Error_Type.InvalidRequest,
+            };
+            return OperationOutput.fromJSON({
+                error: err,
+                output: {
+                    values: [],
+                } as OutputValue,
+            });
+        }
     }
 
     override GetContext(): OperationContext {
