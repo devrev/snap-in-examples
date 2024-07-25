@@ -2,7 +2,7 @@
 
 The snap-in contains custom operations which can be used in the Workflow Builder once snap-in gets successfully activated.
 
-Operations are workflow node blueprint which are used to create workflow steps(nodes).
+Operations are workflow node blueprint which are used to create workflow steps.
 
 ## Operations in the snap-in
 
