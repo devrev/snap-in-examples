@@ -32,22 +32,20 @@ export async function postCallAPI(endpoint: string, payload: any, authKey: strin
   }
 }
 
-interface TextToDatasetInput {
-  query: string;
+interface RunSQLInput {
+  sql_query: string;
 }
 
-export class TextToDataset extends OperationBase {
+export class RunSQL extends OperationBase {
   constructor(e: FunctionInput) {
     super(e);
   }
 
   async run(context: OperationContext, input: ExecuteOperationInput, resources: any): Promise<OperationOutput> {
-    const input_data = input.data as TextToDatasetInput;
+    const input_data = input.data as RunSQLInput;
     const endpoint = context.devrev_endpoint;
     const token = context.secrets.access_token;
-
-    const devrevSDK = client.setupBeta({ endpoint, token });
-    const query = input_data.query;
+    const query = input_data.sql_query;
 
     let err: OperationError | undefined = undefined;
     if (!query) {
@@ -60,27 +58,17 @@ export class TextToDataset extends OperationBase {
     try {
       let datasetsInformation = {} as Record<string, any>;
 
-      const coreSearchResp = await postCallAPI(
-        `${endpoint}/internal/search.core`,
-        { query: input_data.query, limit: 3, namespaces: ['dataset'] },
+      const oasisResp = await postCallAPI(
+        `${endpoint}/internal/oasis.data.query`,
+        { sql_query: input_data.sql_query },
         token
       );
-      for (const searchResp of coreSearchResp.data.results) {
-        if (searchResp.type === 'dataset') {
-          const datasetSummary = searchResp as any;
-          const datasetId = datasetSummary.dataset.id;
-          const datasetGetResp = await postCallAPI(`${endpoint}/internal/oasis.dataset.get`, { id: datasetId }, token);
-          const datasetInfo = { name: datasetGetResp.data.dataset.dataset_id, description: datasetGetResp.data.dataset.description, columns: datasetGetResp.data.dataset.columns };
-          datasetsInformation[datasetInfo.name] = JSON.stringify(datasetInfo);
-        }
-      }
-
-      console.log({ datasetsInformation });
+      const res = atob(oasisResp.data.data);
 
       return OperationOutput.fromJSON({
-        summary: `Found datasets: ${input_data.query}`,
+        summary: `Executed SQL: ${input_data.sql_query}`,
         output: {
-          values: [{ datasets: JSON.stringify(datasetsInformation) }],
+          values: [{ data: res }],
         } as OutputValue,
       });
     } catch (err) {

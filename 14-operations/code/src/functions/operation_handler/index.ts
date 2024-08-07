@@ -6,6 +6,7 @@ import { GetTemperature } from './get_temperature';
 import { TextToDataset } from './text_to_dataset';
 import { AgentCallback } from './callback_node';
 import { GetKnowledge } from './get_knowledge';
+import { RunSQL } from './run_sql';
 
 /**
  * Map of operations with the slug mentioned in the manifest.
@@ -16,6 +17,7 @@ const operationMap: OperationMap = {
   text_to_dataset: TextToDataset,
   agent_callback_node: AgentCallback,
   get_knowledge: GetKnowledge,
+  run_sql: RunSQL,
 };
 
 export const run = async (events: FunctionInput[]) => {

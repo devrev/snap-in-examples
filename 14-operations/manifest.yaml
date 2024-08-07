@@ -34,6 +34,26 @@ operations:
           ui:
             display_name: Datasets
 
+  - name: run_sql
+    display_name: Run SQL
+    description: Operation to run a sql query
+    slug: run_sql
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: sql_query
+          field_type: text
+          is_required: true
+          ui:
+            display_name: SQL Query
+    outputs:
+      fields:
+        - name: data
+          field_type: text
+          ui:
+            display_name: Data
+
   - name: get_knowledge
     display_name: Get Knowledge
     description: Find answers from knowledge base
