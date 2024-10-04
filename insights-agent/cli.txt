@@ -1,0 +1,2 @@
+devrev snap_in_package create-one --slug ia-1
+devrev snap_in_version create-one --path .

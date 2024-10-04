@@ -1,0 +1,151 @@
+version: "2"
+name: "Insights Agent"
+description: "Logs a message when a work item is created"
+
+service_account:
+  display_name: 3P Operation Bot
+
+functions:
+  - name: operation_handler
+    description: function to handle operations
+
+operations:
+  - name: text_to_dataset
+    display_name: Text to Dataset
+    description: Operation to convert text to a dataset
+    slug: text_to_dataset
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: query
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Query
+    outputs:
+      fields:
+        - name: datasets
+          field_type: text
+          ui:
+            display_name: Datasets
+
+  - name: text_to_widget
+    display_name: Text to Widget
+    description: Operation to convert text to a widget
+    slug: text_to_widget
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: query
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Query
+    outputs:
+      fields:
+        - name: widgets
+          field_type: text
+          ui:
+            display_name: Widgets
+
+  - name: get_current_time
+    display_name: Get Current Time
+    description: Operation to get the current time
+    slug: get_current_time
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: query
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Query
+    outputs:
+      fields:
+        - name: current_time
+          field_type: text
+          ui:
+            display_name: Current Time
+
+  - name: run_sql
+    display_name: Run SQL
+    description: Operation to run a sql query
+    slug: run_sql
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: sql_query
+          field_type: text
+          is_required: true
+          ui:
+            display_name: SQL Query
+    outputs:
+      fields:
+        - name: data
+          field_type: text
+          ui:
+            display_name: Data
+
+  - name: get_knowledge
+    display_name: Get Knowledge
+    description: Find answers from knowledge base
+    slug: get_knowledge
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: query
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Query
+    outputs:
+      fields:
+        - name: knowledge
+          field_type: text
+          ui:
+            display_name: Knowledge
+
+  - name: agent_callback_node
+    description: Operation to return the output of the workflow to the agent
+    slug: agent_callback_node
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: agent_session_id
+          field_type: id
+          id_type:
+          - ai_agent_session
+          is_required: true
+          ui:
+            display_name: Agent Session
+        - name: skill_call_id
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Skill Call ID
+        - name: skill_name
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Skill Name
+        - name: output
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Output
+        - name: error
+          field_type: text
+          ui:
+            display_name: Error
+    outputs:
+      fields:
+        - name: success
+          field_type: bool
+          ui:
+            display_name: Success

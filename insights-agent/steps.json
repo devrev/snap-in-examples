@@ -1,0 +1,380 @@
+{
+    "created_by": {
+        "type": "dev_user",
+        "display_handle": "madhav-sikka",
+        "display_id": "DEVU-184",
+        "display_name": "madhav-sikka",
+        "display_picture": {
+            "display_id": "artifact-29610",
+            "file": {
+                "type": "image/png"
+            },
+            "headers": {
+                "content_disposition": "inline"
+            },
+            "id": "don:core:dvrv-us-1:devo/787:artifact/29610",
+            "id_v1": "don:DEV-787:artifact:29610",
+            "original_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27test.png&X-Amz-Signature=6c72ba5dca0459089c85383fada95c655a9e78b6ce3f6ad2fd41f6449b79345f",
+            "preview_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+        },
+        "email": "madhav.sikka@devrev.ai",
+        "full_name": "Madhav Sikka",
+        "id": "don:identity:dvrv-us-1:devo/787:devu/184",
+        "id_v1": "don:DEV-787:dev_user:DEVU-184",
+        "state": "active",
+        "thumbnail": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+    },
+    "created_date": "2024-07-15T12:40:45.534Z",
+    "description": "Step for manually triggering get account workflow",
+    "display_id": "workflow_step-160.1355",
+    "id": "don:integration:dvrv-us-1:devo/787:workflow/160:workflow_step/160.1355",
+    "modified_by": {
+        "type": "dev_user",
+        "display_handle": "madhav-sikka",
+        "display_id": "DEVU-184",
+        "display_name": "madhav-sikka",
+        "display_picture": {
+            "display_id": "artifact-29610",
+            "file": {
+                "type": "image/png"
+            },
+            "headers": {
+                "content_disposition": "inline"
+            },
+            "id": "don:core:dvrv-us-1:devo/787:artifact/29610",
+            "id_v1": "don:DEV-787:artifact:29610",
+            "original_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27test.png&X-Amz-Signature=6c72ba5dca0459089c85383fada95c655a9e78b6ce3f6ad2fd41f6449b79345f",
+            "preview_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+        },
+        "email": "madhav.sikka@devrev.ai",
+        "full_name": "Madhav Sikka",
+        "id": "don:identity:dvrv-us-1:devo/787:devu/184",
+        "id_v1": "don:DEV-787:dev_user:DEVU-184",
+        "state": "active",
+        "thumbnail": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+    },
+    "modified_date": "2024-07-15T13:17:39.189Z",
+    "name": "Update ticket manual trigger",
+    "next_steps": [
+        {
+            "next_port_name": "input",
+            "next_step": {
+                "display_id": "workflow_step-160.1357",
+                "id": "don:integration:dvrv-us-1:devo/787:workflow/160:workflow_step/160.1357"
+            },
+            "port_name": "output"
+        }
+    ],
+    "operation": {
+        "display_id": "operation-devrev.manual_trigger",
+        "id": "don:integration:dvrv-us-1:operation/devrev.manual_trigger",
+        "namespace": "devrev",
+        "output_ports": [
+            {
+                "name": "output",
+                "type": "default"
+            }
+        ],
+        "slug": "manual_trigger",
+        "type": "trigger"
+    },
+    "output_ports": [
+        {
+            "name": "output",
+            "schema": {
+                "field_descriptors": [
+                    {
+                        "field_type": "id",
+                        "db_name": "agent_session_id",
+                        "description": "The ID of the agent session",
+                        "id_type": [
+                            "ai_agent_session"
+                        ],
+                        "is_required": true,
+                        "name": "agent_session_id"
+                    },
+                    {
+                        "field_type": "text",
+                        "db_name": "skill_call_id",
+                        "description": "The ID of the skill call being executed",
+                        "is_required": true,
+                        "name": "skill_call_id"
+                    },
+                    {
+                        "field_type": "text",
+                        "db_name": "skill_name",
+                        "description": "The name of the skill being executed",
+                        "is_required": true,
+                        "name": "skill_name"
+                    },
+                    {
+                        "field_type": "text",
+                        "db_name": "query",
+                        "description": "The user query to find the datasets for",
+                        "is_required": true,
+                        "name": "query"
+                    }
+                ],
+                "type": "field_descriptor"
+            }
+        }
+    ],
+    "reference_key": "ai_agent_skill_manual_trigger",
+    "ui_metadata": {
+        "position": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "version": "0.0.1",
+    "workflow": {
+        "display_id": "workflow-160",
+        "id": "don:integration:dvrv-us-1:devo/787:workflow/160"
+    }
+}
+
+{
+    "created_by": {
+        "type": "dev_user",
+        "display_handle": "madhav-sikka",
+        "display_id": "DEVU-184",
+        "display_name": "madhav-sikka",
+        "display_picture": {
+            "display_id": "artifact-29610",
+            "file": {
+                "type": "image/png"
+            },
+            "headers": {
+                "content_disposition": "inline"
+            },
+            "id": "don:core:dvrv-us-1:devo/787:artifact/29610",
+            "id_v1": "don:DEV-787:artifact:29610",
+            "original_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27test.png&X-Amz-Signature=6c72ba5dca0459089c85383fada95c655a9e78b6ce3f6ad2fd41f6449b79345f",
+            "preview_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+        },
+        "email": "madhav.sikka@devrev.ai",
+        "full_name": "Madhav Sikka",
+        "id": "don:identity:dvrv-us-1:devo/787:devu/184",
+        "id_v1": "don:DEV-787:dev_user:DEVU-184",
+        "state": "active",
+        "thumbnail": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+    },
+    "created_date": "2024-07-15T12:40:56.306Z",
+    "description": "Operation to convert text to a dataset",
+    "display_id": "workflow_step-160.1357",
+    "id": "don:integration:dvrv-us-1:devo/787:workflow/160:workflow_step/160.1357",
+    "input_values": [
+        {
+            "fields": [
+                {
+                    "name": "query",
+                    "value": {
+                        "type": "jsonata_expression",
+                        "value": "$get('ai_agent_skill_manual_trigger', 'output').query"
+                    }
+                }
+            ],
+            "port_name": "input"
+        }
+    ],
+    "modified_by": {
+        "type": "dev_user",
+        "display_handle": "madhav-sikka",
+        "display_id": "DEVU-184",
+        "display_name": "madhav-sikka",
+        "display_picture": {
+            "display_id": "artifact-29610",
+            "file": {
+                "type": "image/png"
+            },
+            "headers": {
+                "content_disposition": "inline"
+            },
+            "id": "don:core:dvrv-us-1:devo/787:artifact/29610",
+            "id_v1": "don:DEV-787:artifact:29610",
+            "original_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27test.png&X-Amz-Signature=6c72ba5dca0459089c85383fada95c655a9e78b6ce3f6ad2fd41f6449b79345f",
+            "preview_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+        },
+        "email": "madhav.sikka@devrev.ai",
+        "full_name": "Madhav Sikka",
+        "id": "don:identity:dvrv-us-1:devo/787:devu/184",
+        "id_v1": "don:DEV-787:dev_user:DEVU-184",
+        "state": "active",
+        "thumbnail": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+    },
+    "modified_date": "2024-07-15T12:45:02.694Z",
+    "name": "Text To Dataset",
+    "next_steps": [
+        {
+            "next_port_name": "input",
+            "next_step": {
+                "display_id": "workflow_step-160.1358",
+                "id": "don:integration:dvrv-us-1:devo/787:workflow/160:workflow_step/160.1358"
+            },
+            "port_name": "output"
+        }
+    ],
+    "operation": {
+        "display_id": "operation-insights-agent.text_to_dataset",
+        "id": "don:integration:dvrv-us-1:devo/787:operation/insights-agent.text_to_dataset",
+        "input_ports": [
+            {
+                "name": "input",
+                "type": "default"
+            }
+        ],
+        "namespace": "insights-agent",
+        "output_ports": [
+            {
+                "name": "output",
+                "type": "default"
+            }
+        ],
+        "slug": "text_to_dataset",
+        "type": "action"
+    },
+    "reference_key": "text_to_dataset_1",
+    "ui_metadata": {
+        "position": {
+            "x": 100,
+            "y": 150
+        }
+    },
+    "version": "0.0.1",
+    "workflow": {
+        "display_id": "workflow-160",
+        "id": "don:integration:dvrv-us-1:devo/787:workflow/160"
+    }
+}
+
+{
+    "created_by": {
+        "type": "dev_user",
+        "display_handle": "madhav-sikka",
+        "display_id": "DEVU-184",
+        "display_name": "madhav-sikka",
+        "display_picture": {
+            "display_id": "artifact-29610",
+            "file": {
+                "type": "image/png"
+            },
+            "headers": {
+                "content_disposition": "inline"
+            },
+            "id": "don:core:dvrv-us-1:devo/787:artifact/29610",
+            "id_v1": "don:DEV-787:artifact:29610",
+            "original_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27test.png&X-Amz-Signature=6c72ba5dca0459089c85383fada95c655a9e78b6ce3f6ad2fd41f6449b79345f",
+            "preview_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+        },
+        "email": "madhav.sikka@devrev.ai",
+        "full_name": "Madhav Sikka",
+        "id": "don:identity:dvrv-us-1:devo/787:devu/184",
+        "id_v1": "don:DEV-787:dev_user:DEVU-184",
+        "state": "active",
+        "thumbnail": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+    },
+    "created_date": "2024-07-15T12:41:01.582Z",
+    "description": "Operation to return the output of the workflow to the agent",
+    "display_id": "workflow_step-160.1358",
+    "id": "don:integration:dvrv-us-1:devo/787:workflow/160:workflow_step/160.1358",
+    "input_values": [
+        {
+            "fields": [
+                {
+                    "name": "agent_session_id",
+                    "value": {
+                        "type": "jsonata_expression",
+                        "value": "$get('ai_agent_skill_manual_trigger', 'output').agent_session_id"
+                    }
+                },
+                {
+                    "name": "skill_call_id",
+                    "value": {
+                        "type": "jsonata_expression",
+                        "value": "$get('ai_agent_skill_manual_trigger', 'output').skill_call_id"
+                    }
+                },
+                {
+                    "name": "skill_name",
+                    "value": {
+                        "type": "jsonata_expression",
+                        "value": "$get('ai_agent_skill_manual_trigger', 'output').skill_name"
+                    }
+                },
+                {
+                    "name": "redis_subscription_id",
+                    "value": {
+                        "type": "literal",
+                        "value": "N/A"
+                    }
+                },
+                {
+                    "name": "output",
+                    "value": {
+                        "type": "jsonata_expression",
+                        "value": "$get('text_to_dataset_1', 'output').datasets"
+                    }
+                }
+            ],
+            "port_name": "input"
+        }
+    ],
+    "modified_by": {
+        "type": "dev_user",
+        "display_handle": "madhav-sikka",
+        "display_id": "DEVU-184",
+        "display_name": "madhav-sikka",
+        "display_picture": {
+            "display_id": "artifact-29610",
+            "file": {
+                "type": "image/png"
+            },
+            "headers": {
+                "content_disposition": "inline"
+            },
+            "id": "don:core:dvrv-us-1:devo/787:artifact/29610",
+            "id_v1": "don:DEV-787:artifact:29610",
+            "original_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27test.png&X-Amz-Signature=6c72ba5dca0459089c85383fada95c655a9e78b6ce3f6ad2fd41f6449b79345f",
+            "preview_url": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+        },
+        "email": "madhav.sikka@devrev.ai",
+        "full_name": "Madhav Sikka",
+        "id": "don:identity:dvrv-us-1:devo/787:devu/184",
+        "id_v1": "don:DEV-787:dev_user:DEVU-184",
+        "state": "active",
+        "thumbnail": "https://devrev-dev-artifacts.s3.dualstack.us-east-1.amazonaws.com/preview/300/ziH3cySi8O6c4jaAc2b-jg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQJKT3RYYV22TEGPU%2F20240712%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240712T141540Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&response-cache-control=max-age%3D31536000&response-content-disposition=inline%3B%20filename%2A%3DUTF-8%27%27300&X-Amz-Signature=75710488b73f42667b3e81c7592be402f0e6a639d05fb938ff79d7783f7bbab8"
+    },
+    "modified_date": "2024-07-15T12:50:19.063Z",
+    "name": "Agent Callback Node",
+    "operation": {
+        "display_id": "operation-agent-operations-custom.agent_callback_node",
+        "id": "don:integration:dvrv-us-1:devo/787:operation/agent-operations-custom.agent_callback_node",
+        "input_ports": [
+            {
+                "name": "input",
+                "type": "default"
+            }
+        ],
+        "namespace": "agent-operations-custom",
+        "output_ports": [
+            {
+                "name": "output",
+                "type": "default"
+            }
+        ],
+        "slug": "agent_callback_node",
+        "type": "action"
+    },
+    "reference_key": "agent_callback_node_1",
+    "ui_metadata": {
+        "position": {
+            "x": 200,
+            "y": 300
+        }
+    },
+    "version": "0.0.1",
+    "workflow": {
+        "display_id": "workflow-160",
+        "id": "don:integration:dvrv-us-1:devo/787:workflow/160"
+    }
+}

@@ -1,0 +1,78 @@
+{
+  "columns": {
+    "update": [
+      {
+        "name": "sentiment_json",
+        "description": "A JSON with a 'label' field indicating the sentiment: Delighted, Happy, Neutral, Unhappy, Frustrated"
+      },
+      {
+        "name": "actual_close_date",
+        "description": "The actual close date of the ticket. Example: 2024-09-24T09:04:59.438Z"
+      },
+      {
+        "name": "subtype",
+        "description": "The subtype of the ticket"
+      },
+      {
+        "name": "surveys_aggregation_json",
+        "description": "A JSON array with each element having an 'average' field denoting the CSAT score (between 1-5) of a survey response"
+      },
+      {
+        "name": "created_date",
+        "description": "The date when the ticket was created. Example: 2024-09-24T09:04:59.438Z"
+      },
+      {
+        "name": "stage_json",
+        "description": "A JSON with a 'name' field indicating the stage of the ticket. Example: queued, awaiting_development"
+      },
+      {
+        "name": "rev_oid",
+        "description": "The ID of the rev org object (customer) to which this ticket belongs to"
+      },
+      {
+        "name": "modified_by_id",
+        "description": "The ID of the user who last modified the ticket"
+      },
+      {
+        "name": "created_by_id",
+        "description": "The ID of the user who created the ticket"
+      },
+      {
+        "name": "applies_to_part_id",
+        "description": "The ID of the part object to which this ticket belongs to"
+      },
+      {
+        "name": "group",
+        "description": "The ID of the group object of dev users to which this ticket belongs to"
+      },
+      {
+        "name": "target_close_date",
+        "description": "The target close date of the ticket. Example: 2024-09-24T09:04:59.438Z"
+      },
+      {
+        "name": "owned_by_ids",
+        "description": "The list of IDs of the users who own the ticket"
+      },
+      {
+        "name": "severity",
+        "description": "The severity of the ticket denoted by an integer value where: 5->blocker, 6->high, 7->medium, 8->low"
+      },
+      {
+        "name": "reported_by_ids",
+        "description": "The list of IDs of the users who reported the ticket"
+      },
+      {
+        "name": "modified_date",
+        "description": "The date when the ticket was last modified. Example: 2024-09-24T09:04:59.438Z"
+      },
+      {
+        "name": "id",
+        "description": "The unique ID of the ticket object"
+      },
+      {
+        "name": "account_id",
+        "description": ""
+      }
+    ]
+  }
+}
