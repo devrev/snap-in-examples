@@ -1,0 +1,81 @@
+{
+  "events": [
+    {
+      "payload": {
+        "id": "don:integration:dvrv-us-1:devo/XXXXXX:webhook/mpLkC87l:webhook_event/A47zYgvZGDM",
+        "timestamp": "2023-04-03T14:15:08.101098Z",
+        "type": "work_created",
+        "unique_key": "ZG9uOmludGVncmF0aW9uOmR2cnYtdXMtMTpkZXZvLzFGR2lCenJhNjpldmVudF9zb3VyY2UvYzMzMDI2Y2UtOTM5Yy00ZWEzLThjYzctOTI4M2M0NWI3ZjRk",
+        "webhook_id": "don:integration:dvrv-us-1:devo/XXXXXX:webhook/mpLkC87l",
+        "work_created": {
+          "work": {
+            "applies_to_part": {
+              "display_id": "ENH-9",
+              "id": "don:core:dvrv-us-1:devo/XXXXXX:enhancement/9",
+              "id_v1": "don:DEV-XXXXXX:enhancement: 9",
+              "name": "test-enhancement",
+              "type": "enhancement"
+            },
+            "created_by": {
+              "display_handle": "Sample Name",
+              "display_id": "DEVU-5",
+              "display_name": "Sample Name",
+              "email": "i-Demo1.Demo2@domain.com",
+              "full_name": "Sample Name",
+              "id": "don:identity:dvrv-us-1:devo/XXXXXX:devu/5",
+              "id_v1": "don:DEV-XXXXXX:dev_user:DEVU-5",
+              "state": "active",
+              "type": "dev_user"
+            },
+            "created_date": "2023-04-03T14: 14: 30.336Z",
+            "custom_fields": null,
+            "display_id": "TKT-122",
+            "id": "don:core:dvrv-us-1:devo/XXXXXX:ticket/122",
+            "id_v1": "don:DEV-XXXXXX:ticket: 122",
+            "owned_by": [
+              {
+                "display_handle": "Sample Name",
+                "display_id": "DEVU-5",
+                "display_name": "Sample Name",
+                "email": "i-Demo1.Demo2@domain.com",
+                "full_name": "Sample Name",
+                "id": "don:identity:dvrv-us-1:devo/XXXXXX:devu/5",
+                "id_v1": "don:DEV-XXXXXX:dev_user:DEVU-5",
+                "state": "active",
+                "type": "dev_user"
+              }
+            ],
+            "severity": "medium",
+            "stage": {
+              "name": "queued",
+              "ordinal": 700
+            },
+            "state": "open",
+            "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/297430",
+            "title": "test-ticket",
+            "type": "ticket"
+          }
+        }
+      },
+      "context": {
+        "dev_oid": "don:identity:dvrv-us-1:devo/XXXXXX",
+        "automation_id": "don:integration:dvrv-us-1:devo/XXXXXX:automation/be9f0869-77a4-4210-9f84-47409e67c781",
+        "source_id": "don:integration:dvrv-us-1:devo/XXXXXX:automation/be9f0869-77a4-4210-9f84-47409e67c781",
+        "snap_in_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in/641c009b-0476-40ef-b728-f3ce6fb77bb9",
+        "snap_in_version_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in_package/fd20d23b-372c-48ad-ac24-d13c271c63d6:snap_in_version/d506f96a-131f-451c-87d6-e73605fac8df",
+        "secrets": {
+          "service_account_token": "TEST-TOKEN"
+        }
+      },
+      "input_data": {
+        "keyrings": {
+          "devrev": "TEST-TOKEN"
+        }
+      },
+      "execution_metadata": {
+        "devrev_endpoint": "https://api.devrev.ai",
+        "function_name": "on_work_creation"
+      }
+    }
+  ]
+}

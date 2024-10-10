@@ -1,0 +1,111 @@
+version: "2"
+
+name: "Sample Dashboard"
+description: "Creates a custom dashboard upon installation"
+
+service_account:
+  display_name: Upgrade test bot.
+
+dashboards:
+  - name: custom_dashboard_1
+    body: {
+      "description": "This is a custom dashboard",
+      "layout": [
+        {
+          "layout": [
+            {
+              "position": {
+                "height": 14,
+                "width": 12,
+                "x": 0,
+                "y": 0
+              },
+              "reference_id": "my-reference-widget-1"
+            }
+          ],
+          "reference_id": "tab-1"
+        }
+      ],
+      "tabs": [
+        {
+          "reference_id": "tab-1",
+          "title": "tab-1"
+        }
+      ],
+      "title": "Custom dashboard 1",
+      "widgets": [
+        {
+          "reference_id": "my-reference-widget-1",
+          "widget": "custom_widget_1"
+        }
+      ]
+    }
+
+widgets:
+  - name: custom_widget_1
+    body: {
+      "data_sources": [
+        {
+          "oasis": {
+            "datasets": [
+              "dim_ticket"
+            ],
+            "sql_query": "select id from dim_ticket"
+          },
+          "type": "oasis",
+          "dimensions": [],
+          "measures": [
+            {
+              "devrev_schema": {
+                "field_type": "int",
+                "name": "count",
+                "ui": {
+                  "display_name": "Count"
+                }
+              },
+              "meerkat_schema": {
+                "sql_expression": "count(id)",
+                "type": "number"
+              },
+              "reference_name": "count_id"
+            }
+          ],
+          "reference_name": "dim_ticket"
+        }
+      ],
+      "description": " ",
+      "layout": [
+        {
+          "position": {
+            "height": 3,
+            "width": 3,
+            "x": 0,
+            "y": 0
+          },
+          "reference_id": "subwidget1"
+        }
+      ],
+      "sub_widgets": [
+        {
+          "query": {
+            "dimensions": [],
+            "measures": [
+              "dim_ticket.count_id"
+            ]
+          },
+          "reference_id": "subwidget1",
+          "visualization": {
+            "metric": {
+              "y": [
+                {
+                  "label": "Count",
+                  "reference_name": "dim_ticket.count_id"
+                }
+              ]
+            },
+            "type": "metric"
+          }
+        }
+      ],
+      "title": "Count of Tickets"
+    }
