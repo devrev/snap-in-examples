@@ -1,0 +1,154 @@
+version: "2"
+name: "ANZ Demo Operations"
+description: "Operation for ANZ Demo"
+
+service_account:
+  display_name: Xero Bot
+
+functions:
+  - name: operation_handler
+    description: function to handle operations
+
+operations:
+  - name: list_bank_feeds
+    display_name: List Bank Feeds
+    description: Operation to list bank feeds
+    slug: list_bank_feeds
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: active
+          field_type: bool
+          is_required: true
+          ui:
+            display_name: Active
+    outputs:
+      fields:
+        - name: feeds
+          field_type: text
+          ui:
+            display_name: Feeds
+
+  - name: get_bank_feed
+    display_name: Get Bank Feed
+    description: Operation to get details of a bank feed
+    slug: get_bank_feed
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: bank_feed_id
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Bank Feed Id
+    outputs:
+      fields:
+        - name: name
+          field_type: text
+          ui:
+            display_name: Name
+        - name: status
+          field_type: text
+          ui:
+            display_name: Status
+        - name: last_synced
+          field_type: text
+          ui:
+            display_name: Last Synced
+        - name: disruptions
+          field_type: bool
+          ui:
+            display_name: Disruptions
+
+  - name: get_current_time
+    display_name: Get Current Time
+    description: Operation to get the current time
+    slug: get_current_time
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: query
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Query
+    outputs:
+      fields:
+        - name: current_time
+          field_type: text
+          ui:
+            display_name: Current Time
+
+  - name: get_bank_feed_transactions
+    display_name: Get Bank Feed Transactions
+    description: Operation to get transactions of a bank feed
+    slug: get_bank_feed_transactions
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: bank_feed_id
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Bank Feed Id
+    outputs:
+      fields:
+        - name: name
+          field_type: text
+          ui:
+            display_name: Name
+        - name: transactions
+          field_type: text
+          ui:
+            display_name: Transactions
+
+  - name: refresh_bank_feed
+    display_name: Refresh Bank Feed
+    description: Operation to refresh a bank feed
+    slug: refresh_bank_feed
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: bank_feed_id
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Bank Feed Id
+    outputs:
+      fields:
+        - name: name
+          field_type: text
+          ui:
+            display_name: Name
+        - name: status
+          field_type: text
+          ui:
+            display_name: Status
+        - name: message
+          field_type: text
+          ui:
+            display_name: Message
+
+  - name: list_bank_disruptions
+    description: Operation to list bank disruptions
+    slug: list_bank_disruptions
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: active
+          field_type: bool
+          is_required: true
+          ui:
+            display_name: Active
+    outputs:
+      fields:
+        - name: bank_statuses
+          field_type: text
+          ui:
+            display_name: Bank Statuses
