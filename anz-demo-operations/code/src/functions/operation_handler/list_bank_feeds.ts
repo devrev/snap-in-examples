@@ -51,13 +51,10 @@ export class ListBankFeeds extends OperationBase {
       const apiResp = await getCallAPI(
         `${endpoint}`,
       );
-      console.log(typeof apiResp.data)
-      console.log(apiResp.data.feeds)
       let feeds = apiResp.data;
       if (typeof apiResp.data !== 'string') {
         feeds = JSON.stringify(apiResp.data);
       }
-      console.log(feeds)
 
       return OperationOutput.fromJSON({
         summary: `List of bank feeds - ${feeds}`,
