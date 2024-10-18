@@ -9,6 +9,8 @@ import { ListBankFeeds } from './list_bank_feeds';
 import { RefreshBankFeed } from './refresh_bank_feed';
 import { ListBankDisruptions } from './list_bank_disruptions';
 import { GetCurrentTime } from './get_current_time';
+import { LinkTicketToConversation } from './link_ticket_to_conversation';
+import { link } from 'fs';
 
 /**
  * Map of operations with the slug mentioned in the manifest.
@@ -22,6 +24,7 @@ const operationMap: OperationMap = {
   refresh_bank_feed: RefreshBankFeed,
   list_bank_disruptions: ListBankDisruptions,
   get_current_time: GetCurrentTime,
+  link_ticket_to_conversation: LinkTicketToConversation,
 };
 
 export const run = async (events: FunctionInput[]) => {
