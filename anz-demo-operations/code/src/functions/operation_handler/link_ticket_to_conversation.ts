@@ -99,8 +99,12 @@ export class LinkTicketToConversation extends OperationBase {
         });
       }
 
-      const conversationResp = await devrevSDK.conversationsGetPost({ id: session_object });
-      if (!(conversationResp.status >= 200 && conversationResp.status < 300)) {
+      const conversationResp = await postCallAPI(
+        `${endpoint}/internal/conversations.get`,
+        { id: `${session_object}`},
+        token
+      );
+      if (!conversationResp.success) {
         return OperationOutput.fromJSON({
           summary: `Could not link ticket to conversation: ${ticket_id}`,
           output: {
@@ -112,10 +116,20 @@ export class LinkTicketToConversation extends OperationBase {
           } as OutputValue,
         });
       }
+      console.log(conversationResp.data);
       const members = conversationResp.data.conversation.members;
-      const revUsers: RevUserSummary[] = members.filter((member: UserSummary) => member.type === UserType.RevUser);
-      const reported_by = revUsers[0].id;
-      const rev_org = revUsers[0].rev_org?.id
+      console.log(members);
+      let reported_by: string | undefined;
+      for (const member of members) {
+        if (member.id.includes("revu")) {
+          reported_by = member.id;
+          break;
+        }
+      }
+      let rev_org: string | undefined;
+      if (conversationResp.data.conversation.rev_orgs.length > 0) {
+        rev_org = conversationResp.data.conversation.rev_orgs[0].id;
+      }
 
       const linksCreateReq: LinksCreateRequest = {
         link_type: LinkType.IsRelatedTo,
