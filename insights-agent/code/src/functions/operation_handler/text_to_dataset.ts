@@ -58,32 +58,31 @@ export class TextToDataset extends OperationBase {
     }
 
     try {
+      let datasetIds = [] as string[];
+
       const coreSearchResp = await postCallAPI(
         `${endpoint}/internal/search.core`,
-        { query: `is_system:true ${input_data.query}`, limit: 10, namespaces: ['dataset'] },
+        { query: `is_system:true ${input_data.query}`, limit: 5, namespaces: ['dataset'] },
         token
       );
-      const datasetGetPromises = coreSearchResp.data.results
-        .filter((searchResp: any) => searchResp.type === 'dataset')
-        .map(async (searchResp: any) => {
-          const datasetSummary = searchResp;
+      for (const searchResp of coreSearchResp.data.results) {
+        if (searchResp.type === 'dataset') {
+          const datasetSummary = searchResp as any;
           const datasetId = datasetSummary.dataset.id;
-          const datasetGetResp = await postCallAPI(`${endpoint}/internal/oasis.dataset.get`, { id: datasetId }, token);
-          const datasetInfo = {
-            name: datasetGetResp.data.dataset.dataset_id,
-            description: datasetGetResp.data.dataset.description,
-            columns: datasetGetResp.data.dataset.columns.filter((column: any) => column.description),
-          };
-          return { name: datasetInfo.name, info: JSON.stringify(datasetInfo) };
-        });
+          datasetIds.push(datasetId);
+        }
+      }
 
-      const datasetInfos = await Promise.all(datasetGetPromises);
-      const datasetsInformation = Object.fromEntries(datasetInfos.map(({ name, info }) => [name, info]));
+      const batchResp = await postCallAPI(`${endpoint}/internal/batch.apply`, { items: datasetIds.map((id) => ({ batch_type: 'oasis_dataset_get', id: id })) }, token);
+      const datasets = batchResp.data.items.map((item: any) => item.dataset).filter((dataset: any) => dataset).map((dataset: any) => ({ id: dataset.dataset_id, title: dataset.title, description: dataset.description, columns: dataset.columns.filter((column: any) => column.description) }));
+      const filteredDatasets = datasets.filter((dataset: any) => dataset.columns.length > 0);
+      const datasetsInformation = Object.fromEntries(filteredDatasets.map((dataset: any) => [dataset.id, dataset]));
+      const datasetInfoString = JSON.stringify(datasetsInformation).replace(/"/g, '');
 
       return OperationOutput.fromJSON({
         summary: `Found datasets: ${input_data.query}`,
         output: {
-          values: [{ datasets: JSON.stringify(datasetsInformation) }],
+          values: [{ datasets: datasetInfoString }],
         } as OutputValue,
       });
     } catch (err) {

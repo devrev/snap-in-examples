@@ -62,7 +62,7 @@ export class TextToWidget extends OperationBase {
 
       const coreSearchResp = await postCallAPI(
         `${endpoint}/internal/search.core`,
-        { query: `is_system:true ${input_data.query}`, limit: 10, namespaces: ['widget'] },
+        { query: `is_system:true ${input_data.query}`, limit: 3, namespaces: ['widget'] },
         token
       );
       for (const searchResp of coreSearchResp.data.results) {
