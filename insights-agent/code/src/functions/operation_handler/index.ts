@@ -2,26 +2,18 @@ import { OperationFactory } from '../../operations';
 import { ExecuteOperationInput,FunctionInput, OperationMap } from '@devrev/typescript-sdk/dist/snap-ins';
 
 // Operations
-import { GetTemperature } from './get_temperature';
 import { TextToDataset } from './text_to_dataset';
-import { AgentCallback } from './callback_node';
-import { GetKnowledge } from './get_knowledge';
 import { RunSQL } from './run_sql';
 import { TextToWidget } from './text_to_widget';
-import { GetCurrentTime } from './get_current_time';
 
 /**
  * Map of operations with the slug mentioned in the manifest.
  * The key is the slug of the operation mentioned in the manifest and value is the operation class.
  */
 const operationMap: OperationMap = {
-  get_temperature: GetTemperature,
   text_to_dataset: TextToDataset,
-  agent_callback_node: AgentCallback,
-  get_knowledge: GetKnowledge,
   run_sql: RunSQL,
   text_to_widget: TextToWidget,
-  get_current_time: GetCurrentTime,
 };
 
 export const run = async (events: FunctionInput[]) => {
