@@ -74,7 +74,16 @@ export class TextToDataset extends OperationBase {
       }
 
       const batchResp = await postCallAPI(`${endpoint}/internal/batch.apply`, { items: datasetIds.map((id) => ({ batch_type: 'oasis_dataset_get', id: id })) }, token);
-      const datasets = batchResp.data.items.map((item: any) => item.dataset).filter((dataset: any) => dataset).map((dataset: any) => ({ id: dataset.dataset_id, title: dataset.title, description: dataset.description, columns: dataset.columns.filter((column: any) => column.description) }));
+      const datasets = batchResp.data.items
+        .map((item: any) => item.dataset)
+        .filter((dataset: any) => dataset) // This filters out any falsy dataset values (e.g., null or undefined).
+        .map((dataset: any) => ({
+          id: dataset.dataset_id,
+          title: dataset.title,
+          description: dataset.description, // Keeps the description field, even if it's null or undefined.
+          columns: dataset.columns.filter((column: any) => column.description !== undefined), // Only filters out columns without a description.
+        }));
+
       const filteredDatasets = datasets.filter((dataset: any) => dataset.columns.length > 0);
       const datasetsInformation = Object.fromEntries(filteredDatasets.map((dataset: any) => [dataset.id, dataset]));
       const datasetInfoString = JSON.stringify(datasetsInformation).replace(/"/g, '');
