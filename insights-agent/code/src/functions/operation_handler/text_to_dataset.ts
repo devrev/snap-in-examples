@@ -81,7 +81,7 @@ export class TextToDataset extends OperationBase {
           id: dataset.dataset_id,
           title: dataset.title,
           description: dataset.description, // Keeps the description field, even if it's null or undefined.
-          columns: dataset.columns.filter((column: any) => column.description !== undefined), // Only filters out columns without a description.
+          columns: dataset.columns,
         }));
 
       const filteredDatasets = datasets.filter((dataset: any) => dataset.columns.length > 0);
