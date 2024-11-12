@@ -89,6 +89,7 @@ export async function handlePROpened(payload: Record<string, unknown>, devrevSDK
   // Check the PR Description
   const prTitle = (payload['pull_request'] as Record<string, unknown>)?.['title'] as string;
   const prDescription = (payload['pull_request'] as Record<string, unknown>)?.['body'] as string;
+  const htmlURL = (payload['pull_request'] as Record<string, unknown>)?.['html_url'] as string;
 
   // Combine the PR Title and Description
   const prText = prTitle + ' ' + prDescription;
@@ -115,6 +116,13 @@ export async function handlePROpened(payload: Record<string, unknown>, devrevSDK
         id: workId,
         stage: {
           name: WorkStages.IN_DEVELOPMENT,
+        },
+        custom_schema_spec: {
+          tenant_fragment: true,
+          validate_required_fields: false,
+        },
+        custom_fields: {
+          tnt__github_pr_url: htmlURL,
         },
         stage_validation_options: [betaSDK.StageValidationOptionForUpdate.AllowInvalidTransition],
       };
