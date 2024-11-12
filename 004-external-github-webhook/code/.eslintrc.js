@@ -6,7 +6,7 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:import/typescript',
   ],
-  ignorePatterns: ['**/dist/*'],
+  ignorePatterns: ['**/dist/*', '**/test/*'],
   overrides: [
     {
       files: ['**/*.test.ts'],
@@ -22,12 +22,12 @@ module.exports = {
   plugins: ['prettier', 'unused-imports', 'import', 'simple-import-sort', 'sort-keys-fix'],
   root: true,
   rules: {
-    'import/first': 'error',
     // Removes unused imports automatically,
-'@typescript-eslint/no-explicit-any': 'warn', 
-    
-// Ensures all imports are at the top of the file
-'import/newline-after-import': 'error', 
+    '@typescript-eslint/no-explicit-any': 'warn',
+
+    'import/first': 'error',
+    // Ensures all imports are at the top of the file
+    'import/newline-after-import': 'error',
     // Ensures there’s a newline after the imports
     'import/no-duplicates': 'error',
     // Merges import statements from the same file

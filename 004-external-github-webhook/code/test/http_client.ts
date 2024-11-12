@@ -43,9 +43,9 @@ export class HTTPClient {
 
   async post<T>({ headers, path, body }: HttpRequest): Promise<AxiosResponse<T>> {
     return this.instance.request({
-      method: 'POST',
-      headers: headers,
       data: body,
+      headers: headers,
+      method: 'POST',
       url: path,
     });
   }

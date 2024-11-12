@@ -1,7 +1,7 @@
-import { client, betaSDK, publicSDK } from '@devrev/typescript-sdk';
+import { betaSDK, client, publicSDK } from '@devrev/typescript-sdk';
 import { sprintf } from 'sprintf-js';
 
-export enum GITHUB_PR_EVENT_TYPES {
+export enum GithubPrEventTypes {
   COMMITTED = 'committed',
   OPENED = 'opened',
   CLOSED = 'closed',
@@ -12,8 +12,7 @@ export enum GITHUB_PR_EVENT_TYPES {
   REVIEWED = 'reviewed',
 }
 
-
-export enum WORK_STAGES {
+export enum WorkStages {
   // Open
   TRIAGE = 'triage',
   PRIORITIZED = 'prioritized',
@@ -33,20 +32,23 @@ export enum WORK_STAGES {
 }
 
 // Function to check if current stage is open
-function isStageOpen(stage: string) {
-  return stage === WORK_STAGES.TRIAGE || stage === WORK_STAGES.PRIORITIZED || stage === WORK_STAGES.BACKLOG;
+export function isStageOpen(stage: string): boolean {
+  return stage === WorkStages.TRIAGE || stage === WorkStages.PRIORITIZED || stage === WorkStages.BACKLOG;
 }
 
 // Get existing works in DevRev for given work ids.
-async function getExistingWorks(ids: string[], devrevSDK: betaSDK.Api<unknown>): Promise<Record<string, any>[]> {
-  const works: Record<string, any>[] = [];
+export async function getExistingWorks(
+  ids: string[],
+  devrevSDK: betaSDK.Api<unknown>
+): Promise<Record<string, unknown>[]> {
+  const works: Record<string, unknown>[] = [];
 
   for (const id of ids) {
     try {
-      const response = await devrevSDK.worksGet({ id });
+      const response: any = await devrevSDK.worksGet({ id });
       works.push(response.data.work);
-    } catch (error: any) {
-      console.error(`Error while fetching work with id ${id} : ${error.message}`);
+    } catch (error) {
+      console.error(`Error while fetching work with id ${id} : ${(error as Error).message}`);
     }
   }
 
@@ -54,7 +56,7 @@ async function getExistingWorks(ids: string[], devrevSDK: betaSDK.Api<unknown>):
 }
 
 // Helper function to get work item ID from the PR Description
-function getWorkItemID(prText: string) {
+export function getWorkItemID(prText: string): Set<string> {
   // Capitalize the PR Text
   const capitalizedText = prText.toUpperCase();
 
@@ -83,10 +85,10 @@ function getWorkItemID(prText: string) {
 }
 
 // Handles the PR opened event
-async function handlePROpened(payload: any, devrevSDK: betaSDK.Api<unknown>) {
+export async function handlePROpened(payload: Record<string, unknown>, devrevSDK: betaSDK.Api<unknown>): Promise<void> {
   // Check the PR Description
-  const prTitle = payload.pull_request.title;
-  const prDescription = payload.pull_request.body;
+  const prTitle = (payload['pull_request'] as Record<string, unknown>)?.['title'] as string;
+  const prDescription = (payload['pull_request'] as Record<string, unknown>)?.['body'] as string;
 
   // Combine the PR Title and Description
   const prText = prTitle + ' ' + prDescription;
@@ -106,13 +108,13 @@ async function handlePROpened(payload: any, devrevSDK: betaSDK.Api<unknown>) {
     }
 
     // Check if the work item is in the open stage
-    if (isStageOpen(work['stage'].name)) {
+    if (isStageOpen((work['stage'] as Record<string, unknown>)['name'] as string)) {
       // Update the work item stage to in_development
-      const workId = work['id'];
+      const workId = work['id'] as string;
       const updateWorkRequest: betaSDK.WorksUpdateRequest = {
         id: workId,
         stage: {
-          name: WORK_STAGES.IN_DEVELOPMENT
+          name: WorkStages.IN_DEVELOPMENT,
         },
         stage_validation_options: [betaSDK.StageValidationOptionForUpdate.AllowInvalidTransition],
       };
@@ -121,37 +123,37 @@ async function handlePROpened(payload: any, devrevSDK: betaSDK.Api<unknown>) {
       try {
         const response = await devrevSDK.worksUpdate(updateWorkRequest);
         console.log('Work Updated: ', JSON.stringify(response.data.work, null, 2));
-      } catch (error: any) {
-        console.error(`Error while updating work with id ${workId} : ${error.message}`);
+      } catch (error) {
+        console.error(`Error while updating work with id ${workId} : ${(error as Error).message}`);
       }
     }
   }
 }
 
 // Handles the event from GitHub
-async function handleEvent(event: any) {
+export async function handleEvent(event: Record<string, unknown>): Promise<void> {
   // Extract necessary information from the event
-  const token = event.context.secrets['service_account_token'];
-  const endpoint = event.execution_metadata.devrev_endpoint;
+  const token = (event['context'] as Record<string, unknown>)['secrets'] as Record<string, string>;
+  const endpoint = (event['execution_metadata'] as Record<string, string>)['devrev_endpoint'];
 
   // Set up the DevRev SDK with the extracted information
   const devrevSDK = client.setupBeta({
     endpoint: endpoint,
-    token: token,
+    token: token['service_account_token'],
   });
 
   // Check the type of action from the event
-  const action = event.payload.action;
+  const action = (event['payload'] as Record<string, unknown>)['action'] as string;
   console.log('Action:', action);
 
-  console.log(JSON.stringify(event.payload, null, 2));
-  if (action === GITHUB_PR_EVENT_TYPES.OPENED || action === GITHUB_PR_EVENT_TYPES.REOPENED) {
+  console.log(JSON.stringify(event['payload'], null, 2));
+  if (action === GithubPrEventTypes.OPENED || action === GithubPrEventTypes.REOPENED) {
     // Call the async function to handle PR opened event
-    await handlePROpened(event.payload, devrevSDK);
+    await handlePROpened(event['payload'] as Record<string, unknown>, devrevSDK);
   }
 }
 
-export const run = async (events: any[]) => {
+export const run = async (events: Record<string, unknown>[]): Promise<void> => {
   for (const event of events) {
     await handleEvent(event);
   }

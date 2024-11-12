@@ -13,9 +13,8 @@ deploying any code into production environments.
 */
 
 import bodyParser from 'body-parser';
-import express, { Express, Handler, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express';
 
-import process from 'process';
 import { functionFactory, FunctionFactoryType } from '../src/function-factory';
 import { HTTPClient, HttpRequest } from './http_client';
 import {
@@ -63,20 +62,20 @@ app.post('/handle/sync', async (req: Request, resp: Response) => {
 });
 
 async function run(f: any, event: any): Promise<any> {
-  let result = await f(event);
+  const result = await f(event);
   return result;
 }
 
 async function handleEvent(events: any[], isAsync: boolean, resp: Response) {
   let error;
-  let results: ExecutionResult[] = [];
+  const results: ExecutionResult[] = [];
   let receivedError = false;
 
   if (!Array.isArray(events)) {
-    let errMsg = 'Invalid request format: body is not an array';
+    const errMsg = 'Invalid request format: body is not an array';
     error = {
-      err_type: RuntimeErrorType.InvalidRequest,
       err_msg: errMsg,
+      err_type: RuntimeErrorType.InvalidRequest,
     } as RuntimeError;
     console.error(error.err_msg);
     resp.status(400).send(errMsg);
@@ -85,10 +84,10 @@ async function handleEvent(events: any[], isAsync: boolean, resp: Response) {
   // if the request is synchronous, there should be a single event
   if (!isAsync) {
     if (events.length > 1) {
-      let errMsg = 'Invalid request format: multiple events provided for synchronous request';
+      const errMsg = 'Invalid request format: multiple events provided for synchronous request';
       error = {
-        err_type: RuntimeErrorType.InvalidRequest,
         err_msg: errMsg,
+        err_type: RuntimeErrorType.InvalidRequest,
       } as RuntimeError;
       console.error(error.err_msg);
       resp.status(400).send(errMsg);
@@ -99,13 +98,13 @@ async function handleEvent(events: any[], isAsync: boolean, resp: Response) {
     resp.status(200).send();
   }
 
-  for (let event of events) {
+  for (const event of events) {
     let result;
     const functionName: FunctionFactoryType = event.execution_metadata.function_name as FunctionFactoryType;
     if (functionName === undefined) {
       error = {
-        err_type: RuntimeErrorType.FunctionNameNotProvided,
         err_msg: 'Function name not provided in event',
+        err_type: RuntimeErrorType.FunctionNameNotProvided,
       } as RuntimeError;
       console.error(error.err_msg);
       receivedError = true;
@@ -114,8 +113,8 @@ async function handleEvent(events: any[], isAsync: boolean, resp: Response) {
       try {
         if (f == undefined) {
           error = {
-            err_type: RuntimeErrorType.FunctionNotFound,
             err_msg: `Function ${event.execution_metadata.function_name} not found in factory`,
+            err_type: RuntimeErrorType.FunctionNotFound,
           } as RuntimeError;
           console.error(error.err_msg);
           receivedError = true;
@@ -132,7 +131,7 @@ async function handleEvent(events: any[], isAsync: boolean, resp: Response) {
     }
 
     // Return result.
-    let res: ExecutionResult = {};
+    const res: ExecutionResult = {};
 
     if (result !== undefined) {
       res.function_result = result;
@@ -168,11 +167,11 @@ function isDeactivateHook(event: any): boolean {
 }
 
 function handleActivateHookResult(event: any, handlerError: HandlerError, result: any) {
-  let update_req: SnapInsSystemUpdateRequest = {
+  const update_req: SnapInsSystemUpdateRequest = {
     id: event.context.snap_in_id,
     status: SnapInsSystemUpdateRequestStatus.Active,
   };
-  let res = getActivateHookResult(result);
+  const res = getActivateHookResult(result);
   update_req.inputs_values = res.inputs_values;
 
   if (handlerError !== undefined || res?.status === 'error') {
@@ -184,11 +183,11 @@ function handleActivateHookResult(event: any, handlerError: HandlerError, result
 }
 
 function handleDeactivateHookResult(event: any, handlerError: HandlerError, result: any) {
-  let update_req: SnapInsSystemUpdateRequest = {
+  const update_req: SnapInsSystemUpdateRequest = {
     id: event.context.snap_in_id,
     status: SnapInsSystemUpdateRequestStatus.Inactive,
   };
-  let res = getDeactivateHookResult(result);
+  const res = getDeactivateHookResult(result);
   update_req.inputs_values = res.inputs_values;
   if (event.payload.force_deactivate) {
     console.debug('Snap-in is being force deactivated, errors ignored');
@@ -218,8 +217,8 @@ async function updateSnapInState(event: any, update_req: SnapInsSystemUpdateRequ
   });
 
   const request: HttpRequest = {
-    path: '/internal/snap-ins.system-update',
     body: update_req,
+    path: '/internal/snap-ins.system-update',
   };
 
   try {
@@ -230,7 +229,7 @@ async function updateSnapInState(event: any, update_req: SnapInsSystemUpdateRequ
 }
 
 function getActivateHookResult(input: any): ActivateHookResult {
-  let res = {} as ActivateHookResult;
+  const res = {} as ActivateHookResult;
   if (input instanceof Object) {
     if (input.status === 'active' || input.status === 'error') {
       res.status = input.status;
@@ -247,7 +246,7 @@ function getActivateHookResult(input: any): ActivateHookResult {
 }
 
 function getDeactivateHookResult(input: any): DeactivateHookResult {
-  let res = {} as DeactivateHookResult;
+  const res = {} as DeactivateHookResult;
   if (input instanceof Object) {
     if (input.status === 'inactive' || input.status === 'error') {
       res.status = input.status;
