@@ -1,4 +1,5 @@
 import { betaSDK, publicSDK } from '@devrev/typescript-sdk';
+import axios from 'axios';
 import * as index from './index';
 import { WorkStages } from './index';
 
@@ -40,13 +41,23 @@ describe('GitHub PR Handler', () => {
     it('should fetch works for given IDs', async () => {
       const mockSDK = {
         worksGet: jest.fn().mockResolvedValue({
-          data: { work: { id: 'WORK-1', type: publicSDK.WorkType.Issue } },
+          data: {
+            work: {
+              id: 'WORK-1',
+              stage: { name: WorkStages.TRIAGE },
+              type: publicSDK.WorkType.Issue,
+            },
+          },
         }),
       } as unknown as betaSDK.Api<unknown>;
 
       const result = await index.getExistingWorks(['WORK-1'], mockSDK);
       expect(result).toHaveLength(1);
-      expect(result[0]).toEqual({ id: 'WORK-1', type: publicSDK.WorkType.Issue });
+      expect(result[0]).toEqual({
+        id: 'WORK-1',
+        stage: { name: WorkStages.TRIAGE },
+        type: publicSDK.WorkType.Issue,
+      });
       expect(mockSDK.worksGet).toHaveBeenCalledWith({ id: 'WORK-1' });
     });
 
@@ -72,6 +83,7 @@ describe('GitHub PR Handler', () => {
           data: {
             work: {
               id: 'WORK-1',
+              owned_by: [{ id: 'USER-1' }],
               stage: { name: WorkStages.TRIAGE },
               type: publicSDK.WorkType.Issue,
             },
@@ -82,22 +94,33 @@ describe('GitHub PR Handler', () => {
         }),
       } as unknown as betaSDK.Api<unknown>;
 
+      jest.spyOn(axios, 'post').mockResolvedValue({
+        data: { inputs: { update_issue_on_pr: true } },
+      });
+
       const payload = {
         pull_request: {
           body: 'This PR addresses the issue ISS-123',
+          html_url: 'https://github.com/org/repo/pull/1',
           title: 'Fix for ISS-123',
         },
       };
 
-      await index.handlePROpened(payload, mockSDK);
+      await index.handlePROpened(payload, mockSDK, 'fake-token', 'fake-endpoint', 'snap-in-id');
 
       expect(mockSDK.worksGet).toHaveBeenCalledWith({ id: 'ISS-123' });
-      expect(mockSDK.worksUpdate).toHaveBeenCalledWith(
-        expect.objectContaining({
-          id: 'WORK-1',
-          stage: { name: WorkStages.IN_DEVELOPMENT },
-        })
-      );
+      expect(mockSDK.worksUpdate).toHaveBeenCalledWith({
+        custom_fields: {
+          tnt__github_pr_url: 'https://github.com/org/repo/pull/1',
+        },
+        custom_schema_spec: {
+          tenant_fragment: true,
+          validate_required_fields: false,
+        },
+        id: 'WORK-1',
+        stage: { name: WorkStages.IN_DEVELOPMENT },
+        stage_validation_options: ['allow_invalid_transition'],
+      });
     });
   });
 });
