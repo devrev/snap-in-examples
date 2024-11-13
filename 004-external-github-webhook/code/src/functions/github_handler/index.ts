@@ -96,15 +96,49 @@ async function getUserPreference(
   return response.data.inputs;
 }
 
-// Function to check if we should update the stage
+// Add this helper function to check stage categories
+export function getStageCategory(stage: string): 'open' | 'in_progress' | 'completed' {
+  if (isStageOpen(stage)) {
+    return 'open';
+  }
+  if (stage === WorkStages.COMPLETED || stage === WorkStages.WONT_FIX || 
+      stage === WorkStages.DUPLICATE || stage === WorkStages.RESOLVED) {
+    return 'completed';
+  }
+  return 'in_progress';
+}
+
+// Add this function to validate stage transitions
+export function isValidStageTransition(currentStage: string, newStage: string): boolean {
+  const currentCategory = getStageCategory(currentStage);
+  const newCategory = getStageCategory(newStage);
+
+  switch (currentCategory) {
+    case 'open':
+      // Open stages can transition to open or in_progress
+      return newCategory === 'open' || newCategory === 'in_progress';
+    case 'in_progress':
+      // In progress stages can transition to in_progress or completed
+      return newCategory === 'in_progress' || newCategory === 'completed';
+    case 'completed':
+      // Completed stages cannot transition
+      return false;
+    default:
+      return false;
+  }
+}
+
 export async function shouldUpdateStage(
   work: Record<string, unknown>,
   snapInID: string,
   devrevEndpoint: string,
-  devrevToken: string
+  devrevToken: string,
+  newStage: string
 ): Promise<boolean> {
-  // Check if the work item is in the open stage
-  if (!isStageOpen((work['stage'] as Record<string, unknown>)['name'] as string)) {
+  const currentStage = (work['stage'] as Record<string, unknown>)['name'] as string;
+  
+  // Check if the stage transition is valid
+  if (!isValidStageTransition(currentStage, newStage)) {
     return false;
   }
 
@@ -170,8 +204,23 @@ export function getWorkItemID(prText: string): Set<string> {
   return matchedIds;
 }
 
+// Return the work item stage from the PR stage
+export function getWorkItemStageFromPRStage(prStage: string): string {
+  // If PR is merged, return completed stage
+  if (prStage === GithubPrEventTypes.CLOSED || prStage === GithubPrEventTypes.MERGED) {
+    return WorkStages.COMPLETED;
+  }
+  // Else if PR is opened, return in_development stage
+  if (prStage === GithubPrEventTypes.OPENED || prStage === GithubPrEventTypes.REOPENED) {
+    return WorkStages.IN_DEVELOPMENT;
+  }
+
+  // Else return triage stage
+  return WorkStages.TRIAGE;
+}
+
 // Handles the PR opened event
-export async function handlePROpened(
+export async function handlePREvent(
   payload: Record<string, unknown>,
   devrevSDK: betaSDK.Api<unknown>,
   token: string,
@@ -192,7 +241,7 @@ export async function handlePROpened(
   // Get the work item from IDs
   const works = await getExistingWorks(Array.from(workItemIDs), devrevSDK);
 
-  // For each work item, if current stage is open, update the stage to in_development.
+  // For each work item, check if we should update the stage
   for (const work of works) {
     // Log the work item
     console.log('Work: ', JSON.stringify(work, null, 2));
@@ -200,12 +249,15 @@ export async function handlePROpened(
       continue;
     }
 
+    // Get the new stage for the work item
+    const newStage = getWorkItemStageFromPRStage(payload['action'] as string);
+
     // Check if we should update the stage
-    if (!(await shouldUpdateStage(work, snapInID, endpoint, token))) {
+    if (!(await shouldUpdateStage(work, snapInID, endpoint, token, newStage))) {
       continue;
     }
 
-    // Update the work item stage to in_development
+    // Update the work item stage
     const workId = work['id'] as string;
     const updateWorkRequest: betaSDK.WorksUpdateRequest = {
       custom_fields: {
@@ -217,7 +269,7 @@ export async function handlePROpened(
       },
       id: workId,
       stage: {
-        name: WorkStages.IN_DEVELOPMENT,
+        name: newStage,
       },
       stage_validation_options: [betaSDK.StageValidationOptionForUpdate.AllowInvalidTransition],
     };
@@ -249,10 +301,11 @@ export async function handleEvent(event: Record<string, unknown>): Promise<void>
   const action = (event['payload'] as Record<string, unknown>)['action'] as string;
   console.log('Action:', action);
 
-  console.log(JSON.stringify(event, null, 2));
-  if (action === GithubPrEventTypes.OPENED || action === GithubPrEventTypes.REOPENED) {
+
+  // console.log(JSON.stringify(event, null, 2));
+  if (action === GithubPrEventTypes.OPENED || action === GithubPrEventTypes.REOPENED || action === GithubPrEventTypes.CLOSED) {
     // Call the async function to handle PR opened event
-    await handlePROpened(
+    await handlePREvent(
       event['payload'] as Record<string, unknown>,
       devrevSDK,
       token['service_account_token'],
