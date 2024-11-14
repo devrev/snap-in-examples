@@ -26,5 +26,6 @@ commands:
       - surface: discussions
         object_types:
           - part
+          - issue
     usage_hint: "[PR URL]"
     function: command_handler
