@@ -1,13 +1,23 @@
 import { AirdropEvent, EventType, spawn } from '@devrev/ts-adaas';
 
-export interface DummyExtractorState {
-  issues: { completed: boolean };
-  users: { completed: boolean };
+export interface GithubExtractorState {
+  issues: { 
+    completed: boolean,
+    issues?: any[],
+  },
+  users: { 
+    completed: boolean,
+  },
 }
 
-const initialState: DummyExtractorState = {
-  issues: { completed: false },
-  users: { completed: false },
+const initialState: GithubExtractorState = {
+  issues: { 
+    completed: false,
+    issues: [],
+  },
+  users: { 
+    completed: false,
+  },
 };
 
 function getWorkerPerExtractionPhase(event: AirdropEvent) {
@@ -30,13 +40,16 @@ function getWorkerPerExtractionPhase(event: AirdropEvent) {
 const run = async (events: AirdropEvent[]) => {
   for (const event of events) {
     const file = getWorkerPerExtractionPhase(event);
-    await spawn<DummyExtractorState>({
+    await spawn<GithubExtractorState>({
       event,
       initialState,
       workerPath: file,
+      /* 
+      Flag for local development
       options: {
         isLocalDevelopment:true,
       },
+      */
     });
 
     console.log('Finished extraction for event: ', event.payload.event_type);

@@ -35,13 +35,3 @@ export function normalizeUser(item: any): NormalizedItem {
     },
   };
 }
-
-export function normalizeAttachment(item: any): NormalizedAttachment {
-  return {
-    url: item.url,
-    id: item.id.toString(),
-    file_name: item.file_name,
-    author_id: item.author_id,
-    parent_id: item.parent_id,
-  };
-}

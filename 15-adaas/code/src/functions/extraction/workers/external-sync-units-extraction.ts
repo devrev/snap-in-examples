@@ -1,24 +1,33 @@
-import { ExternalSyncUnit, ExtractorEventType, processTask } from '@devrev/ts-adaas';
+import { ExtractorEventType, processTask } from '@devrev/ts-adaas';
+
+interface GithubRepo {
+  id: number;
+  name: string; 
+  description: string | null;
+  html_url: string;
+  created_at: string;
+  updated_at: string;
+  language: string | null;
+  visibility: string;
+  default_branch: string;
+}
+
+interface ExternalSyncUnit {
+  id: string;
+  name: string;
+  description: string;
+  html_url: string;
+  created_at: string;
+  updated_at: string;
+  language: string | null;
+  visibility: string;
+  default_branch: string;
+}
 
 processTask({
   task: async ({ adapter }) => {
-    const ev = adapter.event;
-    const githubToken = ev.payload.connection_data.key;
-    
-    let allRepos: any[] = [];
-    let page = 1;
-    let repos;
-    do {
-      repos = await getGithubRepos(githubToken, page);
-      allRepos = allRepos.concat(repos);
-      page++;
-    } while (repos.length === 100);
-    const orgs = allRepos;
-    const externalSyncUnits = orgs.map((org) => ({
-      id: org.id,
-      name: org.name,
-      description: org.description,
-    }));
+    const githubToken = adapter.event.payload.connection_data.key;
+    const externalSyncUnits = await getAllExternalSyncUnits(githubToken);
 
     await adapter.emit(ExtractorEventType.ExtractionExternalSyncUnitsDone, {
       external_sync_units: externalSyncUnits,
@@ -33,77 +42,63 @@ processTask({
   },
 });
 
+async function getAllExternalSyncUnits(authToken: string): Promise<ExternalSyncUnit[]> {
+  const repos = await fetchAllRepos(authToken);
+  return repos.map(mapRepoToExternalSyncUnit);
+}
 
+async function fetchAllRepos(authToken: string): Promise<GithubRepo[]> {
+  const perPage = 100;
+  let page = 1;
+  let allRepos: GithubRepo[] = [];
+  let currentPageRepos: GithubRepo[];
 
-async function getGithubRepos(authToken: string, page: number = 1): Promise<any[]> {
+  do {
+    currentPageRepos = await getGithubRepos(authToken, page, perPage);
+    allRepos = allRepos.concat(currentPageRepos);
+    page++;
+  } while (currentPageRepos.length === perPage);
+
+  return allRepos;
+}
+
+async function getGithubRepos(
+  authToken: string, 
+  page: number = 1, 
+  perPage: number = 100
+): Promise<GithubRepo[]> {
   try {
-    const response = await fetch(`https://api.github.com/user/repos?page=${page}&per_page=100`, {
-      headers: {
-        'Authorization': `Bearer ${authToken}`,
-        'Accept': 'application/vnd.github.v3+json'
+    const response = await fetch(
+      `https://api.github.com/user/repos?page=${page}&per_page=${perPage}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
       }
-    });
+    );
 
     if (!response.ok) {
       throw new Error(`GitHub API request failed: ${response.statusText}`);
     }
 
-    const repos = await response.json();
-    return repos.map((repo: {
-      id: number;
-      name: string;
-      description: string | null;
-      html_url: string;
-      created_at: string;
-      updated_at: string;
-      language: string | null;
-      visibility: string;
-      default_branch: string;
-    }) => ({
-      id: repo.id.toString(),
-      name: repo.name,
-      description: repo.description || '',
-      html_url: repo.html_url,
-      created_at: repo.created_at,
-      updated_at: repo.updated_at,
-      language: repo.language,
-      visibility: repo.visibility,
-      default_branch: repo.default_branch
-    }));
+    return await response.json();
   } catch (error) {
     console.error('Error fetching GitHub repositories:', error);
     throw error;
   }
 }
 
-async function getGithubOrgs(authToken: string): Promise<any[]> {
-  // get list of organizations the user is a member of
-  const response = await fetch('https://api.github.com/user/memberships/orgs', {
-    headers: {
-      'Authorization': `Bearer ${authToken}`,
-      'Accept': 'application/vnd.github.v3+json'
-    }
-  });
-
-  if (!response.ok) {
-    throw new Error(`GitHub API request failed: ${response.statusText}`);
-  }
-
-  return await response.json();
-}
-
-async function getGithubReposForOrg(authToken: string, orgId: string): Promise<any[]> {
-  // get list of repos for a given organization
-  const response = await fetch(`https://api.github.com/orgs/${orgId}/repos`, {
-    headers: {
-      'Authorization': `Bearer ${authToken}`,
-      'Accept': 'application/vnd.github.v3+json'
-    }
-  });
-
-  if (!response.ok) {
-    throw new Error(`GitHub API request failed: ${response.statusText}`);
-  }
-
-  return await response.json();
+function mapRepoToExternalSyncUnit(repo: GithubRepo): ExternalSyncUnit {
+  return {
+    id: repo.id.toString(),
+    name: repo.name,
+    description: repo.description || '',
+    html_url: repo.html_url,
+    created_at: repo.created_at,
+    updated_at: repo.updated_at,
+    language: repo.language,
+    visibility: repo.visibility,
+    default_branch: repo.default_branch
+  };
 }

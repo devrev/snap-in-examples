@@ -1,8 +1,8 @@
 import { EventType, ExtractorEventType, processTask } from '@devrev/ts-adaas';
 
-import { normalizeAttachment, normalizeIssue, normalizeUser } from '../dummy-extractor/data-normalization';
+import {  normalizeIssue, normalizeUser } from '../github-extractor/data-normalization';
 import { WorkerAdapter } from '@devrev/ts-adaas';
-import { DummyExtractorState } from '../index';
+import { GithubExtractorState } from '../index';
 
 // Dummy data that originally would be fetched from an external source
 const issues = [
@@ -47,22 +47,6 @@ const users = [
   },
 ];
 
-const attachments = [
-  {
-    url: 'https://app.dev.devrev-eng.ai/favicon.ico',
-    id: 'attachment-1',
-    file_name: 'dummy.jpg',
-    author_id: 'user-1',
-    parent_id: 'issue-1',
-  },
-  {
-    url: 'https://app.dev.devrev-eng.ai/favicon.ico',
-    id: 'attachment-2',
-    file_name: 'dummy.ico',
-    author_id: 'user-2',
-    parent_id: 'issue-2',
-  },
-];
 
 const repos = [
   {
@@ -73,20 +57,18 @@ const repos = [
     itemType: 'users',
     normalize: normalizeUser,
   },
-  {
-    itemType: 'attachments',
-    normalize: normalizeAttachment,
-  },
 ];
 
 processTask({
-  task: async({ adapter }: { adapter: WorkerAdapter<DummyExtractorState> }) => {
+  task: async({ adapter }: { adapter: WorkerAdapter<GithubExtractorState> }) => {
     adapter.initializeRepos(repos);
-    if (adapter.event.payload.event_type === EventType.ExtractionDataStart) {
-      const githubToken = adapter.event.payload.connection_data.key;
+    const githubToken = adapter.event.payload.connection_data.key;
+  
       // @ts-ignore - property exists at runtime
       const repoName = adapter.event.payload.event_context.external_sync_unit_name;
       const repoId = adapter.event.payload.event_context.external_sync_unit_id;
+    if (adapter.event.payload.event_type === EventType.ExtractionDataStart) {
+
       if (!repoId) {
         console.error('Repo ID not found in event payload');
         return;
@@ -95,24 +77,42 @@ processTask({
         console.error('GitHub token or repo not found in event payload');
         return;
       }
-      const issues = await getGithubIssues(githubToken, repoId);
-     await adapter.getRepo('issues')?.push(issues);
-     
-     adapter.state.issues.completed = true;
+      let issues: any[] = [];
+      try {
+        issues = await getGithubIssues(githubToken, repoId);
+      } catch (error) {
+        console.error('Error fetching GitHub issues:', error);
+        throw error;
+      }
+      try {
+        await adapter.getRepo('issues')?.push(issues);
+      } catch (error) {
+        console.error('Error pushing issues to repository:', error);
+        throw error;
+      }
+      // Update state to indicate that issues have been fetched
+      adapter.state.issues.completed = true;
+      adapter.state.issues.issues = issues;
 
-      // get assignees for each issue
-      const assignees = extractAssigneesID(issues);
 
-
-      const assigneesData = await getGithubUsers(githubToken, assignees);
-      await adapter.getRepo('users')?.push(assigneesData);
-
-      // How to handle the state?
       await adapter.emit(ExtractorEventType.ExtractionDataProgress, {
-        progress: 90,
+        progress: 50,
       });
     } else {
-      adapter.getRepo('attachments')?.push(attachments);
+
+      // Get issues from state
+      const issues = adapter.state.issues.issues;
+      if (issues && issues.length > 0) {
+        // get assignees for each issue
+        const assignees = extractAssigneesID(issues);
+        try {
+          const assigneesData = await getGithubUsers(githubToken, assignees);
+          await adapter.getRepo('users')?.push(assigneesData);
+        } catch (error) {
+          console.error('Error fetching GitHub users:', error);
+          throw error;
+        }
+      }     
       await adapter.emit(ExtractorEventType.ExtractionDataDone, {
         progress: 100,
       });
@@ -129,33 +129,32 @@ processTask({
 
 // get list of github issues for a given repo
 async function getGithubIssues(authToken: string, repo_id: string) {
- 
-  let page = 1;
   const perPage = 100;
-  let hasMorePages = true;
   const allIssues = [];
 
-  while (hasMorePages) {
-    console.log('page', page);
-    const response = await fetch(
-      `https://api.github.com/repositories/${repo_id}/issues?page=${page}&per_page=${perPage}&state=all`, 
-      {
-        headers: {
-          'Authorization': `Bearer ${authToken}`,
-          'Accept': 'application/vnd.github.v3+json'
-        }
-      }
-    );
+  const fetchPage = async (page: number) => {
+    const url = `https://api.github.com/repositories/${repo_id}/issues?page=${page}&per_page=${perPage}&state=all`;
+    const headers = {
+      'Authorization': `Bearer ${authToken}`,
+      'Accept': 'application/vnd.github.v3+json'
+    };
 
+    const response = await fetch(url, { headers });
     const issuesResponse = await response.json();
-    console.log('issuesResponse', issuesResponse.length);
-    // only get issues that are not pull requests
-    const issues = issuesResponse.filter((issue: any) => issue.pull_request === undefined);
-    console.log('issues', issues.length);
-    allIssues.push(...issues);
+    
+    // Filter out pull requests
+    return issuesResponse.filter((issue: any) => !issue.pull_request);
+  };
 
-    // Check if there are more pages based on response length
-    hasMorePages = issuesResponse.length === perPage;
+  let page = 1;
+  while (true) {
+    console.log('page', page);
+    const pageIssues = await fetchPage(page);
+    allIssues.push(...pageIssues);
+
+    if (pageIssues.length < perPage) {
+      break;
+    }
     page++;
   }
 
@@ -179,22 +178,24 @@ function extractAssigneesID(issues: any[]) {
 }
 
 async function getGithubUsers(authToken: string, assignees: string[]) {
-  const assigneesData: any[] = [];
-  for (const assignee of assignees) {
+  const headers = {
+    'Authorization': `Bearer ${authToken}`,
+    'Accept': 'application/vnd.github.v3+json'
+  };
+
+  const fetchUser = async (assigneeId: string) => {
     try {
-      const response = await fetch(`https://api.github.com/user/${assignee}`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`,
-          'Accept': 'application/vnd.github.v3+json'
-        },
-      });
-      assigneesData.push(await response.json());
+      const response = await fetch(`https://api.github.com/user/${assigneeId}`, { headers });
+      return await response.json();
     } catch (error) {
-      console.error(`GitHub API request failed: ${error}`);
-      continue;
+      console.error(`GitHub API request failed for user ${assigneeId}: ${error}`);
+      return null;
     }
+  };
 
-  }
+  const assigneesData = await Promise.all(
+    assignees.map(assigneeId => fetchUser(assigneeId))
+  );
 
-  return assigneesData;
+  return assigneesData.filter(data => data !== null);
 }
