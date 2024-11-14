@@ -17,6 +17,8 @@ keyrings:
 functions:
   - name: command_handler
     description: function to get details of a GitHub Repo
+  - name: operation_handler
+    description: function to get details of a GitHub Repo
 
 commands:
   - name: repo_details
@@ -37,7 +39,7 @@ operations:
     function: operation_handler
     type: action
     keyrings:
-      - name: github_connection
+      - name: github_token
         display_name: Github Connection
         description: Github PAT
         types:
@@ -60,7 +62,7 @@ operations:
           field_type: int
           ui:
             display_name: Number of Forks
-        - name: stars_count
+        - name: stargazers_count
           field_type: int
           ui:
-            display_name: Number of Stars
+            display_name: Number of Stargazers
