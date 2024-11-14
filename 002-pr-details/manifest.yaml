@@ -1,0 +1,30 @@
+version: "2"
+name: "GitHub Repo Details"
+description: "Get details of a GitHub Repo."
+
+# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
+service_account:
+  display_name: GitHub Repo Details
+
+keyrings:
+  organization:
+    - name: github_connection
+      display_name: Github Connection
+      description: Github PAT
+      types:
+        - snap_in_secret
+
+functions:
+  - name: command_handler
+    description: function to get details of a GitHub Repo
+
+commands:
+  - name: repo_details
+    namespace: devrev
+    description: Command to get details of a Repo.
+    surfaces:
+      - surface: discussions
+        object_types:
+          - part
+    usage_hint: "[Repo_URL]"
+    function: command_handler
