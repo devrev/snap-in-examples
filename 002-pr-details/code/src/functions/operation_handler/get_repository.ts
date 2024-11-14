@@ -76,6 +76,7 @@ export class GetRepository extends OperationBase {
       return OperationOutput.fromJSON({
         output: {
           values: [result],
+          error: err,
         } as OutputValue,
       });
     } catch (error) {
