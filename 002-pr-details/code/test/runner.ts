@@ -120,7 +120,7 @@ async function handleEvent(events: any[], isAsync: boolean, resp: Response) {
           console.error(error.err_msg);
           receivedError = true;
         } else {
-          result = run(f, [event]);
+          result = await run(f, [event]);
         }
       } catch (e) {
         error = { error: e } as FunctionError;
