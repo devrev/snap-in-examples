@@ -10,7 +10,6 @@ const issues = [
     id: 'issue-1',
     created_date: '1999-12-25T01:00:03+01:00',
     modified_date: '1999-12-25T01:00:03+01:00',
-    body: '<p>This is issue 1</p>',
     creator: 'user-1',
     owner: 'user-1',
     title: 'Issue 1',
@@ -19,7 +18,6 @@ const issues = [
     id: 'issue-2',
     created_date: '1999-12-27T15:31:34+01:00',
     modified_date: '2002-04-09T01:55:31+02:00',
-    body: '<p>This is issue 2</p>',
     creator: 'user-2',
     owner: 'user-2',
     title: 'Issue 2',
@@ -59,22 +57,20 @@ const repos = [
   },
 ];
 
+// TODO: Add support for extraction of the body and the due_on fields of the issues
 processTask({
   task: async({ adapter }: { adapter: WorkerAdapter<GithubExtractorState> }) => {
     adapter.initializeRepos(repos);
     const githubToken = adapter.event.payload.connection_data.key;
   
-      // @ts-ignore - property exists at runtime
-      const repoName = adapter.event.payload.event_context.external_sync_unit_name;
-      const repoId = adapter.event.payload.event_context.external_sync_unit_id;
+    const repoId = adapter.event.payload.event_context.external_sync_unit_id;
     if (adapter.event.payload.event_type === EventType.ExtractionDataStart) {
-
       if (!repoId) {
         console.error('Repo ID not found in event payload');
         return;
       }
-      if (!githubToken || !repoName) {
-        console.error('GitHub token or repo not found in event payload');
+      if (!githubToken) {
+        console.error('GitHub token not found in event payload');
         return;
       }
       let issues: any[] = [];
@@ -94,6 +90,12 @@ processTask({
       adapter.state.issues.completed = true;
       adapter.state.issues.issues = issues;
 
+      try {
+        await adapter.postState();
+      } catch (error) {
+        console.error('Error posting state:', error);
+        throw error;
+      }
 
       await adapter.emit(ExtractorEventType.ExtractionDataProgress, {
         progress: 50,
