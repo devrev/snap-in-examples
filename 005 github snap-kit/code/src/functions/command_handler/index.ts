@@ -82,10 +82,9 @@ export const getPRDetails = async (pullRequestURL: string, octokit: Octokit): Pr
   }
 };
 
-// Function to create a timeline comment with the PR details
-const createTimelineComment = async (partId: string, prDetails: PRDetails, devrevSDK: publicSDK.Api<any>): Promise<void> => {
-  // Format the body of the timeline comment
-  const bodyComment = `**PR Details:**
+// Function to create the snap kit body
+const createSnapKitBody = (prDetails: PRDetails): any => {
+  const bodyComment = `**PR Info:**
   - Title: ${prDetails.title}
   - Description: ${prDetails.body}
   - State: ${prDetails.state}
@@ -95,13 +94,44 @@ const createTimelineComment = async (partId: string, prDetails: PRDetails, devre
   - Created By: [${prDetails.user?.login}](${prDetails.user?.html_url})
   - [View PR](${prDetails.html_url})`;
 
+  return {
+    body: {
+      snaps: [
+        {
+          elements: [
+            {
+              elements: [
+                {
+                  text: bodyComment,
+                  type: 'rich_text',
+                },
+              ],
+              type: 'content',
+            },
+          ],
+          title: {
+            text: 'Here are the details of the PR',
+            type: 'plain_text',
+          },
+          type: 'card',
+        },
+      ],
+    },
+  };
+}
+
+// Function to create a timeline comment with the PR details
+const createTimelineComment = async (partId: string, prDetails: PRDetails, devrevSDK: publicSDK.Api<any>): Promise<void> => {
+  // Get the snap kit body
+  const snapKitBody = createSnapKitBody(prDetails);
+
   // Create a timeline comment with the PR details
   await devrevSDK.timelineEntriesCreate({
-    body: bodyComment,
+    // body: bodyComment,
+    body_type: publicSDK.TimelineCommentBodyType.SnapKit,
     object: partId,
-    body_type: publicSDK.TimelineCommentBodyType.Text,
+    snap_kit_body: snapKitBody,
     type: publicSDK.TimelineEntriesCreateRequestType.TimelineComment,
-    visibility: publicSDK.TimelineEntryVisibility.Internal,
   });
 };
 
