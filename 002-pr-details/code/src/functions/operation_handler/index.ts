@@ -3,13 +3,14 @@ import { ExecuteOperationInput,FunctionInput, OperationMap } from '@devrev/types
 
 // Operations
 import { GetRepository } from './get_repository';
-
+import { GetPullRequest } from './get_pull_request';
 /**
  * Map of operations with the slug mentioned in the manifest.
  * The key is the slug of the operation mentioned in the manifest and value is the operation class.
  */
 const operationMap: OperationMap = {
   get_repository: GetRepository,
+  get_pull_request: GetPullRequest,
 };
 
 export const run = async (events: FunctionInput[]) => {
