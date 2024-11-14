@@ -1,8 +1,10 @@
 import { client, publicSDK } from '@devrev/typescript-sdk';
 import { Octokit } from '@octokit/core';
 
+export const merge_pr = 'merge_pr';
+export const close_pr = 'close_pr';
 
-interface PRDetails {
+export interface PRDetails {
   owner: string;
   repo: string;
   pull_number: number;
@@ -16,14 +18,17 @@ interface PRDetails {
   user?: User;
 }
 
-interface User {
+export interface User {
   login: string;
   id: number;
   html_url: string;
 }
 
-export const getPRDetails = async (pullRequestURL: string, octokit: Octokit): Promise<PRDetails> => {
+export const getPRDetails = async (pullRequestURL: string | null, octokit: Octokit): Promise<PRDetails> => {
   try {
+    if (!pullRequestURL) {
+      throw new Error('Invalid GitHub PR URL format');
+    }
     // Parse the PR URL to extract owner, repo, and PR number
     const urlPattern = /https?:\/\/github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/;
     const match = pullRequestURL.match(urlPattern);
@@ -48,6 +53,7 @@ export const getPRDetails = async (pullRequestURL: string, octokit: Octokit): Pr
         'X-GitHub-Api-Version': '2022-11-28'
       }
     });
+
 
     // Extract relevant information
     const {
@@ -82,53 +88,93 @@ export const getPRDetails = async (pullRequestURL: string, octokit: Octokit): Pr
   }
 };
 
-// Function to create the snap kit body
-const createSnapKitBody = (prDetails: PRDetails): any => {
+export const createBodySnapshots = (prDetails: PRDetails):any => {
   const bodyComment = `**PR Info:**
   - Title: ${prDetails.title}
   - Description: ${prDetails.body}
   - State: ${prDetails.state}
   - Created At: ${prDetails.created_at}
   - Updated At: ${prDetails.updated_at}
-  ${prDetails.state === "open" ? "" : `- Merged At: ${prDetails.merged_at}`}
+  ${prDetails.state === "open" ? "" : `- Closed At: ${prDetails.merged_at}\n`}
   - Created By: [${prDetails.user?.login}](${prDetails.user?.html_url})
   - [View PR](${prDetails.html_url})`;
 
-  return {
-    body: {
-      snaps: [
-        {
-          elements: [
-            {
-              elements: [
-                {
-                  text: bodyComment,
-                  type: 'rich_text',
-                },
-              ],
-              type: 'content',
-            },
-          ],
-          title: {
-            text: 'Here are the details of the PR',
-            type: 'plain_text',
+  const bodySnaps = {
+    snaps: [
+      {
+        elements: [
+          {
+            elements: [
+              {
+                text: bodyComment,
+                type: 'rich_text',
+              },
+            ],
+            type: 'content',
           },
-          type: 'card',
+        ],
+        title: {
+          text: 'Here are the details of the PR',
+          type: 'plain_text',
         },
-      ],
-    },
+        type: 'card',
+      },
+    ],
   };
+  return bodySnaps;
+}
+// Function to create the snap kit body
+const createSnapKitBody = (prDetails: PRDetails, snapInId: string): any => {
+  const snapKitButtons = {
+    type: 'actions',
+    direction: 'row',
+    elements: [
+      {
+        action_id: merge_pr,
+        action_type: 'remote',
+        style: 'primary',
+        text: {
+          text: 'Merge PR',
+          type: 'plain_text',
+        },
+        type: 'button',
+        value: 'PRIMARY',
+      },
+      {
+        action_id: close_pr,
+        action_type: 'remote',
+        style: 'destructive',
+        text: {
+          text: 'Close PR',
+          type: 'plain_text',
+        },
+        type: 'button',
+        value: 'DESTRUCTIVE',
+      },
+    ],
+  };
+
+  let snapKitBody: any = {
+    body: createBodySnapshots(prDetails),
+    snap_in_action_name: 'update_pr',
+    snap_in_id: snapInId,
+  };
+  if (prDetails.state === 'open') {
+    snapKitBody.body.snaps[0].elements.push(snapKitButtons);
+  }
+  return snapKitBody;
 }
 
 // Function to create a timeline comment with the PR details
-const createTimelineComment = async (partId: string, prDetails: PRDetails, devrevSDK: publicSDK.Api<any>): Promise<void> => {
+const createTimelineComment = async (partId: string, prDetails: PRDetails, snapInId: string, devrevSDK: publicSDK.Api<any>): Promise<void> => {
   // Get the snap kit body
-  const snapKitBody = createSnapKitBody(prDetails);
+  const snapKitBody = createSnapKitBody(prDetails, snapInId);
 
   // Create a timeline comment with the PR details
   await devrevSDK.timelineEntriesCreate({
     // body: bodyComment,
     body_type: publicSDK.TimelineCommentBodyType.SnapKit,
+
     object: partId,
     snap_kit_body: snapKitBody,
     type: publicSDK.TimelineEntriesCreateRequestType.TimelineComment,
@@ -153,6 +199,7 @@ const handleEvent = async (event: any) => {
 
   // Retrieve the Part ID from the command event.
   const partId = event.payload['source_id'];
+  const snapInId = event.context['snap_in_id'];
 
   // Get the command parameters from the event
   const pullRequestURL = event.payload['parameters'];
@@ -161,7 +208,7 @@ const handleEvent = async (event: any) => {
   const prDetails = await getPRDetails(pullRequestURL, octokit);
 
   // Create a timeline comment with the PR details  
-  await createTimelineComment(partId, prDetails, devrevSDK);
+  await createTimelineComment(partId, prDetails, snapInId, devrevSDK);
 };
 
 export const run = async (events: any[]) => {

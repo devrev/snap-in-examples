@@ -17,6 +17,8 @@ keyrings:
 functions:
   - name: command_handler
     description: function to get details of a GitHub PR
+  - name: handle_actions
+    description: function to merge or close a PR
 
 commands:
   - name: pr_details
@@ -28,3 +30,8 @@ commands:
           - part
     usage_hint: "[PR URL]"
     function: command_handler
+
+snap_kit_actions:
+  - name: update_pr
+    description: Merges or closes a PR.
+    function: handle_actions
