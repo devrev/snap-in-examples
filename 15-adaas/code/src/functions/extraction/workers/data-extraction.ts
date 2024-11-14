@@ -3,6 +3,7 @@ import { EventType, ExtractorEventType, processTask } from '@devrev/ts-adaas';
 import {  normalizeIssue, normalizeUser } from '../github-extractor/data-normalization';
 import { WorkerAdapter } from '@devrev/ts-adaas';
 import { GithubExtractorState } from '../index';
+import { getGithubIssues, getGithubUsers, extractAssigneesID } from './github';
 
 // Dummy data that originally would be fetched from an external source
 const issues = [
@@ -127,77 +128,3 @@ processTask({
     });
   },
 });
-
-
-// get list of github issues for a given repo
-async function getGithubIssues(authToken: string, repo_id: string) {
-  const perPage = 100;
-  const allIssues = [];
-
-  const fetchPage = async (page: number) => {
-    const url = `https://api.github.com/repositories/${repo_id}/issues?page=${page}&per_page=${perPage}&state=all`;
-    const headers = {
-      'Authorization': `Bearer ${authToken}`,
-      'Accept': 'application/vnd.github.v3+json'
-    };
-
-    const response = await fetch(url, { headers });
-    const issuesResponse = await response.json();
-    
-    // Filter out pull requests
-    return issuesResponse.filter((issue: any) => !issue.pull_request);
-  };
-
-  let page = 1;
-  while (true) {
-    console.log('page', page);
-    const pageIssues = await fetchPage(page);
-    allIssues.push(...pageIssues);
-
-    if (pageIssues.length < perPage) {
-      break;
-    }
-    page++;
-  }
-
-  return allIssues;
-}
-
-
-function extractAssigneesID(issues: any[]) {
-  const allAssignees: string[] = [];
-  // get assignees for each issue
-  for (const issue of issues) {
-    // Check if assignees already exist in allAssignees. assignee have
-    // id that can be used for comparison.
-    for (const assignee of issue.assignees) {
-      if (!allAssignees.find((a) => a === assignee.id)) {
-        allAssignees.push(assignee.id);
-      }
-    }
-  }
-  return allAssignees;
-}
-
-async function getGithubUsers(authToken: string, assignees: string[]) {
-  const headers = {
-    'Authorization': `Bearer ${authToken}`,
-    'Accept': 'application/vnd.github.v3+json'
-  };
-
-  const fetchUser = async (assigneeId: string) => {
-    try {
-      const response = await fetch(`https://api.github.com/user/${assigneeId}`, { headers });
-      return await response.json();
-    } catch (error) {
-      console.error(`GitHub API request failed for user ${assigneeId}: ${error}`);
-      return null;
-    }
-  };
-
-  const assigneesData = await Promise.all(
-    assignees.map(assigneeId => fetchUser(assigneeId))
-  );
-
-  return assigneesData.filter(data => data !== null);
-}
