@@ -1,0 +1,51 @@
+version: "2"
+
+name: ADaaS Template
+description: A template for creating a new ADaaS snap-in
+
+service_account:
+  display_name: Airdrop Template
+
+functions:
+  - name: extraction
+    description: Extraction function for the template snap-in
+  - name: install_initial_domain_mapping
+    description: Create blueprint and install initial domain mapping
+
+keyring_types:
+  - id: github-connection
+    name: GitHub Connection
+    description: GitHub Connection
+    kind: "secret"
+    is_subdomain: true
+    secret_config:
+      secret_transform: ".token"
+      fields:
+        - id: token
+          name: Token
+          description: GitHub Token
+      token_verification:
+        url: https://api.github.com/user
+        method: GET
+        headers:
+          Authorization: "Bearer [API_KEY]"
+    # organization_data: # Configuration for fetching organization data
+    #     type: "config"
+    #     url: "https://api.github.com/user/memberships/orgs"
+    #     method: GET
+    #     headers: 
+    #       "Authorization": "token [API_KEY]"
+    #       "Accept": "application/json"
+    #     response_jq: ".[].organization | {id, name:.login}"
+
+imports:
+  - slug: template-extractor
+    display_name: Template extractor
+    description: Example template extractor
+    extractor_function: extraction
+    allowed_connection_types:
+      - github-connection
+
+hooks:
+  - type: activate
+    function: install_initial_domain_mapping

@@ -1,0 +1,446 @@
+[
+  {
+    "payload": {
+      "connection_data": {
+        "org_id": "source",
+        "org_name": "Source System Inc",
+        "key": "",
+        "key_type": "basic"
+      },
+      "event_context": {
+        "callback_url": "https://api.devrev.ai/internal/airdrop.external-extractor.message",
+        "dev_org": "DEV-1",
+        "dev_org_id": "DEV-1",
+        "dev_user": "DEVU-1",
+        "dev_user_id": "DEVU-1",
+        "external_system": "devrev",
+        "external_system_type": "ADaaS",
+        "import_slug": "adaas-import-slug",
+        "mode": "INITIAL",
+        "snap_in_slug": "adaas-worker-1719331413",
+        "sync_run": "553fa619-62bd-4275-a6ff-acc7f5a2bb62",
+        "sync_run_id": "553fa619-62bd-4275-a6ff-acc7f5a2bb62",
+        "sync_tier": "",
+        "uuid": "2b552518-9047-4249-a4c7-cb7e03156a97",
+        "worker_data_url": "https://api.devrev.ai/internal/airdrop.external-worker"
+      },
+      "event_type": "EXTRACTION_EXTERNAL_SYNC_UNITS_START"
+    },
+    "context": {
+      "secrets": {
+        "service_account_token": ""
+      },
+      "service_account_id": "don:identity:dvrv-us-1:devo/1:svcacc/9",
+      "dev_oid": "don:identity:dvrv-us-1:devo/1",
+      "source_id": "",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/1:snap_in/12345",
+      "snap_in_version_id": ""
+    },
+    "execution_metadata": {
+      "function_name": "extraction",
+      "request_id": "",
+      "devrev_endpoint": "https://api.devrev.ai"
+    },
+    "input_data": {
+      "global_values": {
+        "updated_since": "Last Month"
+      },
+      "event_sources": {},
+      "keyrings": null,
+      "resources": {
+        "keyrings": {},
+        "tags": {}
+      }
+    }
+  },
+  {
+    "payload": {
+      "connection_data": {
+        "org_id": "source",
+        "org_name": "Source System Inc",
+        "key": "",
+        "key_type": "basic"
+      },
+      "event_context": {
+        "callback_url": "https://api.devrev.ai/internal/airdrop.external-extractor.message",
+        "dev_org": "DEV-1",
+        "dev_org_id": "DEV-1",
+        "dev_user": "DEVU-1",
+        "dev_user_id": "DEVU-1",
+        "external_sync_unit": "devrev",
+        "external_sync_unit_id": "devrev",
+        "external_sync_unit_name": "devrev",
+        "external_system": "devrev",
+        "external_system_type": "ADaaS",
+        "import_slug": "adaas-import-slug",
+        "mode": "INITIAL",
+        "snap_in_slug": "adaas-worker-1719331413",
+        "sync_run": "ed063300-3a0c-4321-bec6-0d24e651735a",
+        "sync_run_id": "ed063300-3a0c-4321-bec6-0d24e651735a",
+        "sync_tier": "sync_tier_2",
+        "sync_unit": "ab3e137c-dc4c-4837-ab78-3c08146b6eec",
+        "sync_unit_id": "ab3e137c-dc4c-4837-ab78-3c08146b6eec",
+        "uuid": "b278bebe-0319-49ee-a6b4-ecd9a83be802",
+        "worker_data_url": "https://api.devrev.ai/internal/airdrop.external-worker"
+      },
+      "event_type": "EXTRACTION_METADATA_START"
+    },
+    "context": {
+      "secrets": {
+        "service_account_token": ""
+      },
+      "service_account_id": "don:identity:dvrv-us-1:devo/1:svcacc/9",
+      "dev_oid": "don:identity:dvrv-us-1:devo/1",
+      "source_id": "",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/1:snap_in/12345",
+      "snap_in_version_id": ""
+    },
+    "execution_metadata": {
+      "function_name": "extraction",
+      "request_id": "",
+      "devrev_endpoint": "https://api.devrev.ai"
+    },
+    "input_data": {
+      "global_values": {
+        "updated_since": "Last Month"
+      },
+      "event_sources": {},
+      "keyrings": null,
+      "resources": {
+        "keyrings": {},
+        "tags": {}
+      }
+    }
+  },
+  {
+    "payload": {
+      "connection_data": {
+        "org_id": "source",
+        "org_name": "Source System Inc",
+        "key": "",
+        "key_type": "basic"
+      },
+      "event_context": {
+        "callback_url": "https://api.devrev.ai/internal/airdrop.external-extractor.message",
+        "dev_org": "DEV-1",
+        "dev_org_id": "DEV-1",
+        "dev_user": "DEVU-1",
+        "dev_user_id": "DEVU-1",
+        "external_sync_unit": "devrev",
+        "external_sync_unit_id": "devrev",
+        "external_sync_unit_name": "devrev",
+        "external_system": "devrev",
+        "external_system_type": "ADaaS",
+        "import_slug": "adaas-import-slug",
+        "mode": "INITIAL",
+        "snap_in_slug": "adaas-worker-1719331413",
+        "sync_run": "ed063300-3a0c-4321-bec6-0d24e651735a",
+        "sync_run_id": "ed063300-3a0c-4321-bec6-0d24e651735a",
+        "sync_tier": "sync_tier_2",
+        "sync_unit": "ab3e137c-dc4c-4837-ab78-3c08146b6eec",
+        "sync_unit_id": "ab3e137c-dc4c-4837-ab78-3c08146b6eec",
+        "uuid": "cec40123-4b6f-4cf2-af28-9aef257858f4",
+        "worker_data_url": "https://api.devrev.ai/internal/airdrop.external-worker"
+      },
+      "event_type": "EXTRACTION_DATA_START",
+      "extractor_state": {
+        "state": {
+          "domain_objects": {
+            "agents": {
+              "complete": false
+            },
+            "companies": {
+              "complete": false
+            },
+            "contacts": {
+              "complete": false
+            },
+            "conversations": {
+              "complete": false
+            },
+            "tickets": {
+              "complete": false
+            }
+          },
+          "metadata_objects": {
+            "company_fields": {
+              "complete": true
+            },
+            "contact_fields": {
+              "complete": true
+            },
+            "ticket_fields": {
+              "complete": true
+            }
+          }
+        }
+      }
+    },
+    "context": {
+      "secrets": {
+        "service_account_token": ""
+      },
+      "service_account_id": "don:identity:dvrv-us-1:devo/1:svcacc/9",
+      "dev_oid": "don:identity:dvrv-us-1:devo/1",
+      "source_id": "",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/1:snap_in/12345",
+      "snap_in_version_id": ""
+    },
+    "execution_metadata": {
+      "function_name": "extraction",
+      "request_id": "",
+      "devrev_endpoint": "https://api.devrev.ai"
+    },
+    "input_data": {
+      "global_values": {
+        "updated_since": "Last Month"
+      },
+      "event_sources": {},
+      "keyrings": null,
+      "resources": {
+        "keyrings": {},
+        "tags": {}
+      }
+    }
+  },
+  {
+    "payload": {
+      "connection_data": {
+        "org_id": "source",
+        "org_name": "Source System Inc",
+        "key": "",
+        "key_type": "basic"
+      },
+      "event_context": {
+        "callback_url": "https://api.devrev.ai/internal/airdrop.external-extractor.message",
+        "dev_org": "DEV-1",
+        "dev_org_id": "DEV-1",
+        "dev_user": "DEVU-1",
+        "dev_user_id": "DEVU-1",
+        "external_sync_unit": "devrev",
+        "external_sync_unit_id": "devrev",
+        "external_sync_unit_name": "devrev",
+        "external_system": "devrev",
+        "external_system_type": "ADaaS",
+        "import_slug": "adaas-import-slug",
+        "mode": "INITIAL",
+        "snap_in_slug": "adaas-worker-1719331413",
+        "sync_run": "ed063300-3a0c-4321-bec6-0d24e651735a",
+        "sync_run_id": "ed063300-3a0c-4321-bec6-0d24e651735a",
+        "sync_tier": "sync_tier_2",
+        "sync_unit": "ab3e137c-dc4c-4837-ab78-3c08146b6eec",
+        "sync_unit_id": "ab3e137c-dc4c-4837-ab78-3c08146b6eec",
+        "uuid": "312fef06-ddcb-4ce8-a390-1275c52e5aec",
+        "worker_data_url": "https://api.devrev.ai/internal/airdrop.external-worker"
+      },
+      "event_type": "EXTRACTION_DATA_CONTINUE",
+      "extractor_state": {
+        "state": {
+          "domain_objects": {
+            "agents": {
+              "complete": true,
+              "page": 2
+            },
+            "companies": {
+              "complete": true,
+              "page": 9
+            },
+            "contacts": {
+              "complete": true,
+              "page": 7
+            },
+            "conversations": {
+              "complete": false,
+              "extractionMetadata": {
+                "page": 1,
+                "ticket_id": 399
+              },
+              "page": 2
+            },
+            "tickets": {
+              "complete": true,
+              "extractedItems": [
+                399, 398, 396, 372, 353, 342, 339, 330, 325, 322, 321, 308, 300, 294, 118, 116, 114, 105, 98, 95, 87
+              ],
+              "page": 2
+            }
+          },
+          "metadata_objects": {
+            "company_fields": {
+              "complete": true
+            },
+            "contact_fields": {
+              "complete": true
+            },
+            "ticket_fields": {
+              "complete": true
+            }
+          }
+        }
+      }
+    },
+    "context": {
+      "secrets": {
+        "service_account_token": ""
+      },
+      "service_account_id": "don:identity:dvrv-us-1:devo/1:svcacc/9",
+      "dev_oid": "don:identity:dvrv-us-1:devo/1",
+      "source_id": "",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/1:snap_in/12345",
+      "snap_in_version_id": ""
+    },
+    "execution_metadata": {
+      "function_name": "extraction",
+      "request_id": "",
+      "devrev_endpoint": "https://api.devrev.ai"
+    },
+    "input_data": {
+      "global_values": {
+        "updated_since": "Last Month"
+      },
+      "event_sources": {},
+      "keyrings": null,
+      "resources": {
+        "keyrings": {},
+        "tags": {}
+      }
+    }
+  },
+  {
+    "payload": {
+      "connection_data": {
+        "org_id": "source",
+        "org_name": "Source System Inc",
+        "key": "",
+        "key_type": "basic"
+      },
+      "event_context": {
+        "callback_url": "https://api.devrev.ai/internal/airdrop.external-extractor.message",
+        "dev_org": "DEV-1",
+        "dev_org_id": "DEV-1",
+        "dev_user": "DEVU-1",
+        "dev_user_id": "DEVU-1",
+        "external_sync_unit": "devrev",
+        "external_sync_unit_id": "devrev",
+        "external_sync_unit_name": "devrev",
+        "external_system": "devrev",
+        "external_system_type": "ADaaS",
+        "import_slug": "adaas-import-slug",
+        "mode": "INITIAL",
+        "snap_in_slug": "adaas-worker-1719331413",
+        "sync_run": "ed063300-3a0c-4321-bec6-0d24e651735a",
+        "sync_run_id": "ed063300-3a0c-4321-bec6-0d24e651735a",
+        "sync_tier": "sync_tier_2",
+        "sync_unit": "ab3e137c-dc4c-4837-ab78-3c08146b6eec",
+        "sync_unit_id": "ab3e137c-dc4c-4837-ab78-3c08146b6eec",
+        "uuid": "4aa15087-fa68-45d4-b39b-c895f7ed867f",
+        "worker_data_url": "https://api.devrev.ai/internal/airdrop.external-worker"
+      },
+      "event_type": "EXTRACTION_ATTACHMENTS_START",
+      "extractor_state": {
+        "state": {
+          "domain_objects": {
+            "agents": {
+              "complete": true,
+              "page": 2
+            },
+            "companies": {
+              "complete": true,
+              "page": 9
+            },
+            "contacts": {
+              "complete": true,
+              "page": 7
+            },
+            "conversations": {
+              "complete": true,
+              "extractionMetadata": {},
+              "page": 1
+            },
+            "tickets": {
+              "complete": true,
+              "extractedItems": [],
+              "page": 2
+            }
+          },
+          "metadata_objects": {
+            "company_fields": {
+              "complete": true
+            },
+            "contact_fields": {
+              "complete": true
+            },
+            "ticket_fields": {
+              "complete": true
+            }
+          }
+        }
+      }
+    },
+    "context": {
+      "secrets": {
+        "service_account_token": ""
+      },
+      "service_account_id": "don:identity:dvrv-us-1:devo/1:svcacc/9",
+      "dev_oid": "don:identity:dvrv-us-1:devo/1",
+      "source_id": "",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/1:snap_in/12345",
+      "snap_in_version_id": ""
+    },
+    "execution_metadata": {
+      "function_name": "extraction",
+      "request_id": "",
+      "devrev_endpoint": "https://api.devrev.ai"
+    },
+    "input_data": {
+      "global_values": {
+        "updated_since": "Last Month"
+      },
+      "event_sources": {},
+      "keyrings": null,
+      "resources": {
+        "keyrings": {},
+        "tags": {}
+      }
+    }
+  },
+  {
+    "context": {
+      "secrets": {
+        "service_account_token": ""
+      }
+    },
+    "payload": {
+      "event_type": "EXTRACTION_ATTACHMENTS_CONTINUE",
+      "event_context": {
+        "callback_url": "https://api.devrev.ai/internal/airdrop.external-extractor.message",
+        "dev_org_id": "DEV-1",
+        "dev_user_id": "DEVU-1",
+        "mode": "IMPORT",
+        "external_sync_unit_id": "devrev",
+        "external_system_id": "devrev",
+        "uuid": "d1463345-6664-405e-acbe-cb5bdd10d5ec"
+      },
+      "connection_data": {
+        "org_id": "source",
+        "org_name": "Source System Inc",
+        "key": "",
+        "key_type": "basic"
+      }
+    },
+    "execution_metadata": {
+      "devrev_endpoint": "https://api.devrev.ai"
+    },
+    "input_data": {
+      "global_values": {
+        "updated_since": "Last Month"
+      },
+      "event_sources": {},
+      "keyrings": null,
+      "resources": {
+        "keyrings": {},
+        "tags": {}
+      }
+    }
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "record_types": {
+    "issues": {
+      "name": "Issues",
+      "description": "The metadata inferred from the data: TODO: review and correct, and put an useful description here. The field \"id\" (deleted as the primary key shouldn't be mentioned) is inferred as the primary key due its all unique values TODO: identify the primary key.",
+      "fields": {
+        "body": {
+          "name": "Body",
+          "description": "Inferred as a text field due to length of 0 to 2879: TODO: discover hard limits, or if maybe rich text.",
+          "type": "text",
+          "text": {}
+        },
+        "state": {
+          "name": "State",
+          "description": "Two allowed values. TODO: investigate if more exists, or if maybe they have boolean semantics. Inferred as required due to always being present. TODO: see if this is a coincidence, if this is a system field, or if some of its values might be defaults zero values.",
+          "is_required": true,
+          "type": "enum",
+          "enum": {
+            "values": [
+              {
+                "key": "closed",
+                "name": "TODO: meaningful nice name and description.",
+                "description": "seen 130 times"
+              },
+              {
+                "key": "open",
+                "name": "TODO: meaningful nice name and description.",
+                "description": "seen 52 times"
+              }
+            ]
+          }
+        },
+        "title": {
+          "name": "Title",
+          "description": "Inferred as text due to 91 unique values in 182 occurrences: TODO: it might still be id reference or an enum. Inferred as required due to always being present. TODO: see if this is a coincidence, if this is a system field, or if some of its values might be defaults zero values.",
+          "is_required": true,
+          "type": "text"
+        }
+      }
+    },
+    "users": {
+      "name": "Users",
+      "description": "The metadata inferred from the data: TODO: review and correct, and put an useful description here. The field \"id\" (deleted as the primary key shouldn't be mentioned) is inferred as the primary key due its all unique values TODO: identify the primary key.",
+      "fields": {
+        "email": {
+          "name": "TODO: provide an user-friendly field name.",
+          "description": "Only one allowed value. TODO: Investigate if more exist, or if this is a boolean field.",
+          "type": "enum",
+          "enum": {
+            "values": [
+              {
+                "key": "harpinderjot36@gmail.com",
+                "name": "TODO: meaningful nice name and description.",
+                "description": "seen 2 times"
+              }
+            ]
+          }
+        },
+        "name": {
+          "name": "TODO: provide an user-friendly field name.",
+          "description": "Inferred as text due to 5 unique values in 10 occurrences: TODO: it might still be id reference or an enum. Inferred as required due to always being present. TODO: see if this is a coincidence, if this is a system field, or if some of its values might be defaults zero values.",
+          "is_required": true,
+          "type": "text"
+        }
+      }
+    }
+  }
+}

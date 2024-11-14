@@ -1,0 +1,142 @@
+{
+  "additional_mappings": {
+    "record_type_mappings": {
+      "issues": {
+        "default_mapping": {
+          "object_type": "issue"
+        },
+        "possible_record_type_mappings": [
+          {
+            "devrev_leaf_type": "issue",
+            "forward": true,
+            "reverse": false,
+            "shard": {
+              "constructed_custom_fields": {},
+              "devrev_leaf_type": {
+                "object_type": "issue"
+              },
+              "mode": "create_shard",
+              "stock_field_mappings": {
+                "applies_to_part_id": {
+                  "forward": true,
+                  "reverse": false,
+                  "transformation_method": {
+                    "is_array": false,
+                    "leaf_type": {
+                      "object_type": "product"
+                    },
+                    "transformation_method": "use_devrev_record"
+                  }
+                },
+                "body": {
+                  "forward": true,
+                  "primary_external_field": "body",
+                  "reverse": false,
+                  "transformation_method": {
+                    "transformation_method": "use_rich_text"
+                  }
+                },
+                "created_by_id": {
+                  "forward": true,
+                  "primary_external_field": "creator",
+                  "reverse": false,
+                  "transformation_method": {
+                    "transformation_method": "use_directly"
+                  }
+                },
+                "owned_by_ids": {
+                  "forward": true,
+                  "primary_external_field": "owner",
+                  "reverse": false,
+                  "transformation_method": {
+                    "transformation_method": "use_as_array_value"
+                  }
+                },
+                "priority": {
+                  "forward": true,
+                  "reverse": false,
+                  "transformation_method": {
+                    "enum": "P0",
+                    "transformation_method": "use_fixed_value",
+                    "value": "enum_value"
+                  }
+                },
+                "stage": {
+                  "forward": true,
+                  "reverse": false,
+                  "transformation_method": {
+                    "enum": "triage",
+                    "transformation_method": "use_fixed_value",
+                    "value": "enum_value"
+                  }
+                },
+                "title": {
+                  "forward": true,
+                  "primary_external_field": "title",
+                  "reverse": false,
+                  "transformation_method": {
+                    "transformation_method": "use_directly"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "users": {
+        "default_mapping": {
+          "object_type": "devu"
+        },
+        "possible_record_type_mappings": [
+          {
+            "devrev_leaf_type": "devu",
+            "forward": true,
+            "reverse": false,
+            "shard": {
+              "constructed_custom_fields": {},
+              "devrev_leaf_type": {
+                "object_type": "devu"
+              },
+              "mode": "create_shard",
+              "stock_field_mappings": {
+                "display_name": {
+                  "forward": true,
+                  "primary_external_field": "name",
+                  "reverse": false,
+                  "transformation_method": {
+                    "transformation_method": "use_directly"
+                  }
+                },
+                "email": {
+                  "forward": true,
+                  "primary_external_field": "email",
+                  "reverse": false,
+                  "transformation_method": {
+                    "transformation_method": "use_directly"
+                  }
+                },
+                "full_name": {
+                  "forward": true,
+                  "primary_external_field": "name",
+                  "reverse": false,
+                  "transformation_method": {
+                    "transformation_method": "use_directly"
+                  }
+                },
+                "state": {
+                  "forward": true,
+                  "reverse": false,
+                  "transformation_method": {
+                    "enum": "SHADOW",
+                    "transformation_method": "use_fixed_value",
+                    "value": "enum_value"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

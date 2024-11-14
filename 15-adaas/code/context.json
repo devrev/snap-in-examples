@@ -1,0 +1,18 @@
+{
+    "dev_org_id": "DEV-Sweb0eGN",
+    "dev_user_id": "DEVU-1",
+    "external_sync_unit_id": "369026867",
+    "external_sync_unit_name": "blubox",
+    "external_system": "testing",
+    "import_slug": "template-extractor",
+    "mode": "initial",
+    "keyring_id": "don:integration:dvrv-us-1:devo/Sweb0eGN:keyring/1c710311-cc0d-4947-b1b8-17187f6be417",
+    "connection_id": "don:integration:dvrv-us-1:devo/Sweb0eGN:connection/1c710311-cc0d-4947-b1b8-17187f6be417",
+    "snap_in_slug": "ad-testing",
+    "external_system_type": "ADaaS",
+    "sync_run_id": "f85c5bdf-f582-4bd0-af71-223536954bcf",
+    "sync_tier": "sync_tier_2",
+    "sync_unit_id": "70058cd5-cf8e-40ff-95f7-930935d348df",
+    "uuid": "bdca52cf-ebfa-4de9-8cf8-74501f22545b",
+    "worker_data_url": "https://api.devrev.ai/internal/airdrop.external-worker"
+}

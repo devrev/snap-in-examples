@@ -1,0 +1,58 @@
+{
+  "record_types": {
+    "issues": {
+      "name": "Issues",
+      "fields": {
+        "title": {
+          "is_required": true,
+          "type": "text",
+          "name": "Title",
+          "text": {
+            "min_length": 1
+          }
+        },
+        "body": {
+          "type": "rich_text",
+          "name": "body",
+          "is_required": true
+        },
+        "owner": {
+          "is_required": true,
+          "type": "reference",
+          "reference": {
+            "refers_to": {
+              "#record:users": {}
+            }
+          }
+        },
+        "creator": {
+          "is_required": true,
+          "type": "reference",
+          "reference": {
+            "refers_to": {
+              "#record:users": {}
+            }
+          }
+        }
+      }
+    },
+    "users": {
+      "name": "Users",
+      "fields": {
+        "name": {
+          "is_required": true,
+          "type": "text",
+          "name": "Name",
+          "text": {
+            "min_length": 1
+          }
+        },
+        "email": {
+          "type": "text",
+          "name": "Email",
+          "is_required": true
+        }
+      }
+    }
+  }
+}
