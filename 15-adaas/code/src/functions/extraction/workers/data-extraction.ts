@@ -1,6 +1,6 @@
 import { EventType, ExtractorEventType, processTask } from '@devrev/ts-adaas';
 
-import {  normalizeIssue, normalizeUser } from '../github-extractor/data-normalization';
+import { normalizeIssue, normalizeUser } from '../github-extractor/data-normalization';
 import { WorkerAdapter } from '@devrev/ts-adaas';
 import { GithubExtractorState } from '../index';
 import { getGithubIssues, getGithubUsers, extractAssigneesID } from './github';
@@ -60,10 +60,10 @@ const repos = [
 
 // TODO: Add support for extraction of the body and the due_on fields of the issues
 processTask({
-  task: async({ adapter }: { adapter: WorkerAdapter<GithubExtractorState> }) => {
+  task: async ({ adapter }: { adapter: WorkerAdapter<GithubExtractorState> }) => {
     adapter.initializeRepos(repos);
     const githubToken = adapter.event.payload.connection_data.key;
-  
+
     const repoId = adapter.event.payload.event_context.external_sync_unit_id;
     if (adapter.event.payload.event_type === EventType.ExtractionDataStart) {
       if (!repoId) {
@@ -90,21 +90,8 @@ processTask({
       // Update state to indicate that issues have been fetched
       adapter.state.issues.completed = true;
       adapter.state.issues.issues = issues;
+      console.log('issues', issues.length);
 
-      try {
-        await adapter.postState();
-      } catch (error) {
-        console.error('Error posting state:', error);
-        throw error;
-      }
-
-      await adapter.emit(ExtractorEventType.ExtractionDataProgress, {
-        progress: 50,
-      });
-    } else {
-
-      // Get issues from state
-      const issues = adapter.state.issues.issues;
       if (issues && issues.length > 0) {
         // get assignees for each issue
         const assignees = extractAssigneesID(issues);
@@ -115,7 +102,15 @@ processTask({
           console.error('Error fetching GitHub users:', error);
           throw error;
         }
-      }     
+        await adapter.emit(ExtractorEventType.ExtractionDataProgress, {
+          progress: 50,
+        });
+        return;
+      }
+      await adapter.emit(ExtractorEventType.ExtractionDataDone, {
+        progress: 100,
+      });
+    } else {
       await adapter.emit(ExtractorEventType.ExtractionDataDone, {
         progress: 100,
       });

@@ -13,16 +13,19 @@ export async function getGithubIssues(authToken: string, repo_id: string) {
   
       const response = await fetch(url, { headers });
       const issuesResponse = await response.json();
-      
-      // Filter out pull requests
-      return issuesResponse.filter((issue: any) => !issue.pull_request);
+      console.log('issuesResponse', issuesResponse.length);
+      return issuesResponse;
     };
   
     let page = 1;
     while (true) {
       console.log('page', page);
       const pageIssues = await fetchPage(page);
-      allIssues.push(...pageIssues);
+
+      // Filter out pull requests
+      const filteredIssues = pageIssues.filter((issue: any) => !issue.pull_request);
+
+      allIssues.push(...filteredIssues);
   
       if (pageIssues.length < perPage) {
         break;

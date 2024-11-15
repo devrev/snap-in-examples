@@ -44,12 +44,11 @@ const run = async (events: AirdropEvent[]) => {
       event,
       initialState,
       workerPath: file,
-      /* 
-      Flag for local development
-      options: {
-        isLocalDevelopment:true,
-      },
-      */
+      // Flag for local development
+      // options: {
+      //   isLocalDevelopment:true,
+      // },
+      
     });
 
     console.log('Finished extraction for event: ', event.payload.event_type);
