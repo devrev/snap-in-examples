@@ -1,7 +1,7 @@
 version: "2"
 
-name: ADaaS Template
-description: A template for creating a new ADaaS snap-in
+name: GitHub ADaaS
+description: GitHub ADaaS snap-in
 
 service_account:
   display_name: Airdrop Template

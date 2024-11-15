@@ -4,24 +4,12 @@ interface GithubRepo {
   id: number;
   name: string; 
   description: string | null;
-  html_url: string;
-  created_at: string;
-  updated_at: string;
-  language: string | null;
-  visibility: string;
-  default_branch: string;
 }
 
 interface ExternalSyncUnit {
   id: string;
   name: string;
   description: string;
-  html_url: string;
-  created_at: string;
-  updated_at: string;
-  language: string | null;
-  visibility: string;
-  default_branch: string;
 }
 
 processTask({
@@ -94,11 +82,5 @@ function mapRepoToExternalSyncUnit(repo: GithubRepo): ExternalSyncUnit {
     id: repo.id.toString(),
     name: repo.name,
     description: repo.description || '',
-    html_url: repo.html_url,
-    created_at: repo.created_at,
-    updated_at: repo.updated_at,
-    language: repo.language,
-    visibility: repo.visibility,
-    default_branch: repo.default_branch
   };
 }
