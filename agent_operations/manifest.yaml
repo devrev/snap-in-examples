@@ -1,0 +1,64 @@
+# For reference: https://docs.devrev.ai/snap-ins/references/manifest.
+# Refactor the code based on your business logic.
+
+version: "2"
+name: "Search Agent Operation"
+description: "Defines search operation for agents."
+
+# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
+service_account:
+  display_name: DevRev Bot
+
+# Functions reference: https://docs.devrev.ai/snap-ins/references/functions.
+functions:
+  - name: operation_handler
+    description: function to handle operations
+
+operations:
+  - name: agent_search
+    description: Given a query, the skill searches for tickets matching the query in its title and comments.
+    slug: agent_search
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: query
+          description: The search query.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Query
+        - name: namespace
+          description: The namespace to search in.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Namespace
+    outputs:
+      fields:
+      # String encoded articles containing <display_id>, <URL>, <title>, <text>, and a <score> for each article.
+        - name: response
+          field_type: array
+          base_type: text
+          ui:
+            display_name: Response
+  - name: get_object
+    description: Given an object id, the skill fetches the object from DevRev SOR.
+    slug: get_object
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: id
+          description: The object id.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: ID
+    outputs:
+      fields:
+      # String encoded articles containing <display_id>, <URL>, <title>, <text>, and a <score> for each article.
+        - name: response
+          field_type: text
+          ui:
+            display_name: Response

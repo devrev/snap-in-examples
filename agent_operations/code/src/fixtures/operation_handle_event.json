@@ -1,0 +1,37 @@
+{
+  "payload": {
+    "data": {
+      "agent_session_id": "don:core:dvrv-us-1:devo/787:ai_agent/292:ai_agent_session/1",
+      "error": "",
+      "output": "{\"applies_to_part\":{\"display_id\":\"PROD-723\",\"id\":\"don:core:dvrv-us-1:devo/787:product/723\",\"name\":\"test 123\",\"type\":\"product\"},\"body\":\"Summary: Register for the AI Evaluation event on June 26, 2024, to learn about LLM-as-a-Judge automation and GenAI applications. Last chance to sign up for demos and new features.\",\"channels\":[\"email\"],\"created_by\":{\"display_id\":\"SVCACC-2646\",\"display_name\":\"Email Integration Bot\",\"id\":\"don:identity:dvrv-us-1:devo/787:svcacc/2646\",\"state\":\"active\",\"type\":\"service_account\"},\"created_date\":\"2024-06-25T14:40:29.637Z\",\"custom_fields\":{\"app_email_integration__auto_response_suppress\":\"all\",\"app_email_integration__email_references\":[\"1719326282168.57cc0a6d-c845-47c6-ba71-49f8405a3dd1@bf02x.hubspotemail.net\"],\"app_email_integration__email_subject\":\"For your Evaluation 👀 be the first to see our new demo!\",\"app_email_integration__external_source_id\":\"1719326282168.57cc0a6d-c845-47c6-ba71-49f8405a3dd1@bf02x.hubspotemail.net\",\"app_email_integration__members\":[\"don:identity:dvrv-us-1:devo/787:devu/321\",\"don:identity:dvrv-us-1:devo/787:revu/RNxh7ZYU\"],\"app_email_integration__received_on\":\"ananya.roy@devrev.ai\"},\"custom_schema_fragments\":[\"don:core:dvrv-us-1:devo/787:tenant_fragment/424\",\"don:core:dvrv-us-1:devo/787:app_fragment/98548\"],\"display_id\":\"TKT-6424\",\"id\":\"don:core:dvrv-us-1:devo/787:ticket/6424\",\"modified_by\":{\"display_id\":\"SVCACC-3791\",\"display_name\":\"Workflow - 69\",\"id\":\"don:identity:dvrv-us-1:devo/787:svcacc/3791\",\"state\":\"active\",\"type\":\"service_account\"},\"modified_date\":\"2024-06-26T10:42:24.251Z\",\"needs_response\":true,\"owned_by\":[{\"display_id\":\"SVCACC-1563\",\"display_name\":\"Unassigned\",\"full_name\":\"Unassigned\",\"id\":\"don:identity:dvrv-us-1:devo/787:svcacc/1563\",\"state\":\"active\",\"type\":\"service_account\"}],\"reported_by\":[{\"display_id\":\"REVU-RNxh7ZYU\",\"display_name\":\"HumanSignal\",\"email\":\"noreply@humansignal.com\",\"external_ref\":\"noreply@humansignal.com\",\"id\":\"don:identity:dvrv-us-1:devo/787:revu/RNxh7ZYU\",\"rev_org\":{\"display_id\":\"REV-zDNoHuE3\",\"display_name\":\"Humansignal\",\"id\":\"don:identity:dvrv-us-1:devo/787:revo/zDNoHuE3\",\"type\":\"rev_org\"},\"state\":\"active\",\"type\":\"rev_user\"}],\"rev_org\":{\"display_id\":\"REV-zDNoHuE3\",\"display_name\":\"Humansignal\",\"id\":\"don:identity:dvrv-us-1:devo/787:revo/zDNoHuE3\",\"type\":\"rev_org\"},\"severity\":\"high\",\"sla_tracker\":{\"display_id\":\"sla_tracker-1\",\"id\":\"don:core:dvrv-us-1:devo/787:ticket/6424:sla_tracker/1\"},\"source_channel\":\"email\",\"stage\":{\"name\":\"queued\"},\"stock_schema_fragment\":\"don:core:dvrv-us-1:stock_sf/1144104\",\"title\":\"For your Evaluation 👀 be the first to see our new demo!\",\"type\":\"ticket\"}",
+      "redis_subscription_id": "don:core:dvrv-us-1:devo/787:ai_agent/292:ai_agent_session/1:redis_subscription/1",
+      "skill_call_id": "abc",
+      "skill_name": "update_ticket_severity"
+    },
+    "input_port_name": "input",
+    "metadata": { "namespace": "ai-agent-callback", "slug": "agent_callback_node" }
+  },
+  "context": {
+    "dev_oid": "don:identity:dvrv-us-1:devo/787",
+    "automation_id": "",
+    "source_id": "don:integration:dvrv-us-1:devo/787:operation/ai-agent-callback.agent_callback_node",
+    "snap_in_id": "",
+    "snap_in_version_id": "",
+    "service_account_id": "",
+    "secrets": {
+      "access_token": "eyJhbGciOiJSUzI1NiIsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJraWQiOiJzdHNfa2lkX3JzYSIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiamFudXMiXSwiYXpwIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzc4NzpzeXN1LzEiLCJleHAiOjE3MTk0MDA0NDAsImh0dHA6Ly9kZXZyZXYuYWkvYWF0X2FsbG93X2xpc3RlZCI6dHJ1ZSwiaHR0cDovL2RldnJldi5haS9jbGllbnRpZCI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by83ODc6c3ZjYWNjLzM3OTEiLCJodHRwOi8vZGV2cmV2LmFpL2Rldm9fZG9uIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzc4NyIsImh0dHA6Ly9kZXZyZXYuYWkvZGV2b2lkIjoiREVWLTc4NyIsImh0dHA6Ly9kZXZyZXYuYWkvc3ZjYWNjIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzc4NzpzdmNhY2MvMzc5MSIsImh0dHA6Ly9kZXZyZXYuYWkvdG9rZW50eXBlIjoidXJuOmRldnJldjpwYXJhbXM6b2F1dGg6dG9rZW4tdHlwZTphYXQiLCJpYXQiOjE3MTkzOTg2NDAsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJqdGkiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OnRva2VuLzFGSEFIUXljOCIsInN1YiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by83ODc6c3ZjYWNjLzM3OTEifQ.IeQqziIij_tUIlmUg7GIjtGbQWqFcXlhAnue8MVdLQ7np3C692DZ3y0Iq_CyCwv5g07LdvumdV9bR7nm3vmZuCzXX7GD2bP_w2ZrVm8b9ZGB8C6PYcw4HT-1lsVhSNMbv6GozxK90d4c1vZCLpvt6tjtnatRhvQbSiEjihHawKEaKgqmnbFFE30muPhWpVNBy9c2Z-9i75mSuiX1zpkDgAVNyzhGliBJmN7w6bRrsQSSRh54yseOPM-S8SbS3MZurEuDl_RgcXECP172pkqoEHHKKuzCPmpJCYrSYag1TJt9uNxUZ4Yi7Gj94HMZS89GwDvNUZ_Buv3Lq1qHjg0hLw"
+    },
+    "user_id": "",
+    "event_id": "",
+    "execution_id": ""
+  },
+  "execution_metadata": {
+    "request_id": "",
+    "function_name": "operation_handler",
+    "devrev_endpoint": "https://api.dev.devrev-eng.ai",
+    "operation_slug": "agent_callback_node",
+    "operation_namespace": "ai-agent-callback",
+    "input_port": "input"
+  },
+  "input_data": { "global_values": {}, "event_sources": {}, "keyrings": null, "resources": {} }
+}
