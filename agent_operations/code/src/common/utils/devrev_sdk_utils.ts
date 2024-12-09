@@ -20,10 +20,8 @@ export type AiAgentSkillCallOutputCallbackRequest = {
   }
 }
 
-export type SuggestSearchNamespace = "ticket" | "article";
-
 export type SuggestSearchRequest = {
-  namespaces: [SuggestSearchNamespace];
+  namespaces: [string];
   query: string;
 }
 
