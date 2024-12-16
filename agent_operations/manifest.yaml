@@ -15,6 +15,37 @@ functions:
     description: function to handle operations
 
 operations:
+  - name: api_call
+    description: Skill to call an API.
+    slug: api_call
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: authorization
+          description: Authorization header for the API call.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Authorization
+        - name: url
+          description: The url to be used for the API call.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: URL
+        - name: payload
+          description: The payload to be used for the API call.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Payload
+    outputs:
+      fields:
+        - name: response
+          field_type: text
+          ui:
+            display_name: Response
   - name: agent_search
     description: Given a query, the skill searches for tickets matching the query in its title and comments.
     slug: agent_search

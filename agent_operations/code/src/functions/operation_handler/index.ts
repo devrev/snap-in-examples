@@ -1,5 +1,6 @@
 import { SuggestSearch } from '../../operations/suggest_search';
 import { GetObject } from '../../operations/get_object';
+import { APICall } from '../../operations/api_call';
 
 import { OperationFactory } from '../../operations';
 import { ExecuteOperationInput,FunctionInput, OperationMap } from '@devrev/typescript-sdk/dist/snap-ins';
@@ -12,7 +13,7 @@ import { ExecuteOperationInput,FunctionInput, OperationMap } from '@devrev/types
 const operationMap: OperationMap = {
   agent_search: SuggestSearch,
   get_object: GetObject,
-
+  api_call: APICall,
 };
 
 export const run = async (events: FunctionInput[]) => {
