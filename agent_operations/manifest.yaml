@@ -23,9 +23,9 @@ operations:
     inputs:
       fields:
         - name: authorization
-          description: Authorization header for the API call.
+          description: Authorization header for the API call. If empty, caller's devrev access token is used. DO NOT USE THIS FOR PRODUCTION OR ANY PRODUCTION TOKEN.
           field_type: text
-          is_required: true
+          is_required: false
           ui:
             display_name: Authorization
         - name: url

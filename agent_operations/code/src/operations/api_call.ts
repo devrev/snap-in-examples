@@ -47,7 +47,7 @@ export class APICall implements OperationIfc {
     }
 
     const url = data['url'];
-    const authorization = data['authorization'];
+    let authorization = data['authorization'];
     const payload = data['payload'];
 
     if (!url) {
@@ -61,8 +61,14 @@ export class APICall implements OperationIfc {
       };
     }
 
+    // Check if authorization is empty and URL contains devrev. If so, use the access token from the metadata.
+    if ((!authorization || authorization === '') && url.toLowerCase().includes('devrev')) {
+      authorization = metadata.secrets.access_token;
+    }
+
     try {
       const payloadObj = await parsePayload(payload);
+      
       const responseData = await makeApiCall(url, payloadObj, authorization);
       
       return {
