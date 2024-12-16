@@ -16,14 +16,14 @@ functions:
 
 operations:
   - name: api_call
-    description: Skill to call an API.
+    description: Skill to call an API. DO NOT USE THIS IN PRODUCTION.
     slug: api_call
     function: operation_handler
     type: action
     inputs:
       fields:
         - name: authorization
-          description: Authorization header for the API call. If empty, caller's devrev access token is used. DO NOT USE THIS FOR PRODUCTION OR ANY PRODUCTION TOKEN.
+          description: Authorization header for the API call. If empty, caller's devrev access token is used. DO NOT SHARE ANY PRIVATE TOKEN, SHOULD ONLY HAVE TOKENS OF DEMO WORKSPACES OF ANY TOOL.
           field_type: text
           is_required: false
           ui:
