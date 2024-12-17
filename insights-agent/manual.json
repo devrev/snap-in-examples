@@ -4,7 +4,7 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --cookie 'AWSALB=UnukZSVjCN847Dq4D0fq4hUNGkZiAyjwraDl9wjtT4cz1IdZ0HLylvutVM5vLh5BkBRGqHyqo2D1GZIeqQNZDKquF%2BJvsa61NRPUP24o%2Bo0PQNIi83AFRTnJNYWk; AWSALBCORS=UnukZSVjCN847Dq4D0fq4hUNGkZiAyjwraDl9wjtT4cz1IdZ0HLylvutVM5vLh5BkBRGqHyqo2D1GZIeqQNZDKquF%2BJvsa61NRPUP24o%2Bo0PQNIi83AFRTnJNYWk; __Secure-fes=37f45195c32440699454000000000001%7Ccb90c2bf-4354-467d-a4c7-fd18f8a2bf10' \
   --data '{
-	"id": "don:integration:dvrv-us-1:devo/787:workflow/378:workflow_step/378.2718",
+	"id": "don:integration:dvrv-us-1:devo/787:workflow/624:workflow_step/624.4202",
 	"output_ports": [
 		{
 			"name": "output",
@@ -36,10 +36,10 @@ curl --request POST \
 					},
 					{
 						"field_type": "text",
-						"db_name": "query",
+						"db_name": "sql_query",
 						"description": "The query",
 						"is_required": true,
-						"name": "query"
+						"name": "sql_query"
 					}
 				],
 				"type": "field_descriptor"

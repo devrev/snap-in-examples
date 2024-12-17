@@ -1,0 +1,146 @@
+curl 'https://api.dev.devrev-eng.ai/internal/workflows.create' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'content-type: application/json' \
+  -H 'authorization: eyJhbGciOiJSUzI1NiIsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJraWQiOiJzdHNfa2lkX3JzYSIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiamFudXMiXSwiYXpwIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzc4NzpkZXZ1LzE4NCIsImV4cCI6MTc5NTQ0NjE4MCwiaHR0cDovL2RldnJldi5haS9hdXRoMF91aWQiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vc3VwZXI6YXV0aDBfdXNlci9nb29nbGUtb2F1dGgyfDEwMjA4NTI3NjA3MjA3NzcyNzA1MiIsImh0dHA6Ly9kZXZyZXYuYWkvYXV0aDBfdXNlcl9pZCI6Imdvb2dsZS1vYXV0aDJ8MTAyMDg1Mjc2MDcyMDc3NzI3MDUyIiwiaHR0cDovL2RldnJldi5haS9kZXZvX2RvbiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by83ODciLCJodHRwOi8vZGV2cmV2LmFpL2Rldm9pZCI6IkRFVi03ODciLCJodHRwOi8vZGV2cmV2LmFpL2RldnVpZCI6IkRFVlUtMTg0IiwiaHR0cDovL2RldnJldi5haS9kaXNwbGF5bmFtZSI6Im1hZGhhdi1zaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvZW1haWwiOiJtYWRoYXYuc2lra2FAZGV2cmV2LmFpIiwiaHR0cDovL2RldnJldi5haS9mdWxsbmFtZSI6Ik1hZGhhdiBTaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvaXNfdmVyaWZpZWQiOnRydWUsImh0dHA6Ly9kZXZyZXYuYWkvdG9rZW50eXBlIjoidXJuOmRldnJldjpwYXJhbXM6b2F1dGg6dG9rZW4tdHlwZTpwYXQiLCJpYXQiOjE3MDA4MzgxODAsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJqdGkiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OnRva2VuL0p2R2ZyTENaIiwib3JnX2lkIjoib3JnX2RLTm9QM2U2aENsNnJIdUQiLCJzdWIiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OmRldnUvMTg0In0.uS1402rOwQJHqSwHkj70UsIOA93bQpOTTJC06CFkXRBHjHcpjW9fk51RtfDJquXWcF3EilAVmkP5oOVBVjP94RTItq2-evOgjZm0Q3XvhvtQxKBKm8MyUJgPkhNOktXgo8ThYUl16b31jMUKC7NSmTamseJkvc-TRSSO5OT6YV-j2T6Q7LW-ksKr8h8yRLTQt774aX3FGgx_aIlk7RgnVirxtuFgivF0_xXsjQ2SOTRwcZeT1uFNT8xr4lOLD_xq7GGqEaXf_9PPbWxgJtMQvJ4hMp0UERqK59Mxs7DRYdN56cX5DNgIHnLZmwVu7u-kvr1mD-q9pzWYXNoiCNhZdw' \
+  --data-raw '{"title":"Insights Agent"}'
+
+  // don:integration:dvrv-us-1:devo/787:workflow/625
+
+
+curl 'https://api.dev.devrev-eng.ai/internal/workflow-steps.create' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'authorization: eyJhbGciOiJSUzI1NiIsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJraWQiOiJzdHNfa2lkX3JzYSIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiamFudXMiXSwiYXpwIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzc4NzpkZXZ1LzE4NCIsImV4cCI6MTc5NTQ0NjE4MCwiaHR0cDovL2RldnJldi5haS9hdXRoMF91aWQiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vc3VwZXI6YXV0aDBfdXNlci9nb29nbGUtb2F1dGgyfDEwMjA4NTI3NjA3MjA3NzcyNzA1MiIsImh0dHA6Ly9kZXZyZXYuYWkvYXV0aDBfdXNlcl9pZCI6Imdvb2dsZS1vYXV0aDJ8MTAyMDg1Mjc2MDcyMDc3NzI3MDUyIiwiaHR0cDovL2RldnJldi5haS9kZXZvX2RvbiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by83ODciLCJodHRwOi8vZGV2cmV2LmFpL2Rldm9pZCI6IkRFVi03ODciLCJodHRwOi8vZGV2cmV2LmFpL2RldnVpZCI6IkRFVlUtMTg0IiwiaHR0cDovL2RldnJldi5haS9kaXNwbGF5bmFtZSI6Im1hZGhhdi1zaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvZW1haWwiOiJtYWRoYXYuc2lra2FAZGV2cmV2LmFpIiwiaHR0cDovL2RldnJldi5haS9mdWxsbmFtZSI6Ik1hZGhhdiBTaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvaXNfdmVyaWZpZWQiOnRydWUsImh0dHA6Ly9kZXZyZXYuYWkvdG9rZW50eXBlIjoidXJuOmRldnJldjpwYXJhbXM6b2F1dGg6dG9rZW4tdHlwZTpwYXQiLCJpYXQiOjE3MDA4MzgxODAsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJqdGkiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OnRva2VuL0p2R2ZyTENaIiwib3JnX2lkIjoib3JnX2RLTm9QM2U2aENsNnJIdUQiLCJzdWIiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OmRldnUvMTg0In0.uS1402rOwQJHqSwHkj70UsIOA93bQpOTTJC06CFkXRBHjHcpjW9fk51RtfDJquXWcF3EilAVmkP5oOVBVjP94RTItq2-evOgjZm0Q3XvhvtQxKBKm8MyUJgPkhNOktXgo8ThYUl16b31jMUKC7NSmTamseJkvc-TRSSO5OT6YV-j2T6Q7LW-ksKr8h8yRLTQt774aX3FGgx_aIlk7RgnVirxtuFgivF0_xXsjQ2SOTRwcZeT1uFNT8xr4lOLD_xq7GGqEaXf_9PPbWxgJtMQvJ4hMp0UERqK59Mxs7DRYdN56cX5DNgIHnLZmwVu7u-kvr1mD-q9pzWYXNoiCNhZdw' \
+  -H 'content-type: application/json' \
+  --data-raw '{
+  "description":"Manually triggers the workflow",
+  "name":"Manual Trigger",
+  "operation":"don:integration:dvrv-us-1:operation/devrev.manual_trigger",
+  "ui_metadata":{"position":{"x":0,"y":0}},
+  "workflow":"don:integration:dvrv-us-1:devo/787:workflow/625",
+  	"output_ports": [
+		{
+			"name": "output",
+			"schema": {
+				"field_descriptors": [
+					{
+						"field_type": "id",
+						"db_name": "agent_session_id",
+						"description": "The ID of the agent session",
+						"id_type": [
+							"ai_agent_session"
+						],
+						"is_required": true,
+						"name": "agent_session_id"
+					},
+					{
+						"field_type": "text",
+						"db_name": "skill_call_id",
+						"description": "The ID of the skill call being executed",
+						"is_required": true,
+						"name": "skill_call_id"
+					},
+					{
+						"field_type": "text",
+						"db_name": "skill_name",
+						"description": "The name of the skill being executed",
+						"is_required": true,
+						"name": "skill_name"
+					},
+					{
+						"field_type": "text",
+						"db_name": "sql_query",
+						"description": "The query",
+						"is_required": true,
+						"name": "sql_query"
+					}
+				],
+				"type": "field_descriptor"
+			}
+		}
+	],
+	"reference_key": "ai_agent_skill_manual_trigger"
+  }'
+
+  // don:integration:dvrv-us-1:devo/787:workflow/625:workflow_step/625.4207
+
+
+  curl 'https://api.dev.devrev-eng.ai/internal/workflow-steps.create' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'authorization: eyJhbGciOiJSUzI1NiIsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJraWQiOiJzdHNfa2lkX3JzYSIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiamFudXMiXSwiYXpwIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzc4NzpkZXZ1LzE4NCIsImV4cCI6MTc5NTQ0NjE4MCwiaHR0cDovL2RldnJldi5haS9hdXRoMF91aWQiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vc3VwZXI6YXV0aDBfdXNlci9nb29nbGUtb2F1dGgyfDEwMjA4NTI3NjA3MjA3NzcyNzA1MiIsImh0dHA6Ly9kZXZyZXYuYWkvYXV0aDBfdXNlcl9pZCI6Imdvb2dsZS1vYXV0aDJ8MTAyMDg1Mjc2MDcyMDc3NzI3MDUyIiwiaHR0cDovL2RldnJldi5haS9kZXZvX2RvbiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by83ODciLCJodHRwOi8vZGV2cmV2LmFpL2Rldm9pZCI6IkRFVi03ODciLCJodHRwOi8vZGV2cmV2LmFpL2RldnVpZCI6IkRFVlUtMTg0IiwiaHR0cDovL2RldnJldi5haS9kaXNwbGF5bmFtZSI6Im1hZGhhdi1zaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvZW1haWwiOiJtYWRoYXYuc2lra2FAZGV2cmV2LmFpIiwiaHR0cDovL2RldnJldi5haS9mdWxsbmFtZSI6Ik1hZGhhdiBTaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvaXNfdmVyaWZpZWQiOnRydWUsImh0dHA6Ly9kZXZyZXYuYWkvdG9rZW50eXBlIjoidXJuOmRldnJldjpwYXJhbXM6b2F1dGg6dG9rZW4tdHlwZTpwYXQiLCJpYXQiOjE3MDA4MzgxODAsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJqdGkiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OnRva2VuL0p2R2ZyTENaIiwib3JnX2lkIjoib3JnX2RLTm9QM2U2aENsNnJIdUQiLCJzdWIiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OmRldnUvMTg0In0.uS1402rOwQJHqSwHkj70UsIOA93bQpOTTJC06CFkXRBHjHcpjW9fk51RtfDJquXWcF3EilAVmkP5oOVBVjP94RTItq2-evOgjZm0Q3XvhvtQxKBKm8MyUJgPkhNOktXgo8ThYUl16b31jMUKC7NSmTamseJkvc-TRSSO5OT6YV-j2T6Q7LW-ksKr8h8yRLTQt774aX3FGgx_aIlk7RgnVirxtuFgivF0_xXsjQ2SOTRwcZeT1uFNT8xr4lOLD_xq7GGqEaXf_9PPbWxgJtMQvJ4hMp0UERqK59Mxs7DRYdN56cX5DNgIHnLZmwVu7u-kvr1mD-q9pzWYXNoiCNhZdw' \
+  -H 'content-type: application/json' \
+  --data-raw '{
+  "description":"Executes a SQL query on an Oasis dataset",
+  "name":"Oasis Sql Execute",
+  "operation":"don:integration:dvrv-us-1:operation/devrev.oasis_sql_execute",
+  "reference_key":"oasis_sql_execute_1",
+  "ui_metadata":{"position":{"x":150,"y":150}},
+  "workflow":"don:integration:dvrv-us-1:devo/787:workflow/625"
+}'
+
+// don:integration:dvrv-us-1:devo/787:workflow/625:workflow_step/625.4208
+
+
+curl 'https://api.dev.devrev-eng.ai/internal/workflow-steps.update' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'authorization: eyJhbGciOiJSUzI1NiIsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJraWQiOiJzdHNfa2lkX3JzYSIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiamFudXMiXSwiYXpwIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzc4NzpkZXZ1LzE4NCIsImV4cCI6MTc5NTQ0NjE4MCwiaHR0cDovL2RldnJldi5haS9hdXRoMF91aWQiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vc3VwZXI6YXV0aDBfdXNlci9nb29nbGUtb2F1dGgyfDEwMjA4NTI3NjA3MjA3NzcyNzA1MiIsImh0dHA6Ly9kZXZyZXYuYWkvYXV0aDBfdXNlcl9pZCI6Imdvb2dsZS1vYXV0aDJ8MTAyMDg1Mjc2MDcyMDc3NzI3MDUyIiwiaHR0cDovL2RldnJldi5haS9kZXZvX2RvbiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by83ODciLCJodHRwOi8vZGV2cmV2LmFpL2Rldm9pZCI6IkRFVi03ODciLCJodHRwOi8vZGV2cmV2LmFpL2RldnVpZCI6IkRFVlUtMTg0IiwiaHR0cDovL2RldnJldi5haS9kaXNwbGF5bmFtZSI6Im1hZGhhdi1zaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvZW1haWwiOiJtYWRoYXYuc2lra2FAZGV2cmV2LmFpIiwiaHR0cDovL2RldnJldi5haS9mdWxsbmFtZSI6Ik1hZGhhdiBTaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvaXNfdmVyaWZpZWQiOnRydWUsImh0dHA6Ly9kZXZyZXYuYWkvdG9rZW50eXBlIjoidXJuOmRldnJldjpwYXJhbXM6b2F1dGg6dG9rZW4tdHlwZTpwYXQiLCJpYXQiOjE3MDA4MzgxODAsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJqdGkiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OnRva2VuL0p2R2ZyTENaIiwib3JnX2lkIjoib3JnX2RLTm9QM2U2aENsNnJIdUQiLCJzdWIiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OmRldnUvMTg0In0.uS1402rOwQJHqSwHkj70UsIOA93bQpOTTJC06CFkXRBHjHcpjW9fk51RtfDJquXWcF3EilAVmkP5oOVBVjP94RTItq2-evOgjZm0Q3XvhvtQxKBKm8MyUJgPkhNOktXgo8ThYUl16b31jMUKC7NSmTamseJkvc-TRSSO5OT6YV-j2T6Q7LW-ksKr8h8yRLTQt774aX3FGgx_aIlk7RgnVirxtuFgivF0_xXsjQ2SOTRwcZeT1uFNT8xr4lOLD_xq7GGqEaXf_9PPbWxgJtMQvJ4hMp0UERqK59Mxs7DRYdN56cX5DNgIHnLZmwVu7u-kvr1mD-q9pzWYXNoiCNhZdw' \
+  -H 'content-type: application/json' \
+  --data-raw '{"id":"don:integration:dvrv-us-1:devo/787:workflow/625:workflow_step/625.4207","next_steps":[{"next_port_name":"input","next_step":"don:integration:dvrv-us-1:devo/787:workflow/625:workflow_step/625.4208","port_name":"output"}]}'
+
+
+  curl 'https://api.dev.devrev-eng.ai/internal/workflow-steps.update' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'authorization: eyJhbGciOiJSUzI1NiIsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJraWQiOiJzdHNfa2lkX3JzYSIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiamFudXMiXSwiYXpwIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzc4NzpkZXZ1LzE4NCIsImV4cCI6MTc5NTQ0NjE4MCwiaHR0cDovL2RldnJldi5haS9hdXRoMF91aWQiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vc3VwZXI6YXV0aDBfdXNlci9nb29nbGUtb2F1dGgyfDEwMjA4NTI3NjA3MjA3NzcyNzA1MiIsImh0dHA6Ly9kZXZyZXYuYWkvYXV0aDBfdXNlcl9pZCI6Imdvb2dsZS1vYXV0aDJ8MTAyMDg1Mjc2MDcyMDc3NzI3MDUyIiwiaHR0cDovL2RldnJldi5haS9kZXZvX2RvbiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by83ODciLCJodHRwOi8vZGV2cmV2LmFpL2Rldm9pZCI6IkRFVi03ODciLCJodHRwOi8vZGV2cmV2LmFpL2RldnVpZCI6IkRFVlUtMTg0IiwiaHR0cDovL2RldnJldi5haS9kaXNwbGF5bmFtZSI6Im1hZGhhdi1zaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvZW1haWwiOiJtYWRoYXYuc2lra2FAZGV2cmV2LmFpIiwiaHR0cDovL2RldnJldi5haS9mdWxsbmFtZSI6Ik1hZGhhdiBTaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvaXNfdmVyaWZpZWQiOnRydWUsImh0dHA6Ly9kZXZyZXYuYWkvdG9rZW50eXBlIjoidXJuOmRldnJldjpwYXJhbXM6b2F1dGg6dG9rZW4tdHlwZTpwYXQiLCJpYXQiOjE3MDA4MzgxODAsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJqdGkiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OnRva2VuL0p2R2ZyTENaIiwib3JnX2lkIjoib3JnX2RLTm9QM2U2aENsNnJIdUQiLCJzdWIiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OmRldnUvMTg0In0.uS1402rOwQJHqSwHkj70UsIOA93bQpOTTJC06CFkXRBHjHcpjW9fk51RtfDJquXWcF3EilAVmkP5oOVBVjP94RTItq2-evOgjZm0Q3XvhvtQxKBKm8MyUJgPkhNOktXgo8ThYUl16b31jMUKC7NSmTamseJkvc-TRSSO5OT6YV-j2T6Q7LW-ksKr8h8yRLTQt774aX3FGgx_aIlk7RgnVirxtuFgivF0_xXsjQ2SOTRwcZeT1uFNT8xr4lOLD_xq7GGqEaXf_9PPbWxgJtMQvJ4hMp0UERqK59Mxs7DRYdN56cX5DNgIHnLZmwVu7u-kvr1mD-q9pzWYXNoiCNhZdw' \
+  -H 'content-type: application/json' \
+  --data-raw $'{"id":"don:integration:dvrv-us-1:devo/787:workflow/625:workflow_step/625.4208","input_values":[{"fields":[{"name":"sql_query","value":{"type":"text_template","value":"{% expr $get(\'ai_agent_skill_manual_trigger\', \'output\').sql_query %}"}}],"port_name":"input"}]}'
+
+
+  curl 'https://api.dev.devrev-eng.ai/internal/workflow-steps.create' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'content-type: application/json' \
+    -H 'authorization: eyJhbGciOiJSUzI1NiIsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJraWQiOiJzdHNfa2lkX3JzYSIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiamFudXMiXSwiYXpwIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzc4NzpkZXZ1LzE4NCIsImV4cCI6MTc5NTQ0NjE4MCwiaHR0cDovL2RldnJldi5haS9hdXRoMF91aWQiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vc3VwZXI6YXV0aDBfdXNlci9nb29nbGUtb2F1dGgyfDEwMjA4NTI3NjA3MjA3NzcyNzA1MiIsImh0dHA6Ly9kZXZyZXYuYWkvYXV0aDBfdXNlcl9pZCI6Imdvb2dsZS1vYXV0aDJ8MTAyMDg1Mjc2MDcyMDc3NzI3MDUyIiwiaHR0cDovL2RldnJldi5haS9kZXZvX2RvbiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by83ODciLCJodHRwOi8vZGV2cmV2LmFpL2Rldm9pZCI6IkRFVi03ODciLCJodHRwOi8vZGV2cmV2LmFpL2RldnVpZCI6IkRFVlUtMTg0IiwiaHR0cDovL2RldnJldi5haS9kaXNwbGF5bmFtZSI6Im1hZGhhdi1zaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvZW1haWwiOiJtYWRoYXYuc2lra2FAZGV2cmV2LmFpIiwiaHR0cDovL2RldnJldi5haS9mdWxsbmFtZSI6Ik1hZGhhdiBTaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvaXNfdmVyaWZpZWQiOnRydWUsImh0dHA6Ly9kZXZyZXYuYWkvdG9rZW50eXBlIjoidXJuOmRldnJldjpwYXJhbXM6b2F1dGg6dG9rZW4tdHlwZTpwYXQiLCJpYXQiOjE3MDA4MzgxODAsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJqdGkiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OnRva2VuL0p2R2ZyTENaIiwib3JnX2lkIjoib3JnX2RLTm9QM2U2aENsNnJIdUQiLCJzdWIiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OmRldnUvMTg0In0.uS1402rOwQJHqSwHkj70UsIOA93bQpOTTJC06CFkXRBHjHcpjW9fk51RtfDJquXWcF3EilAVmkP5oOVBVjP94RTItq2-evOgjZm0Q3XvhvtQxKBKm8MyUJgPkhNOktXgo8ThYUl16b31jMUKC7NSmTamseJkvc-TRSSO5OT6YV-j2T6Q7LW-ksKr8h8yRLTQt774aX3FGgx_aIlk7RgnVirxtuFgivF0_xXsjQ2SOTRwcZeT1uFNT8xr4lOLD_xq7GGqEaXf_9PPbWxgJtMQvJ4hMp0UERqK59Mxs7DRYdN56cX5DNgIHnLZmwVu7u-kvr1mD-q9pzWYXNoiCNhZdw' \
+  --data-raw '{
+  "description":"Takes the output of the retriever workflow and returns it to the agent.",
+  "input_ports":[],
+  "name":"Agent Callback",
+  "operation":"don:integration:dvrv-us-1:operation/devrev.agent_callback",
+  "output_ports":[],
+  "previous_steps":[{"id":"don:integration:dvrv-us-1:devo/787:workflow/625:workflow_step/625.4208","port_name":"input","previous_port_name":"output"}],
+  "reference_key":"agent_callback_1",
+  "ui_metadata":{"position":{"x":131.04396243666662,"y":339.33979195007873}},
+  "workflow":"don:integration:dvrv-us-1:devo/787:workflow/625",
+  "input_values": [
+        {
+            "fields": [
+                {
+                    "name": "agent_session_id",
+                    "value": {
+                        "type": "jsonata_expression",
+                        "value": "$get('\''ai_agent_skill_manual_trigger'\'', '\''output'\'').agent_session_id"
+                    }
+                },
+                {
+                    "name": "skill_call_id",
+                    "value": {
+                        "type": "jsonata_expression",
+                        "value": "$get('\''ai_agent_skill_manual_trigger'\'', '\''output'\'').skill_call_id"
+                    }
+                },
+                {
+                    "name": "skill_name",
+                    "value": {
+                        "type": "jsonata_expression",
+                        "value": "$get('\''ai_agent_skill_manual_trigger'\'', '\''output'\'').skill_name"
+                    }
+                },
+                {
+                    "name": "output",
+                    "value": {
+                        "type": "jsonata_expression",
+                        "value": "$get('\''oasis_sql_execute_1'\'', '\''output'\'')"
+                    }
+                }
+            ],
+            "port_name": "input"
+        }
+    ]
+}'

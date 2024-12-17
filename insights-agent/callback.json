@@ -1,25 +1,9 @@
 curl --location 'https://api.dev.devrev-eng.ai/internal/workflow-steps.update' \
 --header 'accept: application/json, text/plain, */*' \
---header 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \
 --header 'authorization: eyJhbGciOiJSUzI1NiIsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJraWQiOiJzdHNfa2lkX3JzYSIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiamFudXMiXSwiYXpwIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzc4NzpkZXZ1LzE4NCIsImV4cCI6MTc5NTQ0NjE4MCwiaHR0cDovL2RldnJldi5haS9hdXRoMF91aWQiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vc3VwZXI6YXV0aDBfdXNlci9nb29nbGUtb2F1dGgyfDEwMjA4NTI3NjA3MjA3NzcyNzA1MiIsImh0dHA6Ly9kZXZyZXYuYWkvYXV0aDBfdXNlcl9pZCI6Imdvb2dsZS1vYXV0aDJ8MTAyMDg1Mjc2MDcyMDc3NzI3MDUyIiwiaHR0cDovL2RldnJldi5haS9kZXZvX2RvbiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by83ODciLCJodHRwOi8vZGV2cmV2LmFpL2Rldm9pZCI6IkRFVi03ODciLCJodHRwOi8vZGV2cmV2LmFpL2RldnVpZCI6IkRFVlUtMTg0IiwiaHR0cDovL2RldnJldi5haS9kaXNwbGF5bmFtZSI6Im1hZGhhdi1zaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvZW1haWwiOiJtYWRoYXYuc2lra2FAZGV2cmV2LmFpIiwiaHR0cDovL2RldnJldi5haS9mdWxsbmFtZSI6Ik1hZGhhdiBTaWtrYSIsImh0dHA6Ly9kZXZyZXYuYWkvaXNfdmVyaWZpZWQiOnRydWUsImh0dHA6Ly9kZXZyZXYuYWkvdG9rZW50eXBlIjoidXJuOmRldnJldjpwYXJhbXM6b2F1dGg6dG9rZW4tdHlwZTpwYXQiLCJpYXQiOjE3MDA4MzgxODAsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXYuZGV2cmV2LWVuZy5haS8iLCJqdGkiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OnRva2VuL0p2R2ZyTENaIiwib3JnX2lkIjoib3JnX2RLTm9QM2U2aENsNnJIdUQiLCJzdWIiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vNzg3OmRldnUvMTg0In0.uS1402rOwQJHqSwHkj70UsIOA93bQpOTTJC06CFkXRBHjHcpjW9fk51RtfDJquXWcF3EilAVmkP5oOVBVjP94RTItq2-evOgjZm0Q3XvhvtQxKBKm8MyUJgPkhNOktXgo8ThYUl16b31jMUKC7NSmTamseJkvc-TRSSO5OT6YV-j2T6Q7LW-ksKr8h8yRLTQt774aX3FGgx_aIlk7RgnVirxtuFgivF0_xXsjQ2SOTRwcZeT1uFNT8xr4lOLD_xq7GGqEaXf_9PPbWxgJtMQvJ4hMp0UERqK59Mxs7DRYdN56cX5DNgIHnLZmwVu7u-kvr1mD-q9pzWYXNoiCNhZdw' \
 --header 'content-type: application/json' \
---header 'cookie: ajs_anonymous_id=b71940ee-10b4-4845-877d-00dadf2a7745; ajs_user_id=madhav.sikka@devrev.ai; _ga=GA1.1.1760706599.1718992981; __Secure-fes=a347eef6a81e4b359f38000000000001|62e645c0-8c3b-4088-bc21-62ff34072732; _ga_FYCFW5YYCW=GS1.1.1727083317.4.0.1727083317.0.0.0; AWSALB=KkG6Ujiibc+KtkZJ6ZHclXTn9fsRFircNjj1IDT1MqNGguWw2ZKewe3HsilrObOTb+JEaLC8q5nH9YGc1fCINy0MkJNEyFGlYFDrCre0cQoSU096xHi2XLVGTtln; AWSALBCORS=KkG6Ujiibc+KtkZJ6ZHclXTn9fsRFircNjj1IDT1MqNGguWw2ZKewe3HsilrObOTb+JEaLC8q5nH9YGc1fCINy0MkJNEyFGlYFDrCre0cQoSU096xHi2XLVGTtln; _dd_s=logs=0&expire=1727886293529; AWSALB=vtesc0J5YnAdDRKoMkp4G8CbDvL7Yfl3sC7dSA6UAHwB6O0AK0cWuwjH+j2GK5uSuQON9F9XVS0/vlQT2tcQkTBPNnci17CW12/X4V49dXx0TTrLj+z/yq6c4why; AWSALBCORS=vtesc0J5YnAdDRKoMkp4G8CbDvL7Yfl3sC7dSA6UAHwB6O0AK0cWuwjH+j2GK5uSuQON9F9XVS0/vlQT2tcQkTBPNnci17CW12/X4V49dXx0TTrLj+z/yq6c4why; __Secure-fes=a44e3305730645c781b5000000000001|cd87c991-3ca1-4400-905b-6543e83f99c2' \
---header 'dnt: 1' \
---header 'origin: https://app.dev.devrev-eng.ai' \
---header 'priority: u=1, i' \
---header 'referer: https://app.dev.devrev-eng.ai/' \
---header 'sec-ch-ua: "Google Chrome";v="129", "Not=A?Brand";v="8", "Chromium";v="129"' \
---header 'sec-ch-ua-mobile: ?0' \
---header 'sec-ch-ua-platform: "macOS"' \
---header 'sec-fetch-dest: empty' \
---header 'sec-fetch-mode: cors' \
---header 'sec-fetch-site: same-site' \
---header 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36' \
---header 'x-devrev-client-id: ai.devrev.web-product.dev' \
---header 'x-devrev-client-platform: web-product' \
---header 'x-devrev-client-version: c3407b2' \
 --data '{
-    "id": "don:integration:dvrv-us-1:devo/787:workflow/378:workflow_step/378.2724",
+    "id": "don:integration:dvrv-us-1:devo/787:workflow/624:workflow_step/624.4204",
     "input_values": [
         {
             "fields": [
@@ -48,7 +32,7 @@ curl --location 'https://api.dev.devrev-eng.ai/internal/workflow-steps.update' \
                     "name": "output",
                     "value": {
                         "type": "jsonata_expression",
-                        "value": "$get('\''get_current_time_1'\'', '\''output'\'')"
+                        "value": "$get('\''oasis_sql_execute_1'\'', '\''output'\'')"
                     }
                 }
             ],
