@@ -1,0 +1,48 @@
+# .github/coderabbit.yaml
+
+review:
+  knowledge_base:
+    paths:
+      - docs/prd/*.md
+      - specs/prd/*.md
+    
+  prd_tracking:
+    enabled: true
+    patterns:
+      - "PRD-*"
+      - "SPEC-*"
+    link_requirements:
+      - type: "reference"
+        pattern: "Implements PRD-\\d+"
+        location: ["PR description", "commit messages"]
+
+  quality_checks:
+    prd_alignment:
+      - check: "feature_completeness"
+        against: "referenced_prd"
+      - check: "acceptance_criteria"
+        required: true
+    
+    implementation:
+      - test_coverage: 85
+      - documentation_required: true
+      - performance_metrics: true
+
+comments:
+  templates:
+    prd_mismatch: |
+      🔍 Your implementation might need alignment with PRD requirements:
+      - Review acceptance criteria in {prd_link}
+      - Ensure all specified features are implemented
+      - Validate performance requirements
+    
+    missing_validation: |
+      ✋ Please add validation for:
+      - Edge cases specified in PRD
+      - Error scenarios
+      - Performance benchmarks
+
+learning:
+  track_successful_implementations:
+    - source: "merged_prs"
+    - link: "prd_reference"
