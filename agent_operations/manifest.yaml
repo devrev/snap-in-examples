@@ -93,3 +93,28 @@ operations:
           field_type: text
           ui:
             display_name: Response
+  - name: get_article_extracted_content
+    description: Given an article id, the skill fetches the article content of resource type articles.
+    slug: get_article_extracted_content
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: id
+          description: The article id.
+          field_type: text
+          is_required: false
+          ui:
+            display_name: ID
+        - name: content
+          description: The content of the article.
+          field_type: text
+          is_required: false
+          ui:
+            display_name: Content
+    outputs:
+      fields:
+        - name: response
+          field_type: text
+          ui:
+            display_name: Response
