@@ -38,5 +38,3 @@ before-run-data.json
 # packaged app
 *.tar.gz
 node_modules/
-node_modules/
-node_modules/
