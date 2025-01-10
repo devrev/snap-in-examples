@@ -26,3 +26,6 @@
 *.DS_Store
 
 build.tar.gz
+node_modules/
+node_modules/
+node_modules/
