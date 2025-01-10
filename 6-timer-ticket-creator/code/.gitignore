@@ -6,7 +6,7 @@
 /out-tsc
 
 # Testing
-coverage/ 
+coverage/
 
 # dependencies
 /node_modules
@@ -33,9 +33,7 @@ Thumbs.db
 
 deps.json
 results.json
-before-run-data.json 
+before-run-data.json
 build.tar.gz
 
-node_modules/
-node_modules/
 node_modules/
