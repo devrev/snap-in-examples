@@ -24,6 +24,4 @@ build/
 .DS_Store
 Thumbs.db
 
-build.tar.gznode_modules/
-node_modules/
-node_modules/
+build.tar.gz
