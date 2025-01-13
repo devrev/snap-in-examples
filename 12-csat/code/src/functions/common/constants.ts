@@ -19,6 +19,9 @@ export const SurveysSubmitAPIMethodPath = '/surveys.submit';
 export const SurveysListAPIMethodPath = '/surveys.list';
 export const SurveysSendAPIMethodPath = '/surveys.send';
 
+// Snap-kit Action
+export const SnapKitActionCreateDeferredAPIMethodPath = '/snap-kit-action.create.deferred';
+
 export const EMAIL = 'email';
 export const EmailSubject = 'Support experience feedback for ';
 export const PLUG = 'plug';
