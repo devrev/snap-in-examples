@@ -1,0 +1,107 @@
+{
+  "payload": {
+    "action": {
+      "block_id": "NIL",
+      "id": "merge_pr",
+      "timestamp": 1731566835,
+      "type": "BUTTON",
+      "value": "PRIMARY"
+    },
+    "action_id": "don:integration:dvrv-us-1:devo/XXXXX:snap_in/b8bbca85-544e-450b-a09d-acc57c9fde66:snap_kit_action/update_pr",
+    "actor_id": "don:identity:dvrv-us-1:devo/XXXXX:devu/2",
+    "body": {
+      "snaps": [
+        {
+          "elements": [
+            {
+              "elements": [
+                {
+                  "text": "**PR Info:**\n  - Title: ISS-86 ISS-87 ISS-88\n  - Description: Does it ever drive you crazy\r\nDissapear and never dreamt of \r\nEven when the night changes\n  - State: open\n  - Created At: 2022-12-07T09:32:41Z\n  - Updated At: 2022-12-07T09:32:42Z\n  \n  - Created By: [johnDoe](https://github.com/johnDoe)\n  - [View PR](https://github.com/Flows-Convergence/template-website/pull/53)",
+                  "type": "rich_text"
+                }
+              ],
+              "type": "content"
+            },
+            {
+              "direction": "row",
+              "elements": [
+                {
+                  "action_id": "merge_pr",
+                  "action_type": "remote",
+                  "style": "primary",
+                  "text": {
+                    "text": "Merge PR",
+                    "type": "plain_text"
+                  },
+                  "type": "button",
+                  "value": "PRIMARY"
+                },
+                {
+                  "action_id": "close_pr",
+                  "action_type": "remote",
+                  "style": "destructive",
+                  "text": {
+                    "text": "Close PR",
+                    "type": "plain_text"
+                  },
+                  "type": "button",
+                  "value": "DESTRUCTIVE"
+                }
+              ],
+              "type": "actions"
+            }
+          ],
+          "title": {
+            "text": "Here are the details of the PR",
+            "type": "plain_text"
+          },
+          "type": "card"
+        }
+      ]
+    },
+    "context": {
+      "entry_id": "don:core:dvrv-us-1:devo/XXXXX:enhancement/3:comment/gmko5qvbvwcrs",
+      "parent_core_object_id": "don:core:dvrv-us-1:devo/XXXXX:enhancement/3"
+    },
+    "dev_org": "don:identity:dvrv-us-1:devo/XXXXX",
+    "parent_id": "don:integration:dvrv-us-1:devo/XXXXX:snap_in/b8bbca85-544e-450b-a09d-acc57c9fde66",
+    "request_id": ""
+  },
+  "context": {
+    "dev_oid": "don:identity:dvrv-us-1:devo/XXXXX",
+    "automation_id": "",
+    "source_id": "don:integration:dvrv-us-1:devo/XXXXX:snap_in/b8bbca85-544e-450b-a09d-acc57c9fde66:snap_kit_action/update_pr",
+    "snap_in_id": "don:integration:dvrv-us-1:devo/XXXXX:snap_in/b8bbca85-544e-450b-a09d-acc57c9fde66",
+    "snap_in_version_id": "don:integration:dvrv-us-1:devo/XXXXX:snap_in_package/ad0b4d0b-3975-4270-8a8f-da628672b52c:snap_in_version/1aba9db1-e5be-44b6-b513-ccd15fd7c35a",
+    "service_account_id": "don:identity:dvrv-us-1:devo/XXXXX:svcacc/127",
+    "secrets": {
+      "actor_session_token": "XXXXX",
+      "service_account_token": "XXXXX"
+    },
+    "user_id": "don:identity:dvrv-us-1:devo/XXXXX:devu/2",
+    "event_id": "",
+    "execution_id": ""
+  },
+  "execution_metadata": {
+    "request_id": "",
+    "function_name": "handle_actions",
+    "devrev_endpoint": "https://api.dev.devrev-eng.ai"
+  },
+  "input_data": {
+    "global_values": {},
+    "event_sources": {},
+    "keyrings": {
+      "github_connection": "xxxxxxx"
+    },
+    "resources": {
+      "keyrings": {
+        "github_connection": {
+          "id": "don:integration:dvrv-us-1:devo/XXXXX:keyring/870f287a-a5af-4b95-ba32-9395e4127d1d",
+          "secret": "XXXXX",
+          "type_id": "devrev-snap-in-secret"
+        }
+      },
+      "tags": {}
+    }
+  }
+}
