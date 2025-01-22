@@ -1,0 +1,46 @@
+version: '2'
+
+name: Sample Snap-In For Async Execution of Agents
+description: Snap In to chat with a KB based agent in the snap-in timeline.
+
+service_account:
+  display_name: "KB Agent"
+
+event_sources:
+  organization:
+    - name: devrev-webhook
+      display_name: DevRev
+      type: devrev-webhook
+      config:
+        event_types:
+          - timeline_entry_created
+          - ai_agent_response
+
+inputs:
+  organization:
+    - name: agent_id
+      description: The Object ID of the created Agent. If the agent is ai_agent-292, the object ID is 292.
+      is_required: true
+      field_type: text
+      default_value: "1"
+      ui:
+        display_name: Agent ID
+
+functions:
+  - name: trigger_agent_execution
+    description: Function to trigger the execution of agent when a timeline entry is created in the snap-in timeline.
+  - name: handle_agent_response
+    description: Function to post a comment with Agent's response in the same timeline.
+
+automations:
+  - name: call_agent
+    source: devrev-webhook
+    event_types:
+      - timeline_entry_created
+    function: trigger_agent_execution
+
+  - name: send_agent_response
+    source: devrev-webhook
+    event_types:
+      - ai_agent_response
+    function: handle_agent_response

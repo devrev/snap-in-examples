@@ -1,0 +1,49 @@
+[
+  {
+    "payload": {
+      "ai_agent_response": {
+          "client_metadata": {
+            "agent_id": "don:integration:dvrv-us-1:devo/MqfwS4rK:ai_agent/1",
+            "session_object": "don:integration:dvrv-us-1:devo/MqfwS4rK:snap_in/4f3ec839-e354-4cff-95c2-647bb98e0f47"
+          },
+          "message": "I found some articles related to the query \"what is devrev\". However, it seems that the articles retrieved are not directly related to DevRev but rather to technical documentation related to video SDKs and other topics. Here are some of the articles:\n\n1. **Title:** responses\n   - **URL:** [Read more](https://www.100ms.live/docs/api-reference/android/v2/lib/live.hms.video.polls.models/-hms-poll-creation-params/responses.html)\n   - **ID:** <don:core:dvrv-us-1:devo/787:article/3882>\n\n2. **Title:** update\n   - **URL:** [Read more](https://www.100ms.live/docs/api-reference/android/v2/lib/live.hms.video.polls.models.answer/-hms-poll-answer/update.html)\n   - **ID:** <don:core:dvrv-us-1:devo/787:article/3869>\n\n3. **Title:** pollId\n   - **URL:** [Read more](https://www.100ms.live/docs/api-reference/android/v2/lib/live.hms.video.polls.models/-hms-poll/poll-id.html)\n   - **ID:** <don:core:dvrv-us-1:devo/787:article/3871>\n\n4. **Title:** recipientPeer\n   - **URL:** [Read more](https://www.100ms.live/docs/api-reference/android/v2/lib/live.hms.video.sdk.models/-h-m-s-message-recipient/recipient-peer.html)\n   - **ID:** <don:core:dvrv-us-1:devo/787:article/3861>\n\n5. **Title:** BACK\n   - **URL:** [Read more](https://www.100ms.live/docs/api-reference/android/v2/lib/live.hms.video.media.settings/-h-m-s-video-track-settings/-camera-facing/-b-a-c-k/index.html)\n   - **ID:** <don:core:dvrv-us-1:devo/787:article/1587>\n\nIf you are looking for specific information about DevRev, please let me know so I can assist you better!",
+          "agent_response": "message"
+      },
+      "id": "don:integration:dvrv-us-1:devo/787:webhook/auCJ7By8:webhook_event/GVmzN7SLjgw",
+      "timestamp": "2025-01-21T21:23:54.757525Z",
+      "webhook_id": "don:integration:dvrv-us-1:devo/787:webhook/auCJ7By8",
+      "type": "ai_agent_response"
+    },
+    "context": {
+      "dev_oid": "don:identity:dvrv-us-1:devo/MqfwS4rK",
+      "automation_id": "don:integration:dvrv-us-1:devo/MqfwS4rK:automation/9621b39e-8fe1-412d-9ce5-8b964816e3a8",
+      "source_id": "don:integration:dvrv-us-1:devo/MqfwS4rK:automation/9621b39e-8fe1-412d-9ce5-8b964816e3a8",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/MqfwS4rK:snap_in/4f3ec839-e354-4cff-95c2-647bb98e0f47",
+      "snap_in_version_id": "don:integration:dvrv-us-1:devo/MqfwS4rK:snap_in_package/8d4dfc4a-4d88-4af0-bf77-c7824d6d36ea:snap_in_version/9c08a62c-216f-43aa-91f8-75d2c2bd5c85",
+      "service_account_id": "don:identity:dvrv-us-1:devo/MqfwS4rK:svcacc/219",
+      "secrets": {
+        "service_account_token": ""
+      },
+      "user_id": "don:identity:dvrv-us-1:devo/MqfwS4rK:svcacc/219"
+    },
+    "execution_metadata": {
+      "request_id": "",
+      "function_name": "check_timeline_comment",
+      "event_type": "timeline_entry_created",
+      "devrev_endpoint": "https://api.dev.devrev-eng.ai"
+    },
+    "input_data": {
+      "global_values": {
+        "agent_id": "1"
+      },
+      "event_sources": {
+        "devrev-webhook": "don:integration:dvrv-us-1:devo/MqfwS4rK:event_source/9c90f445-b32b-43ab-bcb6-ebc1270c48b9"
+      },
+      "keyrings": null,
+      "resources": {
+        "keyrings": {},
+        "tags": {}
+      }
+    }
+  }
+]

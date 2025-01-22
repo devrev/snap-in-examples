@@ -1,0 +1,84 @@
+[
+  {
+    "payload": {
+      "id": "don:integration:dvrv-us-1:devo/MqfwS4rK:webhook/Lqx5v1ef:webhook_event/vlnqSdWas84",
+      "timeline_entry_created": {
+        "entry": {
+          "body": "hello there",
+          "body_type": "text",
+          "collections": ["discussions"],
+          "created_by": {
+            "display_handle": "shravan-suresh",
+            "display_id": "DEVU-1",
+            "display_name": "shravan-suresh",
+            "display_picture": {
+              "display_id": "artifact-1077",
+              "file": {
+                "type": "image/png"
+              },
+              "headers": {
+                "content_disposition": "inline"
+              },
+              "id": "don:core:dvrv-us-1:devo/MqfwS4rK:artifact/1077",
+              "id_v1": "don:DEV-MqfwS4rK:artifact:1077",
+              "original_url": "https://s3.amazonaws.com/devrev-dev-artifacts-public/anXcI8yvNHgNXroCQXFJvg",
+              "preview_url": "https://s3.amazonaws.com/devrev-dev-artifacts-public/anXcI8yvNHgNXroCQXFJvg"
+            },
+            "email": "shravan.suresh@devrev.ai",
+            "full_name": "Shravan Suresh",
+            "id": "don:identity:dvrv-us-1:devo/MqfwS4rK:devu/1",
+            "id_v1": "don:DEV-MqfwS4rK:dev_user:DEVU-1",
+            "state": "active",
+            "thumbnail": "https://s3.amazonaws.com/devrev-dev-artifacts-public/anXcI8yvNHgNXroCQXFJvg",
+            "type": "dev_user"
+          },
+          "created_date": "2024-05-22T15:36:18.374344Z",
+          "id": "don:core:dvrv-us-1:devo/MqfwS4rK:ticket/257:comment/o4b5n2owlsx6o",
+          "labels": ["display:customer-chat"],
+          "object": "don:core:dvrv-us-1:devo/MqfwS4rK:ticket/257",
+          "object_display_id": "TKT-257",
+          "object_type": "ticket",
+          "object_v1": "don:DEV-MqfwS4rK:ticket:257",
+          "panels": ["customer_chat"],
+          "type": "timeline_comment",
+          "visibility": "external"
+        }
+      },
+      "timestamp": "2024-05-22T15:36:20.547265Z",
+      "type": "timeline_entry_created",
+      "unique_key": "ZG9uOmludGVncmF0aW9uOmR2cnYtdXMtMTpkZXZvL01xZndTNHJLOmV2ZW50X3NvdXJjZS85YzkwZjQ0NS1iMzJiLTQzYWItYmNiNi1lYmMxMjcwYzQ4Yjk=",
+      "webhook_id": "don:integration:dvrv-us-1:devo/MqfwS4rK:webhook/Lqx5v1ef"
+    },
+    "context": {
+      "dev_oid": "don:identity:dvrv-us-1:devo/MqfwS4rK",
+      "automation_id": "don:integration:dvrv-us-1:devo/MqfwS4rK:automation/9621b39e-8fe1-412d-9ce5-8b964816e3a8",
+      "source_id": "don:integration:dvrv-us-1:devo/MqfwS4rK:automation/9621b39e-8fe1-412d-9ce5-8b964816e3a8",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/MqfwS4rK:snap_in/4f3ec839-e354-4cff-95c2-647bb98e0f47",
+      "snap_in_version_id": "don:integration:dvrv-us-1:devo/MqfwS4rK:snap_in_package/8d4dfc4a-4d88-4af0-bf77-c7824d6d36ea:snap_in_version/9c08a62c-216f-43aa-91f8-75d2c2bd5c85",
+      "service_account_id": "don:identity:dvrv-us-1:devo/MqfwS4rK:svcacc/219",
+      "secrets": {
+        "service_account_token": ""
+      },
+      "user_id": "don:identity:dvrv-us-1:devo/MqfwS4rK:svcacc/219"
+    },
+    "execution_metadata": {
+      "request_id": "",
+      "function_name": "check_timeline_comment",
+      "event_type": "timeline_entry_created",
+      "devrev_endpoint": "https://api.dev.devrev-eng.ai"
+    },
+    "input_data": {
+      "global_values": {
+        "agent_id": "1"
+      },
+      "event_sources": {
+        "devrev-webhook": "don:integration:dvrv-us-1:devo/MqfwS4rK:event_source/9c90f445-b32b-43ab-bcb6-ebc1270c48b9"
+      },
+      "keyrings": null,
+      "resources": {
+        "keyrings": {},
+        "tags": {}
+      }
+    }
+  }
+]
