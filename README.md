@@ -1,43 +1,153 @@
-# Snap-in examples to help you build your own snap-ins.
+## Steps
 
-## Examples
-This repository contains three examples to get you started. 
-- [1-starter](1-starter/code/README.md)
-- [2-notify-owner-on-ticket-to-prod-assist](2-notify-owner-on-ticket-to-prod-assist/ticket-status-prod-assist/README.md)
-- [3-giphy-template](3-giphy-template/code/README.md)
-  
-## DevRev Snaps TypeScript Template
+1. **Define Operation in Manifest**
+   Add your operation under the `operations` section in `manifest.yaml`:
 
-This repository contains a template for the functions that can be deployed as
-part of Snap-Ins.
+   ```yaml
+   operations:
+     - name: "My Operation"           # Display name shown in UI
+       display_name: "My Operation"    
+       description: "Operation description"
+       slug: "my_operation"           # Unique identifier
+       function: operation_handler    # Function that handles the operation
+       type: action                   # Operation type 
+       inputs:                        # Define input schema
+         fields:
+           - name: input_field
+             field_type: text        
+             is_required: true
+             ui:
+               display_name: "Input Field"
+       outputs:                      # Define output schema
+         fields:
+           - name: output_field
+             field_type: text
+             ui:
+               display_name: "Output Field"
+       keyrings:                     # Optional: Define external service connections
+         - name: external_service
+           display_name: "External Service"
+           types: 
+             - service_type
+   ```
 
-### Getting started with the template
-1. Create a new repository from this template.
-2. In the new repository, you can add functions at path `src/functions` where the folder name corresponds to the function name in your manifest file.
-3. Each function you add will also need to be mentioned in `src/function-factory.ts` .
+2. **Create Operation Handler**
+   Create a new TypeScript class that extends `OperationBase`:
 
-### Testing locally
-You can test your code by adding test events under `src/fixtures` similar to the example event provided. You can add keyring values to the event payload to test API calls as well.
+   ```typescript
+   import { 
+     OperationBase,
+     OperationContext,
+     ExecuteOperationInput,
+     OperationOutput,
+     Error as OperationError,
+     Error_Type
+   } from '@devrev/typescript-sdk/dist/snap-ins';
 
-Once you have added the event, you can test your code by running:
-```
-npm install
-npm run start:watch -- --functionName=function_1 --fixturePath=function_1_event.json
-```
+   interface MyOperationInput {
+     input_field: string;
+   }
 
-### Adding external dependencies
-You can also add dependencies on external packages in package.json under the "dependencies" key. These dependencies will be made available to your function at runtime and testing.
+   export class MyOperation extends OperationBase {
+     constructor(e: FunctionInput) {
+       super(e);
+     }
 
-### Packaging the code
-Once you are done with the testing,
-Run
-```
-npm install
-npm run build
-npm run package
-```
-and ensure it succeeds.
+     async run(
+       context: OperationContext,      // Contains endpoint, tokens etc
+       input: ExecuteOperationInput,   // Contains input data
+       resources: any                  // Contains keyring secrets
+     ): Promise<OperationOutput> {
+       // Extract input data
+       const input_data = input.data as MyOperationInput;
+       
+       // Access DevRev endpoint and token if needed
+       const endpoint = context.devrev_endpoint;
+       const token = context.secrets.access_token;
+       
+       // Access external service token if defined in keyrings
+       const external_token = resources.keyrings.external_service.secret;
 
-You will see a `build.tar.gz` file is created and you can provide it while creating the snap_in_version.
+       try {
+         // Operation logic here
+         const result = "success";
 
-Copyright (c) 2023 DevRev, Inc. All rights reserved.
+         // Return output
+         return OperationOutput.fromJSON({
+           output: {
+             values: [{ output_field: result }]
+           }
+         });
+       } catch (e: any) {
+         // Handle errors
+         return OperationOutput.fromJSON({
+           error: {
+             message: e.message,
+             type: Error_Type.InvalidRequest
+           }
+         });
+       }
+     }
+   }
+   ```
+
+3. **Register Operation**
+   Add the operation to the `operationMap` in your handler's index file:
+
+   ```typescript
+   const operationMap: OperationMap = {
+     my_operation: MyOperation,
+     // ... other operations
+   };
+   ```
+
+# DevRev CLI Commands Guide
+
+## Prerequisites
+1. Install the DevRev CLI
+   ```bash
+   # For installation instructions, visit:
+   # https://developer.devrev.ai/public/snapin-development/references/cli-install
+   devrev --version
+   ```
+
+## Authentication
+2. Login to the DevRev CLI
+   ```bash
+   devrev profiles authenticate -o <org> -u <email>
+   ```
+
+## Snap-in Package
+3. Create a new snap-in package
+   ```bash
+   devrev snap_in_package create-one --slug <slug> | jq .
+   ```
+
+## Local Development
+4. Set up local development environment
+   ```bash
+   # Start ngrok tunnel
+   ngrok http 8000
+
+   # Start test server
+   npm run test:server
+
+   # Create snap-in version with testing URL
+   devrev snap_in_version create-one --manifest <manifest path> --create-package --testing-url <HTTP_URL>
+
+   # View snap-in version details
+   devrev snap_in_version show
+   ```
+
+## Deployment
+5. Deploy locally
+   ```bash
+   devrev snap_in draft | jq .
+   ```
+
+Open the snap-in page using the given URL and configure the snap-in. 
+
+6. Deploy to production infrastructure
+   ```bash
+   devrev snap_in_version upgrade --path .
+   ```
