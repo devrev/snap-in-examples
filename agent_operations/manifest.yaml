@@ -37,7 +37,7 @@ operations:
         - name: payload
           description: The payload to be used for the API call.
           field_type: text
-          is_required: true
+          is_required: false
           ui:
             display_name: Payload
     outputs:
@@ -106,6 +106,25 @@ operations:
           is_required: false
           ui:
             display_name: ID
+        - name: content
+          description: The content of the article.
+          field_type: text
+          is_required: false
+          ui:
+            display_name: Content
+    outputs:
+      fields:
+        - name: response
+          field_type: text
+          ui:
+            display_name: Response
+  - name: create_article
+    description: Given a content, the skill creates an article.
+    slug: create_article
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
         - name: content
           description: The content of the article.
           field_type: text

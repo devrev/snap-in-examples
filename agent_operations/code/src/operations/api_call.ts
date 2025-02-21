@@ -67,8 +67,11 @@ export class APICall implements OperationIfc {
     }
 
     try {
-      const payloadObj = await parsePayload(payload);
-      
+      // Fix payload handling logic
+      let payloadObj = {};
+      if (payload && payload !== '') {
+        payloadObj = await parsePayload(payload);
+      }           
       const responseData = await makeApiCall(url, payloadObj, authorization);
       
       return {

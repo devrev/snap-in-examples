@@ -2,7 +2,7 @@ import { SuggestSearch } from '../../operations/suggest_search';
 import { GetObject } from '../../operations/get_object';
 import { APICall } from '../../operations/api_call';
 import { GetArticleExtractedContent } from '../../operations/get_article_extracted_content';
-
+import { CreateArticle } from '../../operations/create_article';
 import { OperationFactory } from '../../operations';
 import { ExecuteOperationInput,FunctionInput, OperationMap } from '@devrev/typescript-sdk/dist/snap-ins';
 
@@ -16,6 +16,7 @@ const operationMap: OperationMap = {
   get_object: GetObject,
   api_call: APICall,
   get_article_extracted_content: GetArticleExtractedContent,
+  create_article: CreateArticle,
 };
 
 export const run = async (events: FunctionInput[]) => {
