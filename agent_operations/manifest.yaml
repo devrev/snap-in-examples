@@ -34,6 +34,12 @@ operations:
           is_required: true
           ui:
             display_name: URL
+        - name: method
+          description: The method to be used for the API call. One of GET, POST, PUT, DELETE.
+          field_type: text
+          is_required: false
+          ui:
+            display_name: Method
         - name: payload
           description: The payload to be used for the API call.
           field_type: text

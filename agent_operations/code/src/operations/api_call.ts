@@ -13,16 +13,27 @@ async function parsePayload(payload: string) {
   }
 }
 
-async function makeApiCall(url: string, payloadObj: any, authorization: string) {
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': authorization || '',
-    },
-    body: JSON.stringify(payloadObj),
-  });
-  return response.json();
+async function makeApiCall(url: string, method: string, payloadObj: any, authorization: string) {
+  if (method === 'GET') {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': authorization || '',
+      },
+    });
+    return response.json();
+  } else {
+    const response = await fetch(url, {
+      method: method || 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': authorization || '',
+      },
+      body: JSON.stringify(payloadObj),
+    });
+    return response.json();
+  }
 }
 
 export class APICall implements OperationIfc {
@@ -47,6 +58,8 @@ export class APICall implements OperationIfc {
     }
 
     const url = data['url'];
+    // Check if method is provided and is one of GET, POST, PUT, DELETE. If not, set it to POST.
+    const method = data['method'];
     let authorization = data['authorization'];
     const payload = data['payload'];
 
@@ -72,7 +85,7 @@ export class APICall implements OperationIfc {
       if (payload && payload !== '') {
         payloadObj = await parsePayload(payload);
       }           
-      const responseData = await makeApiCall(url, payloadObj, authorization);
+      const responseData = await makeApiCall(url, method, payloadObj, authorization);
       
       return {
         error: undefined,
