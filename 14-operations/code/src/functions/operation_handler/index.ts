@@ -2,18 +2,14 @@ import { OperationFactory } from '../../operations';
 import { ExecuteOperationInput,FunctionInput, OperationMap } from '@devrev/typescript-sdk/dist/snap-ins';
 
 // Operations
-import { GetTemperature } from './get_temperature';
-import { PostCommentOnTicket } from './post_comment_on_ticket';
-import { SendSlackMessage } from './send_slack_message';
+import { GetLinkedWorksFromPart } from './get_linked_works_from_part';
 
 /**
  * Map of operations with the slug mentioned in the manifest.
  * The key is the slug of the operation mentioned in the manifest and value is the operation class.
  */
 const operationMap: OperationMap = {
-  get_temperature: GetTemperature,
-  post_comment_on_ticket: PostCommentOnTicket,
-  send_slack_message: SendSlackMessage,
+  get_linked_works_from_part: GetLinkedWorksFromPart,
 };
 
 export const run = async (events: FunctionInput[]) => {
