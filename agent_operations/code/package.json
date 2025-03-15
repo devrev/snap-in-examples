@@ -59,6 +59,7 @@
     "axios-retry": "4.4.1",
     "cheerio": "1.0.0-rc.12",
     "duck-duck-scrape": "2.2.5",
+    "he": "1.2.0",
     "langchain": "0.2.10",
     "protobufjs": "7.3.0",
     "winston": "3.13.0"
