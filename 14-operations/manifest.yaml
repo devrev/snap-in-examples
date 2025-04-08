@@ -1,98 +1,37 @@
 version: "2"
-name: "Operations"
-description: "Pack of operations"
+name: "Risk prediction"
+description: "Risk prediction operations"
 
 service_account:
-  display_name: Operations Bot
+  display_name: Enhancement Retrieval 
 
 functions:
   - name: operation_handler
     description: function to handle operations
 
 operations:
-  - name: get_temperature
-    display_name: Get Temperature
-    description: Operation to get the temperature of a city
+  - name: get_last_coding_activity
+    display_name: Last coding timestamp for an object
+    description: Node that retrieves the last coding activity of an issue or an enhancement
     slug: get_temperature
     function: operation_handler
     type: action
     # Inputs to the operation.
     inputs:
       fields:
-        - name: city
-          field_type: enum
-          allowed_values:
-          - New York
-          - San Francisco
-          - Los Angeles
-          - Chicago
-          - Houston
+        - name: object_id
+          description: Object ID to retrieve last coding activity for.
+          field_type: id
+          id_type:
+          - enhancement
+          - issue
           is_required: true
-          default_value: "New York"
           ui:
-            display_name: City
+            display_name: Object ID
     #  Outputs of the operation.
     outputs:
       fields:
-        - name: temperature
-          field_type: double
+        - name: last_coding_activity
+          field_type: timestamp
           ui:
-            display_name: Temperature
-  - name: post_comment_on_ticket
-    display_name: Post Comment on Ticket
-    description: Operation to post a comment on ticket
-    slug: post_comment_on_ticket
-    function: operation_handler
-    type: action
-    inputs:
-      fields:
-        - name: id
-          description: Ticket ID to post comment on.
-          field_type: text
-          is_required: true
-          ui:
-            display_name: Ticket ID
-        - name: comment
-          description: Comment to post on ticket.
-          field_type: text
-          is_required: true
-          ui:
-            display_name: Comment
-    outputs:
-      fields:
-        - name: comment_id
-          field_type: text
-          ui:
-            display_name: Comment ID
-  - name: send_slack_message
-    display_name: Send Slack Message
-    description: Operation to send a message to a Slack channel/thread
-    slug: send_slack_message
-    function: operation_handler
-    type: action
-    keyrings:
-      - name: slack_token
-        display_name: Slack Connection
-        description: Connection to Slack
-        types:
-          - slack
-    inputs:
-      fields:
-        - name: channel
-          description: Channel to send message to.
-          field_type: text
-          is_required: true
-          ui:
-            display_name: Channel
-        - name: message
-          description: Message to send.
-          field_type: rich_text
-          is_required: true
-          ui:
-            display_name: Message
-    outputs:
-      fields:
-        - name: message_id
-          field_type: text
-          ui:
-            display_name: Message ID
+            display_name: Last coding activity
