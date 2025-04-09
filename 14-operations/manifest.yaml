@@ -3,7 +3,7 @@ name: "Risk prediction"
 description: "Risk prediction operations"
 
 service_account:
-  display_name: Enhancement Retrieval 
+  display_name: Latest coding activity
 
 functions:
   - name: operation_handler
@@ -13,7 +13,7 @@ operations:
   - name: get_last_coding_activity
     display_name: Last coding timestamp for an object
     description: Node that retrieves the last coding activity of an issue or an enhancement
-    slug: get_temperature
+    slug: get_last_coding_activity
     function: operation_handler
     type: action
     # Inputs to the operation.
@@ -28,6 +28,7 @@ operations:
           is_required: true
           ui:
             display_name: Object ID
+
     #  Outputs of the operation.
     outputs:
       fields:
@@ -35,3 +36,10 @@ operations:
           field_type: timestamp
           ui:
             display_name: Last coding activity
+        - name: justification
+          description: Justification for the operation.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Justification
+            placeholder: Justification for the operation
