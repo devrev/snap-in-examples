@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "@devrev/typescript-sdk": "1.1.28",
+    "@devrev/typescript-sdk-internal": "1.2.266",
     "@slack/web-api": "7.3.1",
     "axios": "1.7.9",
     "protobufjs": "7.3.0"
