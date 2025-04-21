@@ -5,7 +5,7 @@ import { GetArticleExtractedContent } from '../../operations/get_article_extract
 import { CreateArticle } from '../../operations/create_article';
 import { OperationFactory } from '../../operations';
 import { ExecuteOperationInput,FunctionInput, OperationMap } from '@devrev/typescript-sdk/dist/snap-ins';
-
+import { CreateDMWithMessage } from '../../operations/create_dm_with_message';
 /**
  * Map of operations with the slug mentioned in the manifest.
  * The key is the slug of the operation mentioned in the manifest and value is the operation class.
@@ -17,6 +17,7 @@ const operationMap: OperationMap = {
   api_call: APICall,
   get_article_extracted_content: GetArticleExtractedContent,
   create_article: CreateArticle,
+  create_dm_with_message: CreateDMWithMessage,
 };
 
 export const run = async (events: FunctionInput[]) => {

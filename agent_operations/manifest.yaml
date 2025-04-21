@@ -143,3 +143,40 @@ operations:
           field_type: text
           ui:
             display_name: Response
+  - name: create_dm_with_message
+    description: Given a message, the skill creates a DM with the message.
+    slug: create_dm_with_message
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: message
+          description: The message to be sent in the DM.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Message
+        - name: user_oid
+          description: The user oid to be used for the DM.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: User OID
+        - name: agent_id
+          description: The agent id to be used for the DM.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Agent ID
+        - name: user_auth
+          description: The user auth to be used for DM creation.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: User Auth
+    outputs:
+      fields:
+        - name: response
+          field_type: text
+          ui:
+            display_name: Response
