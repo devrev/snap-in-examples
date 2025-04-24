@@ -1,0 +1,66 @@
+version: "2"
+name: "Operations"
+description: "Pack of operations"
+
+service_account:
+  display_name: Operations Bot
+
+functions:
+  - name: operation_handler
+    description: function to handle operations
+
+operations:
+  - name: ydc_web_search
+    display_name: YDC Web Search
+    description: Operation call the search api of you.com
+    slug: ydc_web_search
+    function: operation_handler
+    type: action
+    keyrings:
+      - name: ydc_api_key
+        display_name: YDC API Key
+        description: API Key for YDC
+        types:
+          - snap_in_secret
+    inputs:
+      fields:
+        - name: query
+          description: Query to search for.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Query
+        - name: num_web_results
+          description: Number of web results to return.
+          field_type: text
+          is_required: false
+          ui:
+            display_name: Number of Web Results
+        - name: freshness
+          description: Freshness of the results.
+          field_type: enum
+          allowed_values:
+          - day
+          - week
+          - month
+          - year
+          is_required: false
+          ui:
+            display_name: Freshness
+        - name: safe_search
+          description: Safe search.
+          field_type: enum
+          allowed_values:
+          - strict
+          - moderate
+          - 'off'
+          is_required: false
+          ui:
+            display_name: Safe Search
+    outputs:
+      fields:
+        - name: results
+          description: Results of the search.
+          field_type: text
+          ui:
+            display_name: Results
