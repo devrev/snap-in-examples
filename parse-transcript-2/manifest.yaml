@@ -1,0 +1,34 @@
+version: "2"
+name: "Operations"
+description: "Pack of operations"
+
+service_account:
+  display_name: Operations Bot
+
+functions:
+  - name: operation_handler
+    description: function to handle operations
+
+operations:
+  - name: parse_transcript
+    display_name: Parse Transcript
+    description: Operation to parse a transcript in JSON format, converting it to plain text
+    slug: parse_transcript
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: transcript_id
+          description: Artifact ID of the transcript to parse.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Transcript ID
+    outputs:
+      fields:
+        - name: artifact
+          field_type: id
+          id_type: [artifact]
+          description: Artifact ID of the parsed transcript.
+          ui:
+            display_name: Parsed Transcript Artifact ID
