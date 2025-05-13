@@ -36,3 +36,4 @@ results.json
 before-run-data.json
 
 node_modules/
+build.tar.gz
