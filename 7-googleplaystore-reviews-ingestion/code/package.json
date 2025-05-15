@@ -58,7 +58,7 @@
     "@langchain/community": "0.3.42",
     "axios": "1.9.0",
     "dotenv": "^16.0.3",
-    "google-play-scraper": "^9.0.0",
+    "google-play-scraper": "^10.0.0",
     "langchain": "0.3.24",
     "yargs": "^17.6.2"
   }
