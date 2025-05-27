@@ -1,0 +1,45 @@
+version: "2"
+name: "Operations"
+description: "Pack of operations"
+
+service_account:
+  display_name: Operations Bot
+
+functions:
+  - name: operation_handler
+    description: function to handle operations
+
+operations:
+  - name: get_sprint
+    display_name: Get Sprint
+    description: Operation to get a sprint for a given devrev object
+    slug: get_sprint
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: id
+          description: Devrev Object ID to get sprint for.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Devrev Object ID
+        - name: status
+          description: Status of the Sprint.
+          field_type: enum
+          allowed_values:
+          - Active
+          - Planned
+          is_required: true
+          ui: 
+            display_name: Status
+    outputs:
+      fields:
+        - name: sprint_id
+          field_type: text
+          ui:
+            display_name: Sprint ID
+        - name: sprint_name
+          field_type: text
+          ui:
+            display_name: Sprint Name
