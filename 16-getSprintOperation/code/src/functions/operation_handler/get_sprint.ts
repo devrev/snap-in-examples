@@ -81,29 +81,12 @@ export class GetSprint extends OperationBase {
 
       let sprintResponse;
       try {
-        if(status === 'Active') {
-            sprintResponse = await devrevInternalClient.vistasGroupsList({
-            ancestor_part: [issue.applies_to_part.id],
-            group_object_type: [VistaGroupItemGroupObjectType.Work],
-            state: [VistaGroupItemState.Active],
-        });
-      } 
-      else if(status === 'Planned') {
         sprintResponse = await devrevInternalClient.vistasGroupsList({
           ancestor_part: [issue.applies_to_part.id],
           group_object_type: [VistaGroupItemGroupObjectType.Work],
-          state: [VistaGroupItemState.Planned],
+          state: status === 'Active' ? [VistaGroupItemState.Active] : [VistaGroupItemState.Planned],
         });
       }
-      else {
-        return OperationOutput.fromJSON({
-          error: {
-            message: 'Invalid status',
-            type: Error_Type.InvalidRequest,
-          },
-        });
-      }
-    }
       catch (e: any) {
         return OperationOutput.fromJSON({
           error: {
@@ -113,32 +96,22 @@ export class GetSprint extends OperationBase {
         });
       }
       // now we need to assign the sprint id to the issue
-      try {
-        if(sprintResponse.data?.vista_group?.[0]?.id) {
-          const issueResponse = await devrevInternalClient.worksUpdate({
-            id: issue_id,
-            type: WorkType.Issue,
-            sprint: sprintResponse.data?.vista_group?.[0]?.id || '',
-          });
-        }
-      }
-      catch (e: any) {      
+      if(sprintResponse.data?.vista_group?.[0]?.id) {
         return OperationOutput.fromJSON({
-          error: {
-            message: 'Error while updating issue:' + e.message,
-            type: Error_Type.InvalidRequest,
-          },
+          output: {
+            values: [{ 
+              sprint_id: sprintResponse.data.vista_group[0].id
+            }],
+          } as OutputValue,
         });
       }
-
-      return OperationOutput.fromJSON({
-        output: {
-          values: [{ 
-            sprint_id: sprintResponse.data?.vista_group?.[0]?.id || '',
-            sprint_name: sprintResponse.data?.vista_group?.[0]?.name || 'No Sprint'
-          }],
-        } as OutputValue,
-      });
+      else {
+        return OperationOutput.fromJSON({
+          output: {
+            values: [{}],
+          } as OutputValue,
+        });
+      }
     }
     catch (e: any) {
       return OperationOutput.fromJSON({
