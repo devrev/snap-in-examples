@@ -20,7 +20,9 @@ operations:
       fields:
         - name: id
           description: Devrev Object ID to get sprint for.
-          field_type: text
+          field_type: id
+          id_type: 
+            - issue
           is_required: true
           ui:
             display_name: Devrev Object ID
@@ -36,10 +38,8 @@ operations:
     outputs:
       fields:
         - name: sprint_id
-          field_type: text
+          field_type: id
+          id_type:
+            - vista_group_item
           ui:
             display_name: Sprint ID
-        - name: sprint_name
-          field_type: text
-          ui:
-            display_name: Sprint Name
