@@ -38,6 +38,7 @@ operations:
           field_type: double
           ui:
             display_name: Temperature
+    # Defines the timeout for the execution of the operation.
     execute_options:
       default_timeout: 45
   - name: post_comment_on_ticket
