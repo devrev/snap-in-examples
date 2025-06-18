@@ -22,11 +22,11 @@ operations:
         - name: city
           field_type: enum
           allowed_values:
-          - New York
-          - San Francisco
-          - Los Angeles
-          - Chicago
-          - Houston
+            - New York
+            - San Francisco
+            - Los Angeles
+            - Chicago
+            - Houston
           is_required: true
           default_value: "New York"
           ui:
@@ -99,3 +99,27 @@ operations:
           field_type: text
           ui:
             display_name: Message ID
+  - name: generate_formal_document
+    display_name: Generate Formal Document
+    description: Generates a formal legal document using an external document automation platform.
+    slug: generate_formal_document
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: text
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Text
+        - name: case_type
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Document Type
+    outputs:
+      fields:
+        - name: formal_document
+          field_type: rich_text
+          ui:
+            display_name: Formal Document
