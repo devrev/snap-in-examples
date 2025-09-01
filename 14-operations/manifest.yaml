@@ -99,3 +99,110 @@ operations:
           field_type: text
           ui:
             display_name: Message ID
+  - name: extract_content
+    display_name: Extract Content
+    description: Operation to extract content
+    slug: extract_content
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: input_format
+          description: Input format to extract content from.
+          field_type: enum
+          allowed_values:
+            - artifact
+            - url
+          is_required: true
+          default_value: "artifact"
+          ui:
+            display_name: Input Format
+        - name: artifact_id
+          description: Artifact ID to extract content from.
+          field_type: text
+          is_required: false
+          ui:
+            display_name: Artifact ID
+        - name: url
+          description: URL to extract content from.
+          field_type: text
+          is_required: false
+          ui:
+            display_name: URL
+        - name: max_content_length
+          description: Maximum content length to extract.
+          field_type: int
+          is_required: false
+          ui:
+            display_name: Maximum Content Length
+        - name: pdf_extract_strategy
+          description: PDF extract strategy to use.
+          field_type: enum
+          allowed_values:
+            - fast
+            - hi_res
+            - hi_res_additional
+          is_required: false
+          default_value: "fast"
+          ui:
+            display_name: PDF Extract Strategy
+    outputs:
+      fields:
+        - name: artifact_id
+          field_type: text
+          ui:
+            display_name: Artifact ID
+        - name: is_truncated
+          field_type: bool
+          ui:
+            display_name: Is Truncated
+  - name: get_schema_info
+    display_name: Get Schema Info
+    description: Operation to get the schema info
+    slug: get_schema_info
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: id
+          description: Schema ID to get info for.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Schema ID
+    outputs:
+      fields:
+        - name: stock_fields
+          field_type: array
+          base_type: composite
+          composite_type: object_schema_entry
+          ui:
+            display_name: Stock Fields
+        - name: custom_fields
+          field_type: array
+          base_type: composite
+          composite_type: object_schema_entry
+          ui:
+            display_name: Custom Fields
+      composites:
+        - name: object_schema_entry
+          description: Object Schema Entry
+          fields:
+            - name: name
+              field_type: text
+              description: Name of the field
+              is_required: true
+              ui:
+                display_name: Name
+            - name: type
+              field_type: text
+              description: Type of the field
+              is_required: true
+              ui:
+                display_name: Type
+            - name: description
+              field_type: text
+              description: Description of the field
+              is_required: true
+              ui:
+                display_name: Description

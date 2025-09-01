@@ -35,6 +35,7 @@ import {
 
 import {
   Context as SnapInContext,
+  Error_Type,
   ExecuteOperationResult,
   ExecuteOperationResult_SerializationFormat,
   ExecutionMetadata,
@@ -170,12 +171,43 @@ async function postRun(event: any, handlerError: HandlerError, result: any){
   if (isInvokedFromOperation(event)) {
     // handle operation specific logic
     console.debug('Function was invoked by an operation');
-    const data: Uint8Array = OperationOutput.encode(result).finish();
-
-    return {
-      serialization_format: ExecuteOperationResult_SerializationFormat.Proto,
-      data: Buffer.from(data).toString('base64'),
-    } as ExecuteOperationResult;
+    
+    // Ensure result is valid before encoding
+    if (!result) {
+      console.error('Result is undefined or null, cannot encode OperationOutput');
+      // Create a default error result
+      result = OperationOutput.fromJSON({
+        error: {
+          message: 'Operation failed with no result',
+          type: Error_Type.InvalidRequest,
+        },
+      });
+    }
+    
+    try {
+      const data: Uint8Array = OperationOutput.encode(result).finish();
+      return {
+        serialization_format: ExecuteOperationResult_SerializationFormat.Proto,
+        data: Buffer.from(data).toString('base64'),
+      } as ExecuteOperationResult;
+    } catch (encodeError) {
+      console.error('Error encoding OperationOutput:', encodeError);
+      console.error('Result structure:', JSON.stringify(result, null, 2));
+      
+      // Create a fallback error result
+      const fallbackResult = OperationOutput.fromJSON({
+        error: {
+          message: `Encoding error: ${encodeError}`,
+          type: Error_Type.InvalidRequest,
+        },
+      });
+      
+      const data: Uint8Array = OperationOutput.encode(fallbackResult).finish();
+      return {
+        serialization_format: ExecuteOperationResult_SerializationFormat.Proto,
+        data: Buffer.from(data).toString('base64'),
+      } as ExecuteOperationResult;
+    }
   }
   if (isActivateHook(event)) {
     handleActivateHookResult(event,handlerError, result);
