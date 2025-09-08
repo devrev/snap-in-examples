@@ -1,22 +1,84 @@
 # Codelab: Input Validation with Hooks
 
 ## Overview
-This Snap-in demonstrates how to use `validate` hooks to ensure that the inputs provided by users are valid before they are saved. This is a powerful way to enforce data integrity and prevent errors. In this example, we validate that an account ID is correct and that two stage inputs are not the same.
+This Snap-in demonstrates how to use `validate` hooks to ensure user inputs are valid before they are saved. This is a powerful way to enforce data integrity and prevent errors. In this example, we validate that an account ID is correct and that two stage inputs are not the same.
 
 ## Prerequisites
-- Node.js and npm installed.
+- Node.js and `npm` installed.
+- A DevRev account.
+- The DevRev CLI installed and configured.
 
 ## Step-by-Step Guide
 
-### 1. Setup
+### 1. Manifest
 The `manifest.yaml` file defines a `validate` hook that points to the `validate_input` function. This hook is automatically triggered whenever a user tries to save the Snap-in's settings.
 
-### 2. Code
-The `11-hook-example/code/src/functions/validate_input/index.ts` file contains the logic for the validation hook. It checks two conditions:
-1.  The initial and final stages are not the same.
-2.  The account ID is a valid DevRev account ID.
+```yaml
+version: '2'
 
-If either of these conditions is not met, the function throws an error, which is displayed to the user.
+name: RevOrg Info
+description: Gets information about a revorg from an account.
+
+service_account:
+  display_name: 'RevOrg Bot'
+
+inputs:
+  organization:
+    - name: account_id
+      description: The ID of the account.
+      field_type: text
+      is_required: true
+      default_value: 'don:identity:dvrv-us-1:devo/XXXXX:account/XXXXX'
+      ui:
+        display_name: Account ID
+    - name: initial_stage
+      description: The Initial Stage from which the stage is to be updated.
+      field_type: enum
+      allowed_values:
+        [
+          'Queued',
+          'Awaiting Product Assist',
+          'Awaiting Development',
+          'In Development',
+          'Work In Progress',
+          'Awaiting Customer Response',
+          'Resolved',
+          'Canceled',
+          'Accepted',
+        ]
+      default_value: 'Awaiting Customer Response'
+      ui:
+        display_name: Initial Stage
+    - name: final_stage
+      description: The Final Stage to which the stage is to be updated.
+      field_type: enum
+      allowed_values:
+        [
+          'Queued',
+          'Awaiting Product Assist',
+          'Awaiting Development',
+          'In Development',
+          'Work In Progress',
+          'Awaiting Customer Response',
+          'Resolved',
+          'Canceled',
+          'Accepted',
+        ]
+      default_value: 'Work In Progress'
+      ui:
+        display_name: Final Stage
+
+functions:
+  - name: validate_input
+    description: Function to validate the input.
+
+hooks:
+  - type: validate
+    function: validate_input
+```
+
+### 2. Code
+The function at `11-hook-example/code/src/functions/validate_input/index.ts` validates that the initial and final stages are different and that the account ID is a valid DevRev account ID. If not, it throws an error, which is displayed to the user.
 
 ```typescript
 // Validating the input by fetching the account details.
@@ -51,38 +113,23 @@ async function handleEvent(event: any) {
 }
 ```
 
-### 3. Run
-To trigger the hook, go to the Snap-in's settings page and try to save the settings with invalid inputs. For example:
--   Set the "Initial Stage" and "Final Stage" to the same value.
--   Enter an invalid account ID.
-
-### 4. Verify
-When you try to save the settings with invalid inputs, you should see an error message. For example, if the stages are the same, you will see the message "Initial and final stages cannot be the same. Please provide different stages.".
-
-## Manifest
-The `manifest.yaml` file defines the inputs and the `validate` hook.
-
-```yaml
-version: '2'
-
-name: RevOrg Info
-description: Gets information about a revorg from an account.
-
-# ... (service_account, inputs) ...
-
-functions:
-  - name: validate_input
-    description: Function to validate the input.
-
-hooks:
-  - type: validate
-    function: validate_input
-```
+### 3. Run and Verify
+Go to the Snap-in's settings page and try to save with invalid inputs (e.g., identical stages or a bad account ID). An error message, like "Initial and final stages cannot be the same," should appear.
 
 ## Explanation
-`Validate` hooks are a powerful feature that allows you to run custom logic to validate the inputs of your Snap-in. The hook is triggered before the inputs are saved, and if the hook's function throws an error, the inputs are not saved and the error message is displayed to the user.
+`Validate` hooks allow you to run custom logic to validate Snap-in inputs. The hook is triggered before saving. If the function throws an error, the inputs are not saved, and the error message is displayed to the user.
 
-## Next Steps
-- Add more validation rules to the `validate_input` function. For example, you could check that the `account_id` belongs to a specific organization.
-- Create a new hook to perform a different type of action, such as sending a notification when the settings are changed.
-- Use a `render` hook to dynamically change the appearance of the Snap-in's settings page based on the values of the inputs.
+## Getting Started from Scratch
+To build this Snap-in from scratch, follow these steps:
+
+1.  **Initialize Project**:
+    - **TODO**: Use the `devrev snaps init` command to scaffold a new Snap-in project structure. This will create the basic directory layout and configuration files.
+
+2.  **Update Manifest**:
+    - **TODO**: Modify the generated `manifest.yaml` to define your Snap-in's name, functions, and event subscriptions, similar to the example provided in this guide.
+
+3.  **Implement Function**:
+    - **TODO**: Write your function's logic in the corresponding `index.ts` file within the `code/src/functions/` directory.
+
+4.  **Test Locally**:
+    - **TODO**: Create a test fixture (e.g., `event.json`) with a sample event payload. Use the `npm run start:watch` command to run your function and verify its behavior.

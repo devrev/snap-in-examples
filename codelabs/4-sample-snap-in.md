@@ -4,60 +4,14 @@
 This Snap-in provides a hands-on example of how to create automations and custom slash commands. It includes an automation that posts a comment when a new work item is created and a slash command that posts a comment on demand.
 
 ## Prerequisites
-- Node.js and npm installed.
+- Node.js and `npm` installed.
+- A DevRev account.
+- The DevRev CLI installed and configured.
 
 ## Step-by-Step Guide
 
-### 1. Setup
-This Snap-in has two main features:
-1.  An automation that is triggered when a new work item is created.
-2.  A `/comment_here` slash command that can be used in discussions.
-
-The automation's comment can be customized using the input fields defined in the `manifest.yaml` file.
-
-### 2. Code
-The code for the automation is in `4-sample-snap-in/code/src/functions/function_1/index.ts`. It is triggered by a `work_created` event and posts a comment to the new work item. The comment text is constructed using the values of the input fields.
-
-```typescript
-async function handleEvent(
-  event: any,
-) {
-  const devrevPAT = event.context.secrets.service_account_token;
-  const API_BASE = event.execution_metadata.devrev_endpoint;
-  const devrevSDK = client.setup({
-    endpoint: API_BASE,
-    token: devrevPAT,
-  })
-  const workCreated = event.payload.work_created.work;
-  const messageInput = event.input_data.global_values.input_field_1;
-  let bodyComment = 'Hello World is printed on the work ' + workCreated.display_id + ' from the automation, with message: ' + messageInput;
-  const extraComment = event.input_data.global_values.input_field_2;
-  const extraNames = event.input_data.global_values.input_field_array;
-  if (extraComment) {
-    for (let name of extraNames) {
-      bodyComment = bodyComment + ' ' + name;
-    }
-  }
-  const body = {
-    object: workCreated.id,
-    type: 'timeline_comment',
-    body:  bodyComment,
-  }
-  const response = await devrevSDK.timelineEntriesCreate(body as any);
-  return response;
-}
-```
-
-### 3. Run
--   **Automation**: Create a new work item (e.g., an issue or a ticket).
--   **Slash Command**: In a discussion on a work item, type `/comment_here` and press Enter.
-
-### 4. Verify
--   **Automation**: After creating a new work item, you should see a new comment on its timeline.
--   **Slash Command**: After using the `/comment_here` command, you should see a "Hello World" comment on the work item's timeline.
-
-## Manifest
-The `manifest.yaml` file defines the automation, the slash command, and the input fields for customizing the automation's comment.
+### 1. Manifest
+The `manifest.yaml` file defines an automation triggered by `work_created` events and a `/comment_here` slash command. It also specifies input fields for customizing the automation's comment.
 
 ```yaml
 version: '2'
@@ -127,12 +81,60 @@ commands:
     function: function_2
 ```
 
-## Explanation
-This Snap-in demonstrates two common use cases:
-1.  **Event-driven automation**: The `function_1` is triggered by a `work_created` event, which is a common pattern for automating workflows.
-2.  **Custom slash commands**: The `/comment_here` command provides a way for users to trigger actions on demand.
+### 2. Code
+The code for the automation is in `4-sample-snap-in/code/src/functions/function_1/index.ts`. It posts a comment to the new work item, with text constructed from the input fields.
 
-## Next Steps
--   Modify the comment text in `function_1` and `function_2`.
--   Create a new slash command that takes arguments.
--   Create a new automation that is triggered by a different event, such as `work_updated`.
+```typescript
+async function handleEvent(
+  event: any,
+) {
+  const devrevPAT = event.context.secrets.service_account_token;
+  const API_BASE = event.execution_metadata.devrev_endpoint;
+  const devrevSDK = client.setup({
+    endpoint: API_BASE,
+    token: devrevPAT,
+  })
+  const workCreated = event.payload.work_created.work;
+  const messageInput = event.input_data.global_values.input_field_1;
+  let bodyComment = 'Hello World is printed on the work ' + workCreated.display_id + ' from the automation, with message: ' + messageInput;
+  const extraComment = event.input_data.global_values.input_field_2;
+  const extraNames = event.input_data.global_values.input_field_array;
+  if (extraComment) {
+    for (let name of extraNames) {
+      bodyComment = bodyComment + ' ' + name;
+    }
+  }
+  const body = {
+    object: workCreated.id,
+    type: 'timeline_comment',
+    body:  bodyComment,
+  }
+  const response = await devrevSDK.timelineEntriesCreate(body as any);
+  return response;
+}
+```
+
+### 3. Run and Verify
+-   **Automation**: Create a new work item (e.g., an issue or a ticket). A new comment should appear on its timeline.
+-   **Slash Command**: In a discussion, type `/comment_here`. A "Hello World" comment should be posted.
+-   **Local Test**: Run `npm run start:watch -- --functionName=function_1` to test the automation function.
+
+## Explanation
+This Snap-in demonstrates two core features:
+1.  **Event-Driven Automation**: `function_1` is triggered by a `work_created` event to automate workflows.
+2.  **Custom Slash Commands**: The `/comment_here` command allows users to trigger `function_2` on demand.
+
+## Getting Started from Scratch
+To build this Snap-in from scratch, follow these steps:
+
+1.  **Initialize Project**:
+    - **TODO**: Use the `devrev snaps init` command to scaffold a new Snap-in project structure. This will create the basic directory layout and configuration files.
+
+2.  **Update Manifest**:
+    - **TODO**: Modify the generated `manifest.yaml` to define your Snap-in's name, functions, and event subscriptions, similar to the example provided in this guide.
+
+3.  **Implement Function**:
+    - **TODO**: Write your function's logic in the corresponding `index.ts` file within the `code/src/functions/` directory.
+
+4.  **Test Locally**:
+    - **TODO**: Create a test fixture (e.g., `event.json`) with a sample event payload. Use the `npm run start:watch` command to run your function and verify its behavior.

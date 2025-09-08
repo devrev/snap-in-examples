@@ -7,17 +7,18 @@ This example demonstrates how to create custom keyring types to connect to third
 - Multi-field secrets
 - Referencing existing keyring types
 
-## Basic Authentication
-This example shows how to create a custom keyring type for a service that uses basic authentication, such as Freshdesk.
+## Prerequisites
+- Node.js and `npm` installed.
+- A DevRev account.
+- The DevRev CLI installed and configured.
 
-### Manifest
-The `custom-keyring-type-basic.yaml` file defines a custom keyring type for Freshdesk. It specifies that the connection uses a secret, that the subdomain is part of the URL, and it provides a URL for verifying the token.
+## 1. Basic Authentication
+This example shows how to create a custom keyring type for a service that uses basic authentication, such as Freshdesk. The `custom-keyring-type-basic.yaml` file defines a custom keyring type for Freshdesk, specifying that the connection uses a secret, the subdomain is part of the URL, and provides a URL for verifying the token.
 
 ```yaml
 version: "2"
 name: "Custom Keyring Type Snap-in"
 description: "Creating custom keyring type for Freshdesk Basic connection"
-
 keyrings:
     organization:
       - name: freshdesk_connection
@@ -25,54 +26,60 @@ keyrings:
         description: The Freshdesk app connection for the organization.
         types:
             - freshdesk-basic-connection
-
 keyring_types:
   - id: freshdesk-basic-connection
     name: Freshdesk Connection
     description: Freshdesk connection
     kind: "Secret"
-    is_subdomain: true # The is_subdomain field is used to indicate that the subdomain is part of the URL.
-    secret_config: # The secret_config section is used to define the fields in the secret.
-      secret_transform: ".token+\":X\" | @base64" # The secret_config section is used to transform data from the input fields into the secret value (token).
-      fields: # optional: data that the user shall provide in the input form when creating the connection. Each element represents one input field. Fields will be included in the final JSON secret. If omitted, the user will be asked for a generic secret.
+    is_subdomain: true
+    secret_config:
+      secret_transform: ".token+\":X\" | @base64"
+      fields:
         - id: token
           name: Token
           description: Freshdesk API token
-      token_verification: # The token_verification section is used to verify the token provided by the user.
+      token_verification:
         url: "https://[SUBDOMAIN].freshdesk.com/api/v2/tickets"
         method: "GET"
         headers:
           Authorization: "Basic [API_KEY]"
 ```
 
-## OAuth 2.0
-This example shows how to create a custom keyring type for a service that uses OAuth 2.0, such as GitLab.
-
-### Manifest
-The `custom-keyring-type-oauth.yaml` file defines a custom keyring type for GitLab. It specifies the OAuth 2.0 scopes, the authorization and token URLs, and the refresh and revoke URLs.
+## 2. OAuth 2.0
+This example shows how to create a custom keyring type for a service that uses OAuth 2.0, such as GitLab. The `custom-keyring-type-oauth.yaml` file defines the scopes, authorization/token URLs, and refresh/revoke URLs.
 
 ```yaml
 version: "2"
 name: "Custom Keyring Type Snap-in"
 description: "Creating custom keyring type for GitLab OAuth connection"
-
-# ... (service_account, developer_keyrings, keyrings) ...
-
+service_account:
+  display_name: DevRev Bot
+developer_keyrings:
+  - name: gitlab-oauth-secret
+    description: GitLab OAuth secret
+    display_name: GitLab OAuth secret
+keyrings:
+  organization:
+    - name: gitlab_connection
+      display_name: GitLab connection (must be set up as dev org connection)
+      description: The gitlab app connection for the organization.
+      types:
+        - gitlab-oauth-connection
 keyring_types:
   - id: gitlab-oauth-connection
     name: "GitLab Connection"
     description: "GitLab connection"
     kind: "Oauth2"
-    scopes: # Scopes that the connection can request, add more scopes if needed for your use case. Each scope should have a name, description and value.
+    scopes:
       - name: read
         description: Read access
         value: "read_api"
       - name: api
         description: API access
         value: "api"
-    scope_delimiter: " " # Space separated scopes
-    oauth_secret: gitlab-oauth-secret # developer keyring that contains OAuth2 client ID and client secret. Shall be of type `oauth-secret`.
-    authorize: # The authorize section is used to get the authorization code from the user and exchange it for an access token.
+    scope_delimiter: " "
+    oauth_secret: gitlab-oauth-secret
+    authorize:
       type: "config"
       auth_url: "https://gitlab.com/oauth/authorize"
       token_url: "https://gitlab.com/oauth/token"
@@ -84,39 +91,20 @@ keyring_types:
       token_query_parameters:
         "client_id": "[CLIENT_ID]"
         "client_secret": "[CLIENT_SECRET]"
-    refresh: # The refresh section is used to refresh the access token using the refresh token.
+    refresh:
       type: "config"
       url: "https://gitlab.com/api/oauth.v2.access"
       method: "POST"
-      query_parameters:
-        "client_id": "[CLIENT_ID]"
-        "client_secret": "[CLIENT_SECRET]"
-        "refresh_token": "[REFRESH_TOKEN]"
-      headers:
-        "Content-type": "application/x-www-form-urlencoded"
-    revoke: # The revoke section is used to revoke the access token.
-      type: "config"
-      url: "https://gitlab.com/oauth/revoke"
-      method: "POST"
-      headers:
-        "Content-type": "application/x-www-form-urlencoded"
-      query_parameters:
-        "client_id": "[CLIENT_ID]"
-        "client_secret": "[CLIENT_SECRET]"
-        "token": "[ACCESS_TOKEN]"
+# ... (rest of the file)
 ```
 
-## Multi-field Secrets
-This example shows how to create a custom keyring type for a secret that has multiple fields, such as a username and password.
-
-### Manifest
-The `custom-keyring-type-secret.yaml` file defines a custom keyring type with two fields: `username` and `password`.
+## 3. Multi-field Secrets
+This example shows how to create a custom keyring type for a secret with multiple fields, like a username and password. The `custom-keyring-type-secret.yaml` defines a type with `username` and `password` fields.
 
 ```yaml
 version: "2"
 name: "Custom Keyring Type Snap-in"
 description: "Creating custom keyring type for Multi Field Secret"
-
 keyrings:
   organization:
     - name: multi_field_secret
@@ -124,53 +112,70 @@ keyrings:
       description: The multi field secret for the organization.
       types:
         - multi-field-secret
-
 keyring_types:
   - id: multi-field-secret
     name: Multi Field Secret
     description: Multi Field Secret
     kind: "Secret"
-    secret_config: # The secret_config section is used to define the fields in the secret.
-      fields: # optional: data that the user shall provide in the input form when creating the connection. Each element represents one input field. Fields will be included in the final JSON secret. If omitted, the user will be asked for a generic secret.
+    secret_config:
+      fields:
         - id: username
           name: Username
           description: Username
         - id: password
           name: Password
           description: Password
-          is_optional: true # The field is optional
+          is_optional: true
 ```
 
-## Referencing Existing Keyring Types
-This example shows how to create a custom keyring type that references an existing keyring type. This is useful for extending existing connection types with additional scopes or functionality.
-
-### Manifest
-The `reference-keyring-type.yaml` file defines a custom keyring type for Slack that references the existing `devrev-slack-oauth` keyring type.
+## 4. Referencing Existing Keyring Types
+This example shows how to create a custom keyring type that references an existing one, which is useful for extending connection types. The `reference-keyring-type.yaml` file defines a custom type for Slack that references the existing `devrev-slack-oauth` type.
 
 ```yaml
 version: "2"
 name: "Reference Keyring Type Snap-in"
 description: "Creating the keyring type for Slack connection with reference to the existing Slack connection"
-
-# ... (service_account, developer_keyrings, keyrings) ...
-
+service_account:
+  display_name: DevRev Bot
+developer_keyrings:
+  - name: slack-oauth-secret
+    description: Slack OAuth secret
+    display_name: Slack OAuth secret
+keyrings:
+  organization:
+    - name: slack_connection
+      display_name: Slack connection (must be set up as dev org connection)
+      description: The slack app connection for the organization.
+      types:
+        - slack-oauth-connection
 keyring_types:
   - id: slack-oauth-connection
     name: Slack Connection
     description: Slack connection
     kind: "Oauth2"
-    scopes: # Scopes that the connection can request, add more scopes if needed for your use case. each scope should have a name, description and value.
+    scopes:
       - name: read
         description: App mentions read only access
         value: app_mentions:read
       - name: write
         description: App channels history read only access
         value: "channels:history"
-    scope_delimiter: "," # Space separated scopes
-    oauth_secret: slack-oauth-secret # developer keyring that contains OAuth2 client ID and client secret. Shall be of type `oauth-secret`.
-    reference_keyring: devrev-slack-oauth # referring to the existing slack connection keyring
+    scope_delimiter: ","
+    oauth_secret: slack-oauth-secret
+    reference_keyring: devrev-slack-oauth
 ```
 
-## Next Steps
-- Create a new custom keyring type for a different service that you use.
-- Use a custom keyring type in a Snap-in to connect to a third-party service.
+## Getting Started from Scratch
+To build this Snap-in from scratch, follow these steps:
+
+1.  **Initialize Project**:
+    - **TODO**: Use the `devrev snaps init` command to scaffold a new Snap-in project structure. This will create the basic directory layout and configuration files.
+
+2.  **Update Manifest**:
+    - **TODO**: Modify the generated `manifest.yaml` to define your Snap-in's name, functions, and event subscriptions, similar to the example provided in this guide.
+
+3.  **Implement Function**:
+    - **TODO**: Write your function's logic in the corresponding `index.ts` file within the `code/src/functions/` directory.
+
+4.  **Test Locally**:
+    - **TODO**: Create a test fixture (e.g., `event.json`) with a sample event payload. Use the `npm run start:watch` command to run your function and verify its behavior.

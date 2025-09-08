@@ -1,80 +1,111 @@
 # Codelab: CSAT Surveys
 
 ## Overview
-This Snap-in demonstrates how to create and process Customer Satisfaction (CSAT) surveys in DevRev. It automatically posts a survey when a conversation is closed, and it also provides a `/survey` slash command to post a survey on demand. This is a great way to gather feedback from your users and measure their satisfaction.
+This Snap-in creates and processes Customer Satisfaction (CSAT) surveys in DevRev. It automatically posts a survey when a conversation is closed and provides a `/survey` slash command to post surveys on demand, helping you gather user feedback and measure satisfaction.
 
 ## Prerequisites
-- Node.js and npm installed.
+- Node.js and `npm` installed.
+- A DevRev account.
+- The DevRev CLI installed and configured.
 
 ## Step-by-Step Guide
 
-### 1. Setup
-This Snap-in can be customized using the following global inputs:
-- **Survey channel**: The channel on which to send the survey (e.g., PLuG, Email).
-- **Survey introductory text**: The text to display above the survey.
-- **Survey response scale**: The options to display on the survey scale (e.g., "Great,Good,Average,Poor,Awful").
-- **Survey query**: The question to ask in the survey.
-- **Survey response message**: The message to display after the user submits the survey.
-- **Survey expires after**: The time in minutes after which the survey expires.
+### 1. Manifests
+This example includes two manifest files:
+-   **`manifest_conv.yaml`**: For CSAT surveys on conversations.
+-   **`manifest_tkt.yaml`**: For CSAT surveys on tickets.
 
-### 2. Code
-This Snap-in has two main functions:
--   `post_survey`: This function is triggered when a conversation is closed or when a user runs the `/survey` command. It creates a Snap Kit card with the survey and posts it to the timeline.
--   `process_response`: This function is triggered when a user clicks on a rating in the survey. It submits the response to the DevRev API, deletes the survey card, and posts a "thank you" message.
+Both define the automation, slash command, and global inputs for the survey.
 
-### 3. Run
--   **Automation**: Close a conversation.
--   **Slash Command**: In a discussion on a conversation, type `/survey [chat/email] [survey question]` and press Enter.
-
-### 4. Verify
--   After closing a conversation or running the `/survey` command, you should see a survey card in the timeline.
--   After submitting a response, the survey card should be replaced with a "thank you" message, and an internal note with your rating should be added to the timeline.
-
-## Manifest
-The `manifest_conv.yaml` file defines the automation, the slash command, and the global inputs for the survey.
+<details>
+<summary>manifest_conv.yaml</summary>
 
 ```yaml
 version: "1"
-
 name: "CSAT on Conversation"
 description: "Capture the satisfaction level for customer conversations on PLuG to enhance the customer experience."
-
-# ... (service_account, event-sources, globals) ...
-
+service_account:
+  display_name: "DevRev Bot"
+event-sources:
+  - name: devrev-webhook
+    description: Event coming from DevRev
+    display_name: DevRev
+    type: devrev-webhook
+    config:
+      event_types:
+        - conversation_updated
+globals:
+  - name: survey_channel
+    description: The channel the survey is sent on.
+    devrev_field_type: '[]enum'
+    devrev_enum: ["PLuG", "Email"]
+    default_value: ["PLuG", "Email"]
+    ui:
+      display_name: Survey channel
+  - name: survey_text_header
+    description: Introductory text posted on timeline when survey is populated.
+    devrev_field_type: text
+    default_value: "We would love to hear your feedback."
+    ui:
+      display_name: Survey introductory text
+# ... additional globals ...
 functions:
   - name: post_survey
     description: Create a survey comment on conversation closure.
   - name: process_response
     description: Process survey response for conversation survey response.
-
 commands:
   - name: survey
     namespace: csat_on_conversation
-    description: Capture the customer satisfaction level with ongoing interaction.
-    surfaces:
-      - surface: discussions
-        object_types:
-          - conversation
-    usage_hint: "[chat/email] [survey question]"
-    function: post_survey
-
+# ... more command details ...
 automations:
   - name: Add survey as a comment on resolved object
     source: devrev-webhook
-    event_types:
-      - conversation_updated
-    function: post_survey
-
+# ... more automation details ...
 snap_kit_actions:
   - name: survey
     description: Snap kit action for processing `survey` response
     function: process_response
 ```
 
-## Explanation
-This Snap-in uses a Snap Kit card to create an interactive survey. The `post_survey` function creates the card, and the `process_response` function handles the user's interaction with the card. The survey response is stored in the DevRev System of Record (SOR) using the `surveys.submit` API method.
+</details>
 
-## Next Steps
-- Customize the survey by changing the global inputs.
-- Create a new survey for a different purpose, such as gathering feedback on a new feature.
-- Use the `manifest_tkt.yaml` file to enable the survey for tickets as well as conversations.
+<details>
+<summary>manifest_tkt.yaml</summary>
+
+```yaml
+version: "1"
+name: "CSAT on Ticket"
+description: "Capture the satisfaction level for customer tickets on support portal to enhance the customer experience."
+# ... (similar structure to conversation manifest) ...
+```
+
+</details>
+
+### 2. Code
+The Snap-in has two main functions:
+-   `post_survey`: Triggered when a conversation is closed or by the `/survey` command. It creates and posts a Snap Kit card with the survey.
+-   `process_response`: Triggered when a user clicks a rating. It submits the response, deletes the card, and posts a "thank you" message.
+
+### 3. Run and Verify
+-   **Automation**: Close a conversation to see a survey card appear.
+-   **Slash Command**: In a discussion, type `/survey [chat/email] [question]` to post a survey.
+-   After submitting a response, the card is replaced with a "thank you" message, and an internal note with the rating is added.
+
+## Explanation
+This Snap-in uses a Snap Kit card for an interactive survey. `post_survey` creates the card, and `process_response` handles the user's interaction. The response is stored using the `surveys.submit` API method.
+
+## Getting Started from Scratch
+To build this Snap-in from scratch, follow these steps:
+
+1.  **Initialize Project**:
+    - **TODO**: Use the `devrev snaps init` command to scaffold a new Snap-in project structure. This will create the basic directory layout and configuration files.
+
+2.  **Update Manifest**:
+    - **TODO**: Modify the generated `manifest.yaml` to define your Snap-in's name, functions, and event subscriptions, similar to the example provided in this guide.
+
+3.  **Implement Function**:
+    - **TODO**: Write your function's logic in the corresponding `index.ts` file within the `code/src/functions/` directory.
+
+4.  **Test Locally**:
+    - **TODO**: Create a test fixture (e.g., `event.json`) with a sample event payload. Use the `npm run start:watch` command to run your function and verify its behavior.
