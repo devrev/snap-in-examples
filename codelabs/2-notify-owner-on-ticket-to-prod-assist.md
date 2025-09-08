@@ -10,38 +10,18 @@ This Snap-in automatically posts a comment on a ticket when its stage is changed
 
 ## Step-by-Step Guide
 
-### 1. Manifest
-The `manifest.yaml` file defines the Snap-in's automation, connecting the `work_updated` event to the `ticket_stage_change` function.
+### 1. Setup
+This section guides you on setting up a new Snap-in project from scratch and explains the structure of this specific example.
 
-```yaml
-version: "2"
-name: "Notify On Prod Assist"
-description: "Snap-In to post a comment on a ticket when its stage changes to 'Awaiting Product Assist'"
+#### Initializing a New Project
+To create a new Snap-in, you'll use the DevRev CLI.
 
-service_account:
-  display_name: "DevRev Bot"
+1.  **Initialize the project:** Run `devrev snap_in_version init <project_name>` to create a new project directory with a template structure. *(Reference: `init` documentation)*
+2.  **Validate the manifest:** Before writing code, check the template `manifest.yaml` by running `devrev snap_in_version validate-manifest manifest.yaml`. *(Reference: `validate-manifest` documentation)*
+3.  **Prepare test data:** Create a JSON file in `code/src/fixtures/` with a sample event payload for local testing.
 
-event_sources:
-  organization:
-    - name: devrev-webhook
-      description: Source listening for work_updated events from DevRev.
-      display_name: DevRev Webhook
-      type: devrev-webhook
-      config:
-        event_types:
-          - work_updated
-
-functions:
-  - name: ticket_stage_change
-    description: Function to post a comment on a ticket when its stage changes to "Awaiting Product Assist".
-
-automations:
-  - name: add_comment_on_ticket_stage_change
-    source: devrev-webhook
-    event_types:
-      - work_updated
-    function: ticket_stage_change
-```
+#### Example Structure
+This example consists of a single function, `ticket_stage_change`, which is triggered by a `work_updated` event. The `manifest.yaml` file defines the automation that connects the event to the function.
 
 ### 2. Code
 The core logic is in `2-notify-owner-on-ticket-to-prod-assist/code/src/functions/ticket_stage_change/index.ts`. It checks if the ticket has been moved to the "awaiting_product_assist" stage and, if so, posts a comment to the ticket timeline.
@@ -106,38 +86,49 @@ export const run = async (events: any[]) => {
 export default run;
 ```
 
-### 3. Run and Verify
-To test the function locally, navigate to the `2-notify-owner-on-ticket-to-prod-assist/code` directory and run the local test runner.
+### 3. Run
+To run the function locally, you can use the provided fixture. Navigate to the `2-notify-owner-on-ticket-to-prod-assist/code` directory and run:
 
 ```bash
 npm install
 npm run start:watch -- --functionName=ticket_stage_change --fixturePath=work_updated_event.json
 ```
 
-The test runner will simulate a `work_updated` event. You should see logs indicating that the function was called and that it attempted to post a timeline entry.
+### 4. Verify
+After moving a ticket to the "Awaiting Product Assist" stage, a comment will be posted to the timeline of the ticket, notifying the part owner. If the part is owned by a bot, a generic message is posted.
 
-```
-info: Running function ticket_stage_change
-info: Ticket TKT-123 moved to Product Assist stage
-info: Creating timeline entry for the part owners
-```
+## Manifest
+The `manifest.yaml` file for this Snap-in defines the event source, the function, and the automation that ties them together.
 
-When deployed, moving a ticket to the "Awaiting Product Assist" stage will post a comment on the ticket's timeline.
+```yaml
+version: "2"
+name: "Notify On Prod Assist"
+description: "Snap-In to post a comment on a ticket when its stage changes to 'Awaiting Product Assist'"
+
+service_account:
+  display_name: "DevRev Bot"
+
+event_sources:
+  organization:
+    - name: devrev-webhook
+      description: Source listening for work_updated events from DevRev.
+      display_name: DevRev Webhook
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_updated
+
+functions:
+  - name: ticket_stage_change
+    description: Function to post a comment on a ticket when its stage changes to "Awaiting Product Assist".
+
+automations:
+  - name: add_comment_on_ticket_stage_change
+    source: devrev-webhook
+    event_types:
+      - work_updated
+    function: ticket_stage_change
+```
 
 ## Explanation
-This Snap-in listens for `work_updated` events as defined in the manifest. When a ticket's stage changes to "awaiting_product_assist", the `ticket_stage_change` function is triggered. The function fetches the part owner and posts a formatted comment to the ticket's timeline, tagging the owner.
-
-## Getting Started from Scratch
-To build this Snap-in from scratch, follow these steps:
-
-1.  **Initialize Project**:
-    - **TODO**: Use the `devrev snaps init` command to scaffold a new Snap-in project structure. This will create the basic directory layout and configuration files.
-
-2.  **Update Manifest**:
-    - **TODO**: Modify the generated `manifest.yaml` to define your Snap-in's name, functions, and event subscriptions, similar to the example provided in this guide.
-
-3.  **Implement Function**:
-    - **TODO**: Write your function's logic in the corresponding `index.ts` file within the `code/src/functions/` directory.
-
-4.  **Test Locally**:
-    - **TODO**: Create a test fixture (e.g., `event.json`) with a sample event payload. Use the `npm run start:watch` command to run your function and verify its behavior.
+This Snap-in listens for `work_updated` events. When a ticket is updated, the `ticket_stage_change` function is invoked. The function checks if the ticket's stage has changed to "awaiting_product_assist". If it has, the function fetches the part owner's information and uses the `ticketTimelineEntryCreate` utility function to post a comment on the ticket, notifying the owner.

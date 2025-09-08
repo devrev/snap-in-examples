@@ -10,33 +10,24 @@ This example provides a basic template for creating your own Snap-ins. It demons
 
 ## Step-by-Step Guide
 
-### 1. Manifest
-Since this is a starter template, you need to create the `manifest.yaml` file yourself. This file defines the Snap-in's metadata, functions, and event subscriptions. Create a file named `manifest.yaml` in the `1-starter/` directory with the following content:
+### 1. Setup
+This section guides you on setting up a new Snap-in project from scratch and explains the structure of this specific example.
 
-```yaml
-version: '1'
-name: starter-snap-in
-display_name: Starter Snap-in
-summary: A basic template for creating Snap-ins
-description: Demonstrates the fundamental structure of a Snap-in.
-discoverable: true
-level_of_support: devrev
-tags:
-  - starter
-  - template
-functions:
-  - name: function_1
-    description: Logs the event payload it receives.
-    code_file: 1-starter/code
-    is_public: true
-event_sources:
-  - type: devrev
-    events:
-      - work_created
-```
+#### Initializing a New Project
+To create a new Snap-in, you'll use the DevRev CLI.
+
+1.  **Initialize the project:** Run `devrev snap_in_version init <project_name>` to create a new project directory with a template structure. *(Reference: `init` documentation)*
+2.  **Validate the manifest:** Before writing code, check the template `manifest.yaml` by running `devrev snap_in_version validate-manifest manifest.yaml`. *(Reference: `validate-manifest` documentation)*
+3.  **Prepare test data:** Create a JSON file in `code/src/fixtures/` with a sample event payload for local testing.
+
+#### Example Structure
+This starter example contains a `code` directory with the following key files:
+- `src/functions`: This directory contains the individual functions of your Snap-in.
+- `src/function-factory.ts`: This file maps function names to their implementations.
+- `src/fixtures`: This directory contains sample event payloads for testing.
 
 ### 2. Code
-The code for the basic function is located at `1-starter/code/src/functions/function_1/index.ts`. It simply logs the event payload it receives.
+Here is the code for a basic function that logs the event payload it receives. This file is located at `1-starter/code/src/functions/function_1/index.ts`.
 
 ```typescript
 /*
@@ -44,68 +35,31 @@ The code for the basic function is located at `1-starter/code/src/functions/func
  */
 
 export const run = async (events: any[]) => {
-  for (const event of events) {
-    console.info('Received event:', JSON.stringify(event, null, 2));
-  }
+  /*
+  Put your code here and remove the log below
+  */
+
+  console.info('events', events);
 };
 
 export default run;
 ```
 
-### 3. Run and Verify
-To test the function locally, navigate to the `1-starter/code` directory and run the local test runner. This command executes `function_1` using a sample payload from `src/fixtures/function_1_event.json`.
+### 3. Run
+To run the function locally, navigate to the `1-starter/code` directory and run the following commands:
 
 ```bash
 npm install
 npm run start:watch -- --functionName=function_1 --fixturePath=function_1_event.json
 ```
 
-You should see detailed log output in your console, indicating successful execution. The output will look similar to this:
+### 4. Verify
+After running the command, you should see the following output in your console, which indicates that the function has been executed successfully:
 
 ```
-[9:21:49 PM] File change detected. Starting compilation...
-[9:21:51 PM] Compilation finished.
-info: Running function function_1
-info: Received event: {
-  "payload": {
-    "work_created": {
-      "work": {
-        "id": "work-123",
-        "title": "Fix login button"
-      }
-    }
-  },
-  "context": {
-    "dev_user": {
-      "id": "don-1"
-    }
-  },
-  "execution_metadata": {
-    "devrev_endpoint": "https://api.devrev.ai",
-    "function_name": "function_1",
-    "invocation_id": "inv-abc-123"
-  }
-}
+info: events [ { execution_metadata: { ... } } ]
 ```
+The output will contain the full event payload from the `function_1_event.json` fixture.
 
 ## Explanation
-This starter example demonstrates a simple Snap-in.
-- **`manifest.yaml`**: Declares the Snap-in's properties, including its name and the `function_1` function. It subscribes this function to the `work_created` event.
-- **`function_1/index.ts`**: Contains the core logic. When triggered by an event, it iterates through the event payloads and logs them to the console.
-- **`function-factory.ts`**: Maps the function name from the manifest (`function_1`) to its implementation in the `code/` directory. This allows the test runner to find and execute the correct code.
-- **Local Testing**: The `npm run start:watch` command simulates a DevRev event, allowing you to test your function's behavior locally without deploying it.
-
-## Getting Started from Scratch
-To build this Snap-in from scratch, follow these steps:
-
-1.  **Initialize Project**:
-    - **TODO**: Use the `devrev snaps init` command to scaffold a new Snap-in project structure. This will create the basic directory layout and configuration files.
-
-2.  **Update Manifest**:
-    - **TODO**: Modify the generated `manifest.yaml` to define your Snap-in's name, functions, and event subscriptions, similar to the example provided in this guide.
-
-3.  **Implement Function**:
-    - **TODO**: Write your function's logic in the corresponding `index.ts` file within the `code/src/functions/` directory.
-
-4.  **Test Locally**:
-    - **TODO**: Create a test fixture (e.g., `event.json`) with a sample event payload. Use the `npm run start:watch` command to run your function and verify its behavior.
+This starter example uses a function factory pattern to dynamically load and execute functions. The `src/function-factory.ts` file imports all the functions from the `src/functions` directory and exports a factory function that returns the requested function based on the `functionName` parameter. This allows you to add new functions without modifying the core logic of the Snap-in. The local test runner (`npm run start:watch`) uses this factory to execute the specified function with the provided fixture.

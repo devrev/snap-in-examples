@@ -10,8 +10,63 @@ This Snap-in demonstrates how to use `validate` hooks to ensure user inputs are 
 
 ## Step-by-Step Guide
 
-### 1. Manifest
+### 1. Setup
+This section guides you on setting up a new Snap-in project from scratch and explains the structure of this specific example.
+
+#### Initializing a New Project
+To create a new Snap-in, you'll use the DevRev CLI.
+
+1.  **Initialize the project:** Run `devrev snap_in_version init <project_name>` to create a new project directory with a template structure. *(Reference: `init` documentation)*
+2.  **Validate the manifest:** Before writing code, check the template `manifest.yaml` by running `devrev snap_in_version validate-manifest manifest.yaml`. *(Reference: `validate-manifest` documentation)*
+3.  **Prepare test data:** Create a JSON file in `code/src/fixtures/` with a sample event payload for local testing.
+
+#### Example Structure
 The `manifest.yaml` file defines a `validate` hook that points to the `validate_input` function. This hook is automatically triggered whenever a user tries to save the Snap-in's settings.
+
+### 2. Code
+The `11-hook-example/code/src/functions/validate_input/index.ts` file contains the validation logic. It checks that the initial and final stages are different and that the account ID is valid. If not, it throws an error.
+
+```typescript
+// Validating the input by fetching the account details.
+async function handleEvent(event: any) {
+  // ... (setup code) ...
+
+  // Extract the part ID and commits from the event
+  const accountId = event.input_data.global_values['account_id'];
+  const initialStage = event.input_data.global_values['initial_stage'];
+  const finalStage = event.input_data.global_values['final_stage'];
+
+  // Check the intitial and final stages are not equal
+  if (initialStage === finalStage) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
+    throw 'Initial and final stages cannot be the same. Please provide different stages.';
+  }
+
+  try {
+    // Create a timeline comment using the DevRev SDK
+    const response = await devrevSDK.accountsGet({
+      id: accountId,
+    });
+    console.log(JSON.stringify(response.data));
+    // Return the response from the DevRev API
+    return response;
+  } catch (error) {
+    console.error(error);
+    // Handle the error here
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
+    throw 'Failed to fetch account details. Please provide the right account ID.';
+  }
+}
+```
+
+### 3. Run
+To trigger the hook, go to the Snap-in's settings page and try to save with invalid inputs (e.g., identical stages or a bad account ID).
+
+### 4. Verify
+An error message should appear, for example: "Initial and final stages cannot be the same. Please provide different stages."
+
+## Manifest
+The `manifest.yaml` file defines the inputs and the `validate` hook.
 
 ```yaml
 version: '2'
@@ -77,59 +132,5 @@ hooks:
     function: validate_input
 ```
 
-### 2. Code
-The function at `11-hook-example/code/src/functions/validate_input/index.ts` validates that the initial and final stages are different and that the account ID is a valid DevRev account ID. If not, it throws an error, which is displayed to the user.
-
-```typescript
-// Validating the input by fetching the account details.
-async function handleEvent(event: any) {
-  // ... (setup code) ...
-
-  // Extract the part ID and commits from the event
-  const accountId = event.input_data.global_values['account_id'];
-  const initialStage = event.input_data.global_values['initial_stage'];
-  const finalStage = event.input_data.global_values['final_stage'];
-
-  // Check the intitial and final stages are not equal
-  if (initialStage === finalStage) {
-    // eslint-disable-next-line @typescript-eslint/no-throw-literal
-    throw 'Initial and final stages cannot be the same. Please provide different stages.';
-  }
-
-  try {
-    // Create a timeline comment using the DevRev SDK
-    const response = await devrevSDK.accountsGet({
-      id: accountId,
-    });
-    console.log(JSON.stringify(response.data));
-    // Return the response from the DevRev API
-    return response;
-  } catch (error) {
-    console.error(error);
-    // Handle the error here
-    // eslint-disable-next-line @typescript-eslint/no-throw-literal
-    throw 'Failed to fetch account details. Please provide the right account ID.';
-  }
-}
-```
-
-### 3. Run and Verify
-Go to the Snap-in's settings page and try to save with invalid inputs (e.g., identical stages or a bad account ID). An error message, like "Initial and final stages cannot be the same," should appear.
-
 ## Explanation
 `Validate` hooks allow you to run custom logic to validate Snap-in inputs. The hook is triggered before saving. If the function throws an error, the inputs are not saved, and the error message is displayed to the user.
-
-## Getting Started from Scratch
-To build this Snap-in from scratch, follow these steps:
-
-1.  **Initialize Project**:
-    - **TODO**: Use the `devrev snaps init` command to scaffold a new Snap-in project structure. This will create the basic directory layout and configuration files.
-
-2.  **Update Manifest**:
-    - **TODO**: Modify the generated `manifest.yaml` to define your Snap-in's name, functions, and event subscriptions, similar to the example provided in this guide.
-
-3.  **Implement Function**:
-    - **TODO**: Write your function's logic in the corresponding `index.ts` file within the `code/src/functions/` directory.
-
-4.  **Test Locally**:
-    - **TODO**: Create a test fixture (e.g., `event.json`) with a sample event payload. Use the `npm run start:watch` command to run your function and verify its behavior.

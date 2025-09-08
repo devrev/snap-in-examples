@@ -11,8 +11,60 @@ This Snap-in demonstrates how to integrate DevRev with external systems by recei
 
 ## Step-by-Step Guide
 
-### 1. Manifest
-The `manifest.yaml` file defines a `flow-custom-webhook` event source. This source generates a unique URL to receive data from external systems. The `setup_instructions` guide the user on how to configure the external webhook.
+### 1. Setup
+This section guides you on setting up a new Snap-in project from scratch and explains the structure of this specific example.
+
+#### Initializing a New Project
+To create a new Snap-in, you'll use the DevRev CLI.
+
+1.  **Initialize the project:** Run `devrev snap_in_version init <project_name>` to create a new project directory with a template structure. *(Reference: `init` documentation)*
+2.  **Validate the manifest:** Before writing code, check the template `manifest.yaml` by running `devrev snap_in_version validate-manifest manifest.yaml`. *(Reference: `validate-manifest` documentation)*
+3.  **Prepare test data:** Create a JSON file in `code/src/fixtures/` with a sample event payload for local testing.
+
+#### Example Structure
+To use this Snap-in, you need to configure your external system to send webhooks to the URL provided during installation. The `manifest.yaml` provides these instructions in the `setup_instructions` field.
+
+### 2. Code
+The `5-custom-webhook/code/src/functions/on_work_creation/index.ts` file contains the function triggered by the custom webhook. It extracts the `work_created` ID and `body` from the payload to create a new timeline comment.
+
+```typescript
+async function handleEvent(
+  event: any,
+) {
+  const devrevPAT = event.context.secrets.service_account_token;
+  const API_BASE = event.execution_metadata.devrev_endpoint;
+  const workCreated = event.payload.work_created;
+  const bodyComment = event.payload.body;
+  const body = {
+    object: workCreated,
+    type: 'timeline_comment',
+    body: bodyComment,
+  }
+  const response = await postCallAPI(API_BASE + '/timeline-entries.create', body, devrevPAT);
+  if (!response.success) {
+    console.log(response.errMessage);
+    return response;
+  }
+  console.log(response.data);
+  return response;
+}
+```
+
+### 3. Run
+To trigger the Snap-in, send an HTTP POST request to the webhook URL with a JSON payload like this:
+
+```json
+{
+  "work_created": "your_work_id",
+  "body": "This is a comment from my external system."
+}
+```
+
+### 4. Verify
+After sending the webhook, a new comment should appear on the timeline of the specified work item.
+
+## Manifest
+The `manifest.yaml` file defines the custom webhook event source and the automation that connects it to the `on_work_creation` function.
 
 ```yaml
 version: "1"
@@ -57,58 +109,5 @@ automations:
     function: on_work_creation
 ```
 
-### 2. Code
-The function at `5-custom-webhook/code/src/functions/on_work_creation/index.ts` is triggered by the custom webhook. It extracts the `work_created` ID and `body` from the payload to create a timeline comment.
-
-```typescript
-async function handleEvent(
-  event: any,
-) {
-  const devrevPAT = event.context.secrets.service_account_token;
-  const API_BASE = event.execution_metadata.devrev_endpoint;
-  const workCreated = event.payload.work_created;
-  const bodyComment = event.payload.body;
-  const body = {
-    object: workCreated,
-    type: 'timeline_comment',
-    body: bodyComment,
-  }
-  const response = await postCallAPI(API_BASE + '/timeline-entries.create', body, devrevPAT);
-  if (!response.success) {
-    console.log(response.errMessage);
-    return response;
-  }
-  console.log(response.data);
-  return response;
-}
-```
-
-### 3. Run and Verify
-To trigger the Snap-in, send an HTTP POST request to the generated webhook URL with a JSON payload like this:
-
-```json
-{
-  "work_created": "your_work_id",
-  "body": "This is a comment from my external system."
-}
-```
-
-After sending the webhook, a new comment will appear on the timeline of the specified work item.
-
 ## Explanation
-This Snap-in uses a `flow-custom-webhook` to create a unique URL. When an external system sends a POST request to this URL, DevRev triggers the `on_work_creation` function. The Rego policy in the manifest extracts the payload and assigns it an event key, which routes the data to the correct function. The function then uses the DevRev API to create a timeline comment.
-
-## Getting Started from Scratch
-To build this Snap-in from scratch, follow these steps:
-
-1.  **Initialize Project**:
-    - **TODO**: Use the `devrev snaps init` command to scaffold a new Snap-in project structure. This will create the basic directory layout and configuration files.
-
-2.  **Update Manifest**:
-    - **TODO**: Modify the generated `manifest.yaml` to define your Snap-in's name, functions, and event subscriptions, similar to the example provided in this guide.
-
-3.  **Implement Function**:
-    - **TODO**: Write your function's logic in the corresponding `index.ts` file within the `code/src/functions/` directory.
-
-4.  **Test Locally**:
-    - **TODO**: Create a test fixture (e.g., `event.json`) with a sample event payload. Use the `npm run start:watch` command to run your function and verify its behavior.
+This Snap-in uses a `flow-custom-webhook` event source to create a unique webhook URL. When an external system sends a POST request to this URL, DevRev triggers the `on_work_creation` function. A Rego policy in the manifest extracts the payload and assigns it an event key, which routes the data to the correct function.

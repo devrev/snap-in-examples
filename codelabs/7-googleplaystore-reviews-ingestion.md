@@ -11,8 +11,63 @@ This Snap-in automates managing Google Play Store reviews by fetching them, usin
 
 ## Step-by-Step Guide
 
-### 1. Manifest
-The `manifest.yaml` file defines the `/playstore_reviews_process` command, required inputs (like API keys and app ID), and the tags used for categorization.
+### 1. Setup
+This section guides you on setting up a new Snap-in project from scratch and explains the structure of this specific example.
+
+#### Initializing a New Project
+To create a new Snap-in, you'll use the DevRev CLI.
+
+1.  **Initialize the project:** Run `devrev snap_in_version init <project_name>` to create a new project directory with a template structure. *(Reference: `init` documentation)*
+2.  **Validate the manifest:** Before writing code, check the template `manifest.yaml` by running `devrev snap_in_version validate-manifest manifest.yaml`. *(Reference: `validate-manifest` documentation)*
+3.  **Prepare test data:** Create a JSON file in `code/src/fixtures/` with a sample event payload for local testing.
+
+#### Example Structure
+To use this Snap-in, you need to configure inputs like your Application ID, default part, default owner, Fireworks API Key, and the LLM model to use.
+
+### 2. Code
+The `7-googleplaystore-reviews-ingestion/code/src/functions/process_playstore_reviews/index.ts` file contains the logic for fetching and processing the reviews. It uses the `google-play-scraper` library and calls the Fireworks AI LLM to categorize them.
+
+```typescript
+// Simplified for brevity
+export const run = async (events: any[]) => {
+  for (const event of events) {
+    // ... (setup code) ...
+
+    // Call google playstore scraper to fetch those number of reviews.
+    let getReviewsResponse:any = await gplay.reviews({
+      appId: inputs['app_id'],
+      sort: gplay.sort.RATING,
+      num: numReviews,
+      throttle: 10,
+    });
+    let reviews:gplay.IReviewsItem[] = getReviewsResponse.data;
+
+    // For each review, create a ticket in DevRev.
+    for(const review of reviews) {
+      // ... (LLM categorization logic) ...
+
+      // Create a ticket with title as review title and description as review text.
+      const createTicketResp = await apiUtil.createTicket({
+        title: reviewTitle,
+        tags: [{id: tags[inferredCategory].id}],
+        body: reviewText,
+        type: publicSDK.WorkType.Ticket,
+        owned_by: [inputs['default_owner_id']],
+        applies_to_part: inputs['default_part_id'],
+      });
+    }
+  }
+};
+```
+
+### 3. Run
+In a discussion, type `/playstore_reviews_process [number of reviews]` and press Enter. For example, `/playstore_reviews_process 20`.
+
+### 4. Verify
+After running the command, new tickets will be created in DevRev for each review, tagged as "bug", "feature_request", "question", or "feedback" based on the LLM's categorization.
+
+## Manifest
+The `manifest.yaml` file defines the slash command, the required inputs, and the tags used for categorization.
 
 ```yaml
 version: "2"
@@ -133,59 +188,5 @@ functions:
     description: Fetches reviews from Google Playstore and creates tickets
 ```
 
-### 2. Code
-The function at `7-googleplaystore-reviews-ingestion/code/src/functions/process_playstore_reviews/index.ts` fetches and processes reviews. It uses the `google-play-scraper` library and calls the Fireworks AI LLM to categorize them.
-
-```typescript
-// Simplified for brevity
-export const run = async (events: any[]) => {
-  for (const event of events) {
-    // ... (setup code) ...
-
-    // Call google playstore scraper to fetch those number of reviews.
-    let getReviewsResponse:any = await gplay.reviews({
-      appId: inputs['app_id'],
-      sort: gplay.sort.RATING,
-      num: numReviews,
-      throttle: 10,
-    });
-    let reviews:gplay.IReviewsItem[] = getReviewsResponse.data;
-
-    // For each review, create a ticket in DevRev.
-    for(const review of reviews) {
-      // ... (LLM categorization logic) ...
-
-      // Create a ticket with title as review title and description as review text.
-      const createTicketResp = await apiUtil.createTicket({
-        title: reviewTitle,
-        tags: [{id: tags[inferredCategory].id}],
-        body: reviewText,
-        type: publicSDK.WorkType.Ticket,
-        owned_by: [inputs['default_owner_id']],
-        applies_to_part: inputs['default_part_id'],
-      });
-    }
-  }
-};
-```
-
-### 3. Run and Verify
-In a discussion, type `/playstore_reviews_process [number]` (e.g., `/playstore_reviews_process 20`). New tickets will be created in DevRev for each review, tagged by the LLM as "bug", "feature_request", "question", or "feedback".
-
 ## Explanation
-This Snap-in combines external data (Google Play Store), AI (Fireworks LLM), and DevRev automation. The `/playstore_reviews_process` command triggers the main function, which orchestrates fetching, categorizing, and creating tickets from reviews.
-
-## Getting Started from Scratch
-To build this Snap-in from scratch, follow these steps:
-
-1.  **Initialize Project**:
-    - **TODO**: Use the `devrev snaps init` command to scaffold a new Snap-in project structure. This will create the basic directory layout and configuration files.
-
-2.  **Update Manifest**:
-    - **TODO**: Modify the generated `manifest.yaml` to define your Snap-in's name, functions, and event subscriptions, similar to the example provided in this guide.
-
-3.  **Implement Function**:
-    - **TODO**: Write your function's logic in the corresponding `index.ts` file within the `code/src/functions/` directory.
-
-4.  **Test Locally**:
-    - **TODO**: Create a test fixture (e.g., `event.json`) with a sample event payload. Use the `npm run start:watch` command to run your function and verify its behavior.
+This Snap-in combines external data (Google Play Store), AI (Fireworks AI LLM), and DevRev automation. The `/playstore_reviews_process` command triggers the `process_playstore_reviews` function, which orchestrates fetching, categorizing, and creating tickets.

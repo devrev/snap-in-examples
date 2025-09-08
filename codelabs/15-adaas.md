@@ -10,28 +10,29 @@ This document serves as a template for what the Codelab will look like once the 
 - A DevRev account.
 - The DevRev CLI installed and configured.
 
-## Future Implementation
-The AdaaS Snap-in will provide a framework for creating and managing automations as reusable services. The implementation details are yet to be defined.
+## Step-by-Step Guide
 
-- **TODO**: Implement the core functions for the AdaaS Snap-in.
-- **TODO**: Define the necessary `manifest.yaml` to support the AdaaS features.
+### 1. Setup
+This section guides you on setting up a new Snap-in project from scratch.
 
-## Manifest (Placeholder)
-A manifest file will be required to define the Snap-in's properties, functions, and any other necessary configurations.
+#### Initializing a New Project
+To create a new Snap-in, you'll use the DevRev CLI.
 
-- **TODO**: Create the `manifest.yaml` file in the `15-adaas/` directory.
+1.  **Initialize the project:** Run `devrev snap_in_version init <project_name>` to create a new project directory with a template structure. *(Reference: `init` documentation)*
+2.  **Validate the manifest:** Before writing code, check the template `manifest.yaml` by running `devrev snap_in_version validate-manifest manifest.yaml`. *(Reference: `validate-manifest` documentation)*
+3.  **Prepare test data:** Create a JSON file in `code/src/fixtures/` with a sample event payload for local testing.
 
-## Getting Started from Scratch
-To build this Snap-in from scratch, follow these steps:
+### 2. Code
+- **TODO**: Implement the core functions for the AdaaS Snap-in in the `code/src/functions` directory.
 
-1.  **Initialize Project**:
-    - **TODO**: Use the `devrev snaps init` command to scaffold a new Snap-in project structure in the `15-adaas/` directory.
+### 3. Run
+- **TODO**: Implement local testing procedures.
 
-2.  **Update Manifest**:
-    - **TODO**: Create and define the `manifest.yaml` for the AdaaS Snap-in.
+### 4. Verify
+- **TODO**: Define verification steps for the implemented features.
 
-3.  **Implement Function**:
-    - **TODO**: Write the core logic for the AdaaS functions in the `code/src/functions/` directory.
+## Manifest
+- **TODO**: Create the `manifest.yaml` file in the `15-adaas/` directory and define the Snap-in's properties, functions, and other configurations.
 
-4.  **Test Locally**:
-    - **TODO**: Create test fixtures and use `npm run start:watch` to verify the implementation.
+## Explanation
+- **TODO**: Provide an explanation of the AdaaS Snap-in's functionality once implemented.

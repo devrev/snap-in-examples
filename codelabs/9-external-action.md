@@ -11,43 +11,21 @@ This Snap-in demonstrates a two-way integration between DevRev and GitHub. It pr
 
 ## Step-by-Step Guide
 
-### 1. Manifest
-The `manifest.yaml` file defines the `/gh_issue` slash command and a `keyring` to securely store the GitHub PAT.
+### 1. Setup
+This section guides you on setting up a new Snap-in project from scratch and explains the structure of this specific example.
 
-```yaml
-version: "2"
-name: "GitHub Issue Creator"
-description: "Create a GitHub issue from work in DevRev."
+#### Initializing a New Project
+To create a new Snap-in, you'll use the DevRev CLI.
 
-service_account:
-  display_name: GitHub Issue Creator
+1.  **Initialize the project:** Run `devrev snap_in_version init <project_name>` to create a new project directory with a template structure. *(Reference: `init` documentation)*
+2.  **Validate the manifest:** Before writing code, check the template `manifest.yaml` by running `devrev snap_in_version validate-manifest manifest.yaml`. *(Reference: `validate-manifest` documentation)*
+3.  **Prepare test data:** Create a JSON file in `code/src/fixtures/` with a sample event payload for local testing.
 
-keyrings:
-  organization:
-    - name: github_connection
-      display_name: Github Connection
-      description: Github PAT
-      types:
-        - snap_in_secret
-
-functions:
-  - name: command_handler
-    description: function to create a GitHub issue
-
-commands:
-  - name: gh_issue
-    namespace: devrev
-    description: Command to create a GitHub issue.
-    surfaces:
-      - surface: discussions
-        object_types:
-          - issue
-    usage_hint: "[OrgName] [RepoName]"
-    function: command_handler
-```
+#### Example Structure
+To use this Snap-in, you need to provide your GitHub PAT as a secret during installation. The manifest defines a keyring named `github_connection` to store this secret securely.
 
 ### 2. Code
-The function at `9-external-action/code/src/functions/command_handler/index.ts` creates the GitHub issue. It's triggered by the `/gh_issue` command and uses the DevRev SDK to get issue details and the Octokit library to create the issue in GitHub.
+The `9-external-action/code/src/functions/command_handler/index.ts` file contains the logic for creating the GitHub issue. It's triggered by the `/gh_issue` command and uses the DevRev SDK to get issue details and the Octokit library to create the issue in GitHub.
 
 ```typescript
 // Simplified for brevity
@@ -81,23 +59,46 @@ const handleEvent = async (event: any) => {
 };
 ```
 
-### 3. Run and Verify
-In a discussion on a DevRev issue, type `/gh_issue <your_org_name> <your_repo_name>`. A new issue will be created in the specified GitHub repository with the same title and description as the DevRev issue.
+### 3. Run
+In a discussion on a DevRev issue, type `/gh_issue <your_org_name> <your_repo_name>` and press Enter.
+
+### 4. Verify
+A new issue will be created in the specified GitHub repository with the same title and description as the DevRev issue.
+
+## Manifest
+The `manifest.yaml` file defines the slash command and the keyring for storing the GitHub PAT.
+
+```yaml
+version: "2"
+name: "GitHub Issue Creator"
+description: "Create a GitHub issue from work in DevRev."
+
+service_account:
+  display_name: GitHub Issue Creator
+
+keyrings:
+  organization:
+    - name: github_connection
+      display_name: Github Connection
+      description: Github PAT
+      types:
+        - snap_in_secret
+
+functions:
+  - name: command_handler
+    description: function to create a GitHub issue
+
+commands:
+  - name: gh_issue
+    namespace: devrev
+    description: Command to create a GitHub issue.
+    surfaces:
+      - surface: discussions
+        object_types:
+          - issue
+    usage_hint: "[OrgName] [RepoName]"
+    function: command_handler
+```
 
 ## Explanation
 This Snap-in shows how to use keyrings to securely store secrets like API tokens. It also demonstrates using the DevRev SDK and an external library (Octokit) to interact with both DevRev and GitHub. The `command_handler` function orchestrates getting issue details from DevRev and creating a corresponding issue in GitHub.
-
-## Getting Started from Scratch
-To build this Snap-in from scratch, follow these steps:
-
-1.  **Initialize Project**:
-    - **TODO**: Use the `devrev snaps init` command to scaffold a new Snap-in project structure. This will create the basic directory layout and configuration files.
-
-2.  **Update Manifest**:
-    - **TODO**: Modify the generated `manifest.yaml` to define your Snap-in's name, functions, and event subscriptions, similar to the example provided in this guide.
-
-3.  **Implement Function**:
-    - **TODO**: Write your function's logic in the corresponding `index.ts` file within the `code/src/functions/` directory.
-
-4.  **Test Locally**:
-    - **TODO**: Create a test fixture (e.g., `event.json`) with a sample event payload. Use the `npm run start:watch` command to run your function and verify its behavior.
