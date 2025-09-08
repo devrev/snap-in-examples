@@ -1,0 +1,116 @@
+---
+title: 'Timer-based Ticket Creator'
+description: 'A snap-in that demonstrates how to create timer-based automations that perform actions on a schedule, such as creating a ticket every 10 minutes.'
+---
+
+## Setup
+
+This section guides you on setting up the timer-based ticket creator snap-in.
+
+### Prerequisites
+
+- Node.js and `npm` installed.
+- A DevRev account with the CLI installed and configured.
+
+### 1. Get the Code
+
+You can start by using the code in the `6-timer-ticket-creator` directory.
+
+### 2. Configure the Snap-in
+
+This snap-in is configured to create a ticket every 10 minutes. You can change the schedule by modifying the `cron` expression in the `manifest.yaml` file. The code also hardcodes the `applies_to_part` and `owned_by` values. You will likely need to change `'PROD-1'` and `'DEVU-1'` to match a valid part and user in your organization.
+
+## Manifest
+
+The `manifest.yaml` file defines the timer event source and the automation that creates the tickets. The `cron` expression `*/10 * * * *` tells the system to trigger the automation every 10 minutes.
+
+```yaml
+version: "2"
+
+name: "Timely Ticketer"
+description: "Snap-in to create ticket every 10 minutes"
+
+service_account:
+    display_name: Automatic Ticket Creator Bot
+
+event_sources:
+    organization:
+        - name: timer-event-source
+          description: Event source that sends events every 10 minutes.
+          display_name: Timer Event Source
+          type: timer-events
+          config:
+            # CRON expression for triggering every 10 minutes.
+            cron: "*/10 * * * *"
+            metadata:
+                event_key: ten_minute_event
+
+functions:
+    - name: ticket_creator
+      description: Function to create a new ticket when triggered.
+
+automations:
+    - name: periodic_ticket_creator
+      description: Automation to create a ticket every 10 minutes
+      source: timer-event-source
+      event_types:
+        - timer.tick
+      function: ticket_creator
+```
+
+## Code
+
+The `6-timer-ticket-creator/code/src/functions/ticket_creator/index.ts` file contains the function that is executed by the timer automation. It uses the DevRev SDK to create a new ticket with a timestamped title and body.
+
+```typescript
+import { client, publicSDK } from '@devrev/typescript-sdk';
+
+export const run = async (events: any[]) => {
+  for (const event of events) {
+    const endpoint = event.execution_metadata.devrev_endpoint;
+    const token = event.context.secrets.service_account_token;
+
+    // Initialize the public SDK client
+    const devrevSDK = client.setup({ endpoint, token });
+
+    // Create a ticket. Name the ticket using the current date and time.
+    const date = new Date();
+    const ticketName = `Ticket created at ${date.toLocaleString()}`;
+    const ticketBody = `This ticket was created by a snap-in at ${date.toLocaleString()}`;
+
+    const reponse = await devrevSDK.worksCreate({
+      title: ticketName,
+      body: ticketBody,
+      // The ticket will be created in the PROD-1 part. Rename this to match your part.
+      applies_to_part: 'PROD-1',
+      // The ticket will be owned by the DEVU-1 team. Rename this to match the required user.
+      owned_by: ['DEVU-1'],
+      type: publicSDK.WorkType.Ticket,
+    });
+
+    console.log(reponse);
+  }
+};
+```
+
+## Run
+
+While this snap-in is designed to run on a timer, you can test the `ticket_creator` function locally using the provided fixture, which simulates a `timer.tick` event.
+
+1.  Navigate to the `6-timer-ticket-creator/code` directory.
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the local test runner:
+    ```bash
+    npm run start:watch -- --functionName=ticket_creator --fixturePath=timer-tick.json
+    ```
+
+## Verify
+
+When you run the function locally, it will attempt to create a new ticket using the DevRev API. The function logs the entire response from the API call.
+
+A successful run will log an object containing the details of the newly created ticket. If the API call fails (for example, due to an invalid token, part, or owner ID), an error object will be logged instead.
+
+In a live environment, you can verify that the snap-in is working by checking for new tickets in the specified part every 10 minutes.

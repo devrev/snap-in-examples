@@ -1,31 +1,37 @@
-# Codelab: Custom Keyring Types
+---
+title: 'Custom Keyring Types'
+description: 'A guide to creating custom keyring types in a snap-in manifest, with examples for basic authentication, OAuth 2.0, multi-field secrets, and referencing existing types.'
+---
 
-## Overview
-This example demonstrates how to create custom keyring types to connect to third-party services. Custom keyring types allow you to define your own connection types, including support for different authentication methods and custom UI. This example includes four different types of custom keyrings:
+## Introduction
+
+This guide demonstrates how to create custom keyring types to connect to third-party services. Custom keyring types allow you to define your own connection types, including support for different authentication methods and custom UI. This example includes four different types of custom keyrings:
 - Basic authentication
 - OAuth 2.0
 - Multi-field secrets
 - Referencing existing keyring types
 
-## Prerequisites
-- Node.js and `npm` installed.
-- A DevRev account.
-- The DevRev CLI installed and configured.
+### Prerequisites
+- A DevRev account with the CLI installed and configured.
 
-## Step-by-Step Guide
+## Setup
 
-### 1. Setup
-This section guides you on setting up a new Snap-in project from scratch. Since this Codelab covers multiple manifest examples, you can adapt the steps for each specific use case.
+This section guides you on setting up a new snap-in project to use custom keyring types.
 
-1.  **Initialize the project:** Run `devrev snap_in_version init <project_name>` to create a new project directory with a template structure. *(Reference: `init` documentation)*
-2.  **Update the manifest:** Modify the `manifest.yaml` file to include your custom `keyring_types` definition.
-3.  **Validate the manifest:** Before writing code, check your manifest by running `devrev snap_in_version validate-manifest manifest.yaml`. *(Reference: `validate-manifest` documentation)*
+1.  **Initialize the project:** Run `devrev snap_in_version init <project_name>` to create a new project directory with a template structure.
+2.  **Update the manifest:** Modify the `manifest.yaml` file to include your `keyring_types` definition, using the examples below as a reference.
+3.  **Validate the manifest:** Before deploying, check your manifest by running `devrev snap_in_version validate-manifest manifest.yaml`.
 
-### 2. Basic Authentication
-This example shows how to create a custom keyring type for a service that uses basic authentication, such as Freshdesk.
+## Keyring Type Examples
 
-**Manifest (`custom-keyring-type-basic.yaml`)**
+Below are four examples of how to define custom keyring types in your `manifest.yaml`.
+
+### Basic Authentication
+
+This example shows how to create a custom keyring type for a service that uses basic authentication, such as Freshdesk. The manifest defines the required fields and how to transform them into a standard `Authorization: Basic` header.
+
 ```yaml
+# Example: custom-keyring-type-basic.yaml
 version: "2"
 name: "Custom Keyring Type Snap-in"
 description: "Creating custom keyring type for Freshdesk Basic connection"
@@ -57,20 +63,19 @@ keyring_types:
           Authorization: "Basic [API_KEY]"
 ```
 
-### 3. OAuth 2.0
-This example shows how to create a custom keyring type for a service that uses OAuth 2.0, such as GitLab.
+### OAuth 2.0
 
-**Manifest (`custom-keyring-type-oauth.yaml`)**
+This example shows how to create a custom keyring type for a service that uses OAuth 2.0, such as GitLab. It defines the necessary URLs, scopes, and secrets for the OAuth flow.
+
 ```yaml
+# Example: custom-keyring-type-oauth.yaml
 version: "2"
 name: "Custom Keyring Type Snap-in"
 description: "Creating custom keyring type for GitLab OAuth connection"
 
-# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
 service_account:
   display_name: DevRev Bot
 
-# Developer keyrings are used to store sensitive information like OAuth secrets.
 developer_keyrings:
   - name: gitlab-oauth-secret
     description: GitLab OAuth secret
@@ -82,23 +87,23 @@ keyrings:
       display_name: GitLab connection (must be set up as dev org connection)
       description: The gitlab app connection for the organization.
       types:
-        - gitlab-oauth-connection # The keyring type defined below
+        - gitlab-oauth-connection
 
 keyring_types:
   - id: gitlab-oauth-connection
     name: "GitLab Connection"
     description: "GitLab connection"
     kind: "Oauth2"
-    scopes: # Scopes that the connection can request, add more scopes if needed for your use case. Each scope should have a name, description and value.
+    scopes:
       - name: read
         description: Read access
         value: "read_api"
       - name: api
         description: API access
         value: "api"
-    scope_delimiter: " " # Space separated scopes
-    oauth_secret: gitlab-oauth-secret # developer keyring that contains OAuth2 client ID and client secret. Shall be of type `oauth-secret`.
-    authorize: # The authorize section is used to get the authorization code from the user and exchange it for an access token.
+    scope_delimiter: " "
+    oauth_secret: gitlab-oauth-secret
+    authorize:
       type: "config"
       auth_url: "https://gitlab.com/oauth/authorize"
       token_url: "https://gitlab.com/oauth/token"
@@ -110,7 +115,7 @@ keyring_types:
       token_query_parameters:
         "client_id": "[CLIENT_ID]"
         "client_secret": "[CLIENT_SECRET]"
-    refresh: # The refresh section is used to refresh the access token using the refresh token.
+    refresh:
       type: "config"
       url: "https://gitlab.com/api/oauth.v2.access"
       method: "POST"
@@ -120,7 +125,7 @@ keyring_types:
         "refresh_token": "[REFRESH_TOKEN]"
       headers:
         "Content-type": "application/x-www-form-urlencoded"
-    revoke: # The revoke section is used to revoke the access token.
+    revoke:
       type: "config"
       url: "https://gitlab.com/oauth/revoke"
       method: "POST"
@@ -132,11 +137,12 @@ keyring_types:
         "token": "[ACCESS_TOKEN]"
 ```
 
-### 4. Multi-field Secrets
+### Multi-field Secrets
+
 This example shows how to create a custom keyring type for a secret that has multiple fields, such as a username and password.
 
-**Manifest (`custom-keyring-type-secret.yaml`)**
 ```yaml
+# Example: custom-keyring-type-secret.yaml
 version: "2"
 name: "Custom Keyring Type Snap-in"
 description: "Creating custom keyring type for Multi Field Secret"
@@ -154,31 +160,30 @@ keyring_types:
     name: Multi Field Secret
     description: Multi Field Secret
     kind: "Secret"
-    secret_config: # The secret_config section is used to define the fields in the secret.
-      fields: # optional: data that the user shall provide in the input form when creating the connection. Each element represents one input field. Fields will be included in the final JSON secret. If omitted, the user will be asked for a generic secret.
+    secret_config:
+      fields:
         - id: username
           name: Username
           description: Username
         - id: password
           name: Password
           description: Password
-          is_optional: true # The field is optional
+          is_optional: true
 ```
 
-### 5. Referencing Existing Keyring Types
-This example shows how to create a custom keyring type that references an existing keyring type, which is useful for extending existing connection types.
+### Referencing Existing Keyring Types
 
-**Manifest (`reference-keyring-type.yaml`)**
+This example shows how to create a custom keyring type that references an existing, built-in keyring type. This is useful for extending existing connection types with additional scopes or settings.
+
 ```yaml
+# Example: reference-keyring-type.yaml
 version: "2"
 name: "Reference Keyring Type Snap-in"
 description: "Creating the keyring type for Slack connection with reference to the existing Slack connection"
 
-# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
 service_account:
   display_name: DevRev Bot
 
-# Developer keyrings are used to store sensitive information like OAuth secrets.
 developer_keyrings:
   - name: slack-oauth-secret
     description: Slack OAuth secret
@@ -190,21 +195,21 @@ keyrings:
       display_name: Slack connection (must be set up as dev org connection)
       description: The slack app connection for the organization.
       types:
-        - slack-oauth-connection # The keyring type defined below
+        - slack-oauth-connection
 
 keyring_types:
   - id: slack-oauth-connection
     name: Slack Connection
     description: Slack connection
     kind: "Oauth2"
-    scopes: # Scopes that the connection can request, add more scopes if needed for your use case. each scope should have a name, description and value.
+    scopes:
       - name: read
         description: App mentions read only access
         value: app_mentions:read
       - name: write
         description: App channels history read only access
         value: "channels:history"
-    scope_delimiter: "," # Space separated scopes
-    oauth_secret: slack-oauth-secret # developer keyring that contains OAuth2 client ID and client secret. Shall be of type `oauth-secret`.
-    reference_keyring: devrev-slack-oauth # referring to the existing slack connection keyring
+    scope_delimiter: ","
+    oauth_secret: slack-oauth-secret
+    reference_keyring: devrev-slack-oauth
 ```

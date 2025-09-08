@@ -1,0 +1,204 @@
+---
+title: 'Vacation Responder'
+description: 'A snap-in that uses user-level settings to post a custom vacation message when an issue is assigned to a user who is on vacation.'
+---
+
+## Setup
+
+This section guides you on setting up the vacation responder snap-in.
+
+### Prerequisites
+
+- Node.js and `npm` installed.
+- A DevRev account with the CLI installed and configured.
+
+### 1. Get the Code
+
+You can start by using the code in the `10-vacation-responder` directory.
+
+### 2. Configure the Snap-in
+
+This snap-in is configured through user-level settings. After a user installs the snap-in, they can go to their DevRev settings to configure it. They will see two options:
+- **On Vacation:** A checkbox to enable or disable the responder.
+- **Vacation Message:** A text field for their custom away message.
+
+## Manifest
+
+The `manifest.yaml` file defines the user-level inputs for the vacation settings. It also includes a JQ filter on the event source to ensure the automation only runs when an issue is created for or assigned to the user who has configured the snap-in.
+
+```yaml
+version: "2"
+name: "Vacation Responder"
+description: "Respond with a custom message when on vacation"
+
+service_account:
+  display_name: Vacation Responder Bot
+
+inputs:
+  user:
+    - name: on_vacation
+      field_type: bool
+      ui:
+        display_name: On Vacation
+
+    - name: vacation_message
+      description: Message to send when on vacation
+      field_type: text
+      ui:
+        display_name: Vacation message
+
+event_sources:
+  user:
+    - name: devrev-user-event-source
+      description: Event source per user listening on DevRev events.
+      display_name: DevRev user events listener
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_updated
+          - work_created
+      filter:
+        jq_query: |
+          if .type == "work_created" then
+            if (.work_created.work.type == "issue" and .work_created.work.owned_by[0].id == $user.id) then true
+            else false
+            end
+          else
+            if (.work_updated.work.type == "issue" and .work_updated.work.owned_by[0].id == $user.id) then true
+            else false
+            end
+          end
+functions:
+  - name: vacation_responder
+    description: Function to respond on vacation
+
+automations:
+  - name: vacation_responder_automation
+    source: devrev-user-event-source
+    event_types:
+      - work_created
+      - work_updated
+    function: vacation_responder
+```
+
+## Code
+
+The logic is in `10-vacation-responder/code/src/functions/vacation_responder/index.ts`. When triggered, it checks if the new owner of an issue has their "On Vacation" setting enabled. If so, it posts their custom vacation message to the issue's timeline.
+
+```typescript
+/*
+ * Copyright (c) 2023 DevRev, Inc. All rights reserved.
+ */
+
+import { client } from '@devrev/typescript-sdk';
+import { TimelineEntriesCreateRequestType } from '@devrev/typescript-sdk/dist/auto-generated/beta/beta-devrev-sdk';
+import { AxiosError } from 'axios';
+
+function objectToMap(obj: { [key: string]: any }): Map<string, any> {
+  const map = new Map<string, any>();
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      map.set(key, obj[key]);
+    }
+  }
+  return map;
+}
+
+function validateEvent(event: any): boolean {
+  if (event.payload.type === 'work_created') {
+    return true;
+  } else if (event.payload.type === 'work_updated') {
+    if (event.payload.work_updated.work.owned_by[0].id !== event.payload.work_updated.old_work.owned_by[0].id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+async function engine(event: any) {
+  const devrevPAT = event.context.secrets.service_account_token;
+  const apiBase = event.execution_metadata.devrev_endpoint;
+  const betaClient = client.setupBeta({
+    endpoint: apiBase,
+    token: devrevPAT,
+  });
+  const apiClient = client.setup({
+    endpoint: apiBase,
+    token: devrevPAT,
+  });
+
+  if (!validateEvent(event)) return;
+  const eventType = event.payload.type;
+  const work = event.payload[eventType].work;
+  const workOwner = work.owned_by[0].id;
+  const snapInID = event.context.snap_in_id;
+  // get the creator's snap-in resources
+  try {
+    const userResourcesResponse = await betaClient.snapInsResources({
+      id: snapInID,
+      user: workOwner,
+    });
+    const userResourcesData = userResourcesResponse.data;
+    if (userResourcesData.inputs) {
+      const inputs = userResourcesData.inputs;
+      const inputsMap = objectToMap(inputs);
+      if (inputsMap.get('on_vacation') == true) {
+        const vacation_message = inputsMap.get('vacation_message') as string;
+        if (vacation_message && vacation_message.length > 0) {
+          await apiClient.timelineEntriesCreate({
+            body: vacation_message,
+            type: TimelineEntriesCreateRequestType.TimelineComment,
+            object: work.id,
+          });
+          console.log('Vacation message added to work item.');
+        }
+      } else {
+        console.log("User isn't on vacation.", inputs);
+      }
+    }
+  } catch (error: any) {
+    // check if the error is an AxiosError
+    if (error.isAxiosError) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 404) {
+        console.log("User hasn't set up their snap-in resources yet.");
+      } else {
+        console.error('Error fetching user resources:', axiosError);
+      }
+    }
+    return;
+  }
+}
+
+export const run = async (events: any[]) => {
+  for (const event of events) {
+    await engine(event);
+  }
+};
+
+export default run;
+```
+
+## Run
+
+You can test the `vacation_responder` function locally using the provided fixture, which simulates a `work_created` event.
+
+1.  Navigate to the `10-vacation-responder/code` directory.
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the local test runner:
+    ```bash
+    npm run start:watch -- --functionName=vacation_responder --fixturePath=work_created.json
+    ```
+
+## Verify
+
+When you run the function locally with the provided fixture, the function will attempt to fetch the vacation settings for the user who owns the new issue. Since the local test environment does not have any user settings configured, the API call will not find any and the function will log the following message to the console:
+
+```
+User hasn't set up their snap-in resources yet.
+```
+
+To fully test the logic, you need to install the snap-in in your DevRev organization, have a user configure their vacation message, and then assign an issue to that user. The vacation message should then appear on the issue's timeline.

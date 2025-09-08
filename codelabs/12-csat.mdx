@@ -1,0 +1,361 @@
+---
+title: 'CSAT Surveys'
+description: 'A snap-in that creates and processes Customer Satisfaction (CSAT) surveys in DevRev, with automations for conversation closure and a slash command for on-demand surveys.'
+---
+
+## Setup
+
+This section guides you on setting up the CSAT survey snap-in.
+
+### Prerequisites
+
+- Node.js and `npm` installed.
+- A DevRev account with the CLI installed and configured.
+
+### 1. Get the Code
+
+You can start by using the code in the `12-csat` directory.
+
+### 2. Configure the Snap-in
+
+This snap-in can be customized using the global inputs defined in the manifest files. You can set the survey channels, the text for headers and questions, the response scale, and the survey expiration time.
+
+This example comes with two manifest files: one for conversations (`manifest_conv.yaml`) and one for tickets (`manifest_tkt.yaml`). You will need to choose which one to deploy.
+
+## Manifests
+
+This snap-in includes two manifest files to handle surveys for conversations and tickets separately.
+
+<details>
+<summary>manifest_conv.yaml (for Conversations)</summary>
+
+```yaml
+version: "1"
+
+name: "CSAT on Conversation"
+description: "Capture the satisfaction level for customer conversations on PLuG to enhance the customer experience."
+
+service_account:
+  display_name: "DevRev Bot"
+
+event-sources:
+  - name: devrev-webhook
+    description: Event coming from DevRev
+    display_name: DevRev
+    type: devrev-webhook
+    config:
+      event_types:
+        - conversation_updated
+
+globals:
+  - name: survey_channel
+    description: The channel the survey is sent on.
+    devrev_field_type: '[]enum'
+    devrev_enum: ["PLuG", "Email"]
+    default_value: ["PLuG", "Email"]
+    ui:
+      display_name: Survey channel
+  - name: survey_text_header
+    description: Introductory text posted on timeline when survey is populated.
+    devrev_field_type: text
+    default_value: "We would love to hear your feedback."
+    ui:
+      display_name: Survey introductory text
+  - name: survey_resp_scale
+    description: Response values to be displayed on the survey scale (high to low).
+    devrev_field_type: text
+    default_value: "Great,Good,Average,Poor,Awful"
+    ui:
+      display_name: Survey response scale
+  - name: survey_text
+    description: Text posted on timeline when survey is populated.
+    devrev_field_type: text
+    default_value: "How satisfied were you with this chat?"
+    ui:
+      display_name: Survey query
+  - name: survey_resp_text
+    description: Text posted on timeline when survey response is submitted.
+    devrev_field_type: text
+    default_value: "Thank you for sharing your valuable feedback with us! Your insights are greatly appreciated."
+    ui:
+      display_name: Survey response message
+  - name: survey_expires_after
+    description: "Indicates the time (in minutes) for which the survey remains active (minimum 1 minute)"
+    devrev_field_type: int
+    default_value: 1440
+    ui:
+      display_name: Survey expires after
+
+functions:
+  - name: post_survey
+    description: Create a survey comment on conversation closure.
+  - name: process_response
+    description: Process survey response for conversation survey response.
+
+commands:
+  - name: survey
+    namespace: csat_on_conversation
+    description: Capture the customer satisfaction level with ongoing interaction.
+    surfaces:
+      - surface: discussions
+        object_types:
+          - conversation
+    usage_hint: "[chat/email] [survey question]"
+    function: post_survey
+
+automations:
+  - name: Add survey as a comment on resolved object
+    source: devrev-webhook
+    event_types:
+      - conversation_updated
+    function: post_survey
+
+snap_kit_actions:
+  - name: survey
+    description: Snap kit action for processing `survey` response
+    function: process_response
+```
+</details>
+
+<details>
+<summary>manifest_tkt.yaml (for Tickets)</summary>
+
+```yaml
+version: "1"
+
+name: "CSAT on Ticket"
+description: "Capture the satisfaction level for customer tickets on support portal to enhance the customer experience."
+
+service_account:
+  display_name: "DevRev Bot"
+
+event-sources:
+  - name: devrev-webhook
+    description: Event coming from DevRev
+    display_name: DevRev
+    type: devrev-webhook
+    config:
+      event_types:
+        - work_updated
+
+globals:
+  - name: survey_channel
+    description: The channel the survey is sent on.
+    devrev_field_type: '[]enum'
+    devrev_enum: ["Portal", "Email"]
+    default_value: ["Portal", "Email"]
+    ui:
+      display_name: Survey channel
+  - name: survey_text_header
+    description: Introductory text posted when survey is populated.
+    devrev_field_type: text
+    default_value: "We would love to hear your feedback."
+    ui:
+      display_name: Survey introductory text
+  - name: survey_resp_scale
+    description: Response values to be displayed on the survey scale (high to low).
+    devrev_field_type: text
+    default_value: "Great,Good,Average,Poor,Awful"
+    ui:
+      display_name: Survey response scale
+  - name: survey_text
+    description: Text posted when survey is populated.
+    devrev_field_type: text
+    default_value: "How satisfied were you with the support experience?"
+    ui:
+      display_name: Survey query
+  - name: survey_resp_text
+    description: Text posted when survey response is submitted.
+    devrev_field_type: text
+    default_value: "Thank you for sharing your valuable feedback with us! Your insights are greatly appreciated."
+    ui:
+      display_name: Survey response message
+  - name: survey_expires_after
+    description: "Indicates the time (in minutes) for which the survey remains active (minimum 1 minute)"
+    devrev_field_type: int
+    default_value: 1440
+    ui:
+      display_name: Survey expires after
+
+functions:
+  - name: post_survey
+    description: Create a survey comment on ticket closure.
+  - name: process_response
+    description: Process survey response on ticket survey response.
+
+commands:
+  - name: survey
+    namespace: csat_on_ticket
+    description: Capture the customer satisfaction level with ongoing interaction.
+    surfaces:
+      - surface: discussions
+        object_types:
+          - ticket
+    usage_hint: "[chat/email] [survey question]"
+    function: post_survey
+
+automations:
+  - name: Add survey as a comment on resolved object
+    source: devrev-webhook
+    event_types:
+      - work_updated
+    function: post_survey
+
+snap_kit_actions:
+  - name: survey
+    description: Snap kit action for processing `survey` response
+    function: process_response
+```
+</details>
+
+## Code
+
+This snap-in has two main functions to separate the logic for posting a survey and processing the response.
+
+### `post_survey`
+
+This function is triggered when a conversation is closed (automation) or when a user runs the `/survey` command. It creates and posts an interactive Snap Kit card with the survey question.
+
+```typescript
+// Located at 12-csat/code/src/functions/post_survey/index.ts
+import {
+  doDevRevPostAPICall,
+  getAPIBase,
+  getSnapKitBody,
+  getTimelineCommentBody,
+  getAPIDomain,
+  getExpiryTimestamp,
+  getSurveyId,
+  getWork,
+  getConversation,
+  getCommandParameters,
+} from '../common/utils';
+import {
+  EMAIL,
+  PLUG,
+  PORTAL,
+  CHAT,
+  INTERNAL,
+  PRIVATE,
+  TimelineEntriesCreateAPIMethodPath,
+  DefaultCSATName,
+  TimelineLabelDisplayCustomerChat,
+} from '../common/constants';
+
+interface Stakeholder {
+  id?: string;
+  email_id?: string;
+}
+
+const commentExpireAt2Min = getExpiryTimestamp(2).toISOString();
+
+export class PostSurvey {
+  constructor() {}
+
+  async PostSurvey(event: any) {
+	  console.log('Creating survey on event payload: ', JSON.stringify(event.payload));
+	  console.log('Event Context: ', JSON.stringify(event.context));
+	  try {
+      // ... (Full function implementation) ...
+	  } catch (error) {
+      console.error('Error: ', error);
+	  }
+  }
+
+  getStakeholders(stakeholdersFromObj: any[]): Stakeholder[] {
+    // ... (Full function implementation) ...
+  }
+}
+
+export const run = async (events: any[]) => {
+  console.log('Running SnapIn for survey - post_survey', events);
+  const postSurvey = new PostSurvey();
+  for (let event of events) {
+	  await postSurvey.PostSurvey(event);
+  }
+  console.info('events', events);
+};
+
+export default run;
+```
+
+### `process_response`
+
+This function is triggered when a user clicks a rating on the Snap Kit survey card. It submits the survey response, deletes the card, and posts a "thank you" message.
+
+```typescript
+// Located at 12-csat/code/src/functions/process_response/index.ts
+import {
+  doDevRevGetAPICall,
+  doDevRevPostAPICall,
+  getAPIBase, getSurveyId,
+  getTimelineCommentBody,
+  getExpiryTimestamp,
+} from '../common/utils';
+import {
+  EMAIL, PLUG, PORTAL, DefaultCSATName, INTERNAL, PRIVATE,
+  TimelineEntriesCreateAPIMethodPath,
+  TimelineEntriesDeleteAPIMethodPath,
+  SurveysSubmitAPIMethodPath,
+  RevUsersGetAPIMethodPath, TimelineLabelDisplayCustomerChat,
+} from '../common/constants';
+
+async function ProcessSurveyResponse(event: any) {
+  // ... (Full function implementation) ...
+}
+
+function getDeleteTimelineEntryBody(entryId: string) {
+  // ... (Full function implementation) ...
+}
+
+function getSurveyResponseBody(surveyId: string, objId: string, rating: number, sourceChannel: string) {
+  // ... (Full function implementation) ...
+}
+
+function getSourceChannel(payload: any) {
+  // ... (Full function implementation) ...
+}
+
+export const run = async (events: any[]) => {
+  console.log('Running SnapIn for processing survey response');
+  for (let event of events) {
+    await ProcessSurveyResponse(event);
+  }
+};
+
+export default run;
+```
+
+## Run
+
+You can test the `post_survey` function's automation trigger locally using the provided fixture.
+
+1.  Navigate to the `12-csat/code` directory.
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the local test runner for the `post_survey` function:
+    ```bash
+    npm run start:watch -- --functionName=post_survey --fixturePath=conversation_updated_event.json
+    ```
+
+> **Note:** There is no provided fixture to test the `process_response` function or the `/survey` slash command locally. These flows must be tested after deploying the snap-in to your DevRev organization.
+
+## Verify
+
+### `post_survey` Verification
+
+When you run the `post_survey` function locally with the provided fixture, the function will log the event payload and context, and then attempt to post the survey card. You should see logs like:
+```
+Running SnapIn for survey - post_survey [...]
+Creating survey on event payload: {"conversation_updated":{...}}
+Event Context: {"dev_oid":...}
+```
+
+### `process_response` Verification
+
+This function can only be tested in a live environment. After a survey card is posted, click one of the rating buttons. You should observe the following:
+1.  The survey card is removed from the timeline.
+2.  A "thank you" message is posted in its place.
+3.  An internal note is added to the timeline with the rating that was selected.

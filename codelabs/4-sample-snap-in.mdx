@@ -1,0 +1,223 @@
+---
+title: 'Sample Snap-in'
+description: 'A sample snap-in demonstrating automations for new work items and a custom slash command to post comments.'
+---
+
+## Setup
+
+This section guides you on setting up the snap-in.
+
+### Prerequisites
+
+- Node.js and `npm` installed.
+- A DevRev account with the CLI installed and configured.
+
+### 1. Get the Code
+
+You can start by using the code in the `4-sample-snap-in` directory.
+
+### 2. Configure the Snap-in
+
+The automation in this snap-in can be customized using input fields. These are defined in the `manifest.yaml` and can be set during installation. The default values will post a comment with the text "Hello World is printed on the work [work-id] from the automation, with message: Message from the input field. name1 name2".
+
+## Manifest
+
+The `manifest.yaml` file defines the automation, the slash command, and the input fields for customizing the automation's comment.
+
+```yaml
+version: '2'
+
+name: Sample Snap-in for DevRev Hackathon
+description: Snap In to add Comments for demonstration purpose.
+
+service_account:
+  display_name: "DevRev Bot"
+
+event_sources:
+  organization:
+    - name: devrev-webhook
+      display_name: DevRev
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_created
+
+inputs:
+  organization:
+    - name: input_field_1
+      description: Input field to add comment to the work item.
+      field_type: text
+      default_value: "Message from the input field."
+      ui:
+        display_name: Input Field 1
+
+    - name: input_field_2
+      description: Add extra comment.
+      field_type: bool
+      default_value: true
+      ui:
+        display_name: Should extra comment be added?
+
+    - name: input_field_array
+      description: List of names to add as comment.
+      base_type: text
+      field_type: array
+      default_value: ["name1", "name2"]
+      ui:
+        display_name: List of extra names
+
+functions:
+  - name: function_1
+    description: Function to create a timeline entry comment on a DevRev work item created.
+  - name: function_2
+    description: Function to create a timeline entry comment on a DevRev work item on which comment is added.
+
+automations:
+  - name: convergence_automation_devrev
+    source: devrev-webhook
+    event_types:
+      - work_created
+    function: function_1
+
+commands:
+  - name: comment_here
+    namespace: devrev
+    description: Command to trigger function to add comment to this work item.
+    surfaces:
+      - surface: discussions
+        object_types:
+          - issue
+          - ticket
+    usage_hint: "Command to add comment to this work item."
+    function: function_2
+```
+
+## Code
+
+This snap-in contains two functions: one for the automation and one for the slash command.
+
+### Automation: `function_1`
+
+This function is triggered by a `work_created` event and posts a comment constructed from the input fields. The code is located in `4-sample-snap-in/code/src/functions/function_1/index.ts`.
+
+```typescript
+import { client } from "@devrev/typescript-sdk";
+
+async function handleEvent(
+  event: any,
+) {
+  const devrevPAT = event.context.secrets.service_account_token;
+  const API_BASE = event.execution_metadata.devrev_endpoint;
+  const devrevSDK = client.setup({
+    endpoint: API_BASE,
+    token: devrevPAT,
+  })
+  const workCreated = event.payload.work_created.work;
+  const messageInput = event.input_data.global_values.input_field_1;
+  let bodyComment = 'Hello World is printed on the work ' + workCreated.display_id + ' from the automation, with message: ' + messageInput;
+  const extraComment = event.input_data.global_values.input_field_2;
+  const extraNames = event.input_data.global_values.input_field_array;
+  if (extraComment) {
+    for (let name of extraNames) {
+      bodyComment = bodyComment + ' ' + name;
+    }
+  }
+  const body = {
+    object: workCreated.id,
+    type: 'timeline_comment',
+    body:  bodyComment,
+  }
+  const response = await devrevSDK.timelineEntriesCreate(body as any);
+  return response;
+
+}
+
+export const run = async (events: any[]) => {
+  console.info('events', JSON.stringify(events), '\n\n\n');
+  for (let event of events) {
+    const resp = await handleEvent(event);
+    console.log(JSON.stringify(resp.data));
+  }
+};
+
+export default run;
+```
+
+### Slash Command: `function_2`
+
+This function is triggered by the `/comment_here` slash command and posts a simple "Hello World" comment. The code is located in `4-sample-snap-in/code/src/functions/function_2/index.ts`.
+
+```typescript
+import { client } from "@devrev/typescript-sdk";
+
+async function handleEvent(
+  event: any,
+) {
+  const devrevPAT = event.context.secrets.service_account_token;
+  const API_BASE = event.execution_metadata.devrev_endpoint;
+  const devrevSDK = client.setup({
+    endpoint: API_BASE,
+    token: devrevPAT,
+  })
+  const workCreated = event.payload.source_id;
+  const bodyComment = 'Hello World is printed on the work from the command.';
+  const body = {
+    object: workCreated,
+    type: 'timeline_comment',
+    body:  bodyComment,
+  }
+  const response = await devrevSDK.timelineEntriesCreate(body as any);
+  return response;
+
+}
+
+export const run = async (events: any[]) => {
+  console.info('events', JSON.stringify(events), '\n\n\n');
+  for (let event of events) {
+    const resp = await handleEvent(event);
+    console.log(JSON.stringify(resp.data));
+  }
+};
+
+export default run;
+```
+
+## Run
+
+You can test the functions locally using the provided fixtures.
+
+1.  Navigate to the `4-sample-snap-in/code` directory.
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  To test the automation (`function_1`), run:
+    ```bash
+    npm run start:watch -- --functionName=function_1 --fixturePath=function_1_event.json
+    ```
+4.  To test the slash command (`function_2`), run:
+    ```bash
+    npm run start:watch -- --functionName=function_2 --fixturePath=function_2_event.json
+    ```
+
+## Verify
+
+When you run the functions locally, you will see the event payload logged to the console.
+
+### `function_1` Verification
+
+The console will log the full event from the `function_1_event.json` fixture. Due to the length of the event, only a portion is shown here.
+
+```json
+info: events "[{\\"payload\\":{\\"id\\":\\"don:integration:dvrv-us-1:devo/XXXXXX:webhook/ovtfa4mg:webhook_event/uzX6Pqe9tQc\\",\\"timestamp\\":\\"2023-08-03T06:03:21.932268Z\\",\\"type\\":\\"work_created\\", ...}]"
+```
+
+### `function_2` Verification
+
+The console will log the full event from the `function_2_event.json` fixture.
+
+```json
+info: events "[{\\"payload\\":{\\"actor_id\\":\\"don:identity:dvrv-us-1:devo/XXXXXX:devu/1\\",\\"command_id\\":\\"don:integration:dvrv-us-1:devo/XXXXXX:namespace/devrev:command/comment_here\\", ...}]"
+```
+
+> **Note:** After logging the event, both functions will attempt to post a comment using the DevRev API. The response from this API call will also be logged. The exact response will vary depending on the execution environment.

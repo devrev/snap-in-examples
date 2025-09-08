@@ -1,0 +1,155 @@
+---
+title: 'Notify Owner on Ticket to Prod Assist'
+description: 'An automation that posts a comment on a ticket when its stage changes to "Awaiting Product Assist" to notify the part owner.'
+---
+
+## Setup
+
+This section guides you on setting up a new snap-in project and explains the structure of this example.
+
+### Prerequisites
+
+- Node.js and `npm` installed.
+- A DevRev account with the CLI installed and configured.
+
+### 1. Initialize Your Project
+
+To create a new snap-in, run the following command in your terminal, replacing `<project_name>` with your desired project name:
+
+```bash
+devrev snap_in_version init <project_name>
+```
+
+### 2. Validate the Manifest
+
+Before writing any code, validate the template's `manifest.yaml` file by running the following command from your project's root directory:
+
+```bash
+devrev snap_in_version validate-manifest manifest.yaml
+```
+
+### 3. Prepare Test Data
+
+For local testing, you need a sample event payload. This example includes a fixture file at `code/src/fixtures/status_change.json`.
+
+## Manifest
+
+The `manifest.yaml` file defines the event source, the function, and the automation that ties them together. This configuration listens for `work_updated` events and triggers the `ticket_stage_change` function in response.
+
+```yaml
+version: "2"
+name: "Notify On Prod Assist"
+description: "Snap-In to post a comment on a ticket when its stage changes to 'Awaiting Product Assist'"
+
+service_account:
+  display_name: "DevRev Bot"
+
+event_sources:
+  organization:
+    - name: devrev-webhook
+      description: Source listening for work_updated events from DevRev.
+      display_name: DevRev Webhook
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_updated
+
+functions:
+  - name: ticket_stage_change
+    description: Function to post a comment on a ticket when its stage changes to "Awaiting Product Assist".
+
+automations:
+  - name: add_comment_on_ticket_stage_change
+    source: devrev-webhook
+    event_types:
+      - work_updated
+    function: ticket_stage_change
+```
+
+## Code
+
+The core logic is in `2-notify-owner-on-ticket-to-prod-assist/code/src/functions/ticket_stage_change/index.ts`. It checks if a ticket has been moved to the "awaiting_product_assist" stage and, if so, posts a comment to the ticket timeline to notify the relevant part owner.
+
+```typescript
+/*
+ * Copyright (c) 2023 DevRev, Inc. All rights reserved.
+ */
+
+import {
+	getPart,
+	getPartOwnersString,
+	ticketTimelineEntryCreate,
+} from "./utils/devrev-utils"
+import {
+	sprintf
+} from 'sprintf-js';
+
+// Timeline Comment if the part owner of a ticket is devrev-bot
+const BOT_PART_OWNER_NOTIF: string = `Hey, this ticket moved to Product Assist stage and may need attention.`;
+const PART_OWNER_NOTIF: string = `Hey %s, this ticket moved to Product Assist stage and may need your attention. You are being notified because you are the part owner of this ticket.`;
+
+async function EventListener(event: any) {
+	const oldStage: string = event.payload.work_updated.old_work.stage.name;
+	const currStage: string = event.payload.work_updated.work.stage.name;
+	const workType: string = event.payload.work_updated.work.type;
+	const snap_in_token = event.context.secrets.service_account_token;
+	try {
+		if (!(
+			currStage === "awaiting_product_assist" &&
+			oldStage !== "awaiting_product_assist" &&
+			workType === "ticket"
+		)) return;
+
+		const ticketID = event.payload.work_updated.work.id;
+		const partID = event.payload.work_updated.work.applies_to_part.id;
+		const partObject = await getPart(partID, snap_in_token);
+
+		console.log(`Ticket ${ticketID} moved to Product Assist stage`);
+
+		if ((partObject.part.owned_by).length == 1 && partObject.part.owned_by[0].type != "dev_user") {
+			console.log("A bot is the part owner");
+			await ticketTimelineEntryCreate(ticketID, BOT_PART_OWNER_NOTIF, snap_in_token);
+		} else {
+			let partOwners = await getPartOwnersString(partObject);
+			if (partOwners != "") {
+				console.log("Creating timeline entry for the part owners");
+				await ticketTimelineEntryCreate(ticketID, sprintf(PART_OWNER_NOTIF, [partOwners]), snap_in_token);
+			} else
+				console.log("No part owners to notify regarding the stage change");
+		}
+	} catch (error) {
+		console.error('Error: ', error);
+	}
+}
+
+export const run = async (events: any[]) => {
+	for (let i = 0; i < events.length; i++) {
+		await EventListener(events[i]);
+	}
+};
+export default run;
+```
+
+## Run
+
+To run the function locally, navigate to the `2-notify-owner-on-ticket-to-prod-assist/code` directory and execute the following commands.
+
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+2.  **Run the local test runner:**
+    ```bash
+    npm run start:watch -- --functionName=ticket_stage_change --fixturePath=status_change.json
+    ```
+
+## Verify
+
+After running the local test runner with the provided fixture, you should see the following output in your console. This confirms that the function correctly identified the stage change.
+
+```
+Ticket don:core:dvrv-us-1:devo/test-org:ticket/126 moved to Product Assist stage
+```
+
+In a live environment, this would be followed by a timeline comment being posted to the ticket. Due to dependencies on API calls, further output cannot be reliably determined in a local test run.

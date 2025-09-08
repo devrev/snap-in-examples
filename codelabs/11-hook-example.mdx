@@ -1,0 +1,173 @@
+---
+title: 'Input Validation with Hooks'
+description: 'A snap-in that demonstrates how to use validate hooks to ensure user inputs (such as account IDs and stages) are valid before they are saved.'
+---
+
+## Setup
+
+This section guides you on setting up the input validation snap-in.
+
+### Prerequisites
+
+- Node.js and `npm` installed.
+- A DevRev account with the CLI installed and configured.
+
+### 1. Get the Code
+
+You can start by using the code in the `11-hook-example` directory.
+
+### 2. Configure the Snap-in
+
+This snap-in is configured through its input fields. The validation logic is triggered automatically when you attempt to save the configuration. The inputs are:
+- **Account ID:** The ID of a DevRev account.
+- **Initial Stage:** An issue stage.
+- **Final Stage:** A different issue stage.
+
+## Manifest
+
+The `manifest.yaml` file defines the input fields for the snap-in and, most importantly, the `validate` hook. This hook points to the `validate_input` function, which contains the logic to check the inputs before they are saved.
+
+```yaml
+version: '2'
+
+name: RevOrg Info
+description: Gets information about a revorg from an account.
+
+service_account:
+  display_name: 'RevOrg Bot'
+
+inputs:
+  organization:
+    - name: account_id
+      description: The ID of the account.
+      field_type: text
+      is_required: true
+      default_value: 'don:identity:dvrv-us-1:devo/XXXXX:account/XXXXX'
+      ui:
+        display_name: Account ID
+    - name: initial_stage
+      description: The Initial Stage from which the stage is to be updated.
+      field_type: enum
+      allowed_values:
+        [
+          'Queued',
+          'Awaiting Product Assist',
+          'Awaiting Development',
+          'In Development',
+          'Work In Progress',
+          'Awaiting Customer Response',
+          'Resolved',
+          'Canceled',
+          'Accepted',
+        ]
+      default_value: 'Awaiting Customer Response'
+      ui:
+        display_name: Initial Stage
+    - name: final_stage
+      description: The Final Stage to which the stage is to be updated.
+      field_type: enum
+      allowed_values:
+        [
+          'Queued',
+          'Awaiting Product Assist',
+          'Awaiting Development',
+          'In Development',
+          'Work In Progress',
+          'Awaiting Customer Response',
+          'Resolved',
+          'Canceled',
+          'Accepted',
+        ]
+      default_value: 'Work In Progress'
+      ui:
+        display_name: Final Stage
+
+functions:
+  - name: validate_input
+    description: Function to validate the input.
+
+hooks:
+  - type: validate
+    function: validate_input
+```
+
+## Code
+
+The validation logic is in `11-hook-example/code/src/functions/validate_input/index.ts`. The function first checks if the initial and final stages are different. Then, it attempts to fetch the account using the provided `account_id` to validate its existence. If either check fails, it throws an error, which prevents the settings from being saved and displays the error message to the user.
+
+```typescript
+import { client } from '@devrev/typescript-sdk';
+
+// Validating the input by fetching the account details.
+async function handleEvent(event: any) {
+  // Extract necessary information from the event
+  const token = event.context.secrets['service_account_token'];
+  const endpoint = event.execution_metadata.devrev_endpoint;
+
+  // Set up the DevRev SDK with the extracted information
+  const devrevSDK = client.setupBeta({
+    endpoint: endpoint,
+    token: token,
+  });
+
+  // Extract the part ID and commits from the event
+  const accountId = event.input_data.global_values['account_id'];
+  const initialStage = event.input_data.global_values['initial_stage'];
+  const finalStage = event.input_data.global_values['final_stage'];
+
+  // Check the intitial and final stages are not equal
+  if (initialStage === finalStage) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
+    throw 'Initial and final stages cannot be the same. Please provide different stages.';
+  }
+
+  try {
+    // Create a timeline comment using the DevRev SDK
+    const response = await devrevSDK.accountsGet({
+      id: accountId,
+    });
+    console.log(JSON.stringify(response.data));
+    // Return the response from the DevRev API
+    return response;
+  } catch (error) {
+    console.error(error);
+    // Handle the error here
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
+    throw 'Failed to fetch account details. Please provide the right account ID.';
+  }
+}
+
+export const run = async (events: any[]) => {
+  for (const event of events) {
+    await handleEvent(event);
+  }
+};
+
+export default run;
+```
+
+## Run
+
+You can test the `validate_input` function locally using the provided fixture.
+
+1.  Navigate to the `11-hook-example/code` directory.
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the local test runner:
+    ```bash
+    npm run start:watch -- --functionName=validate_input --fixturePath=event.json
+    ```
+
+## Verify
+
+When you run the function locally with the provided fixture, it will attempt to validate the inputs. The provided `account_id` is a placeholder, so the `accountsGet` API call will fail. This is expected behavior for the local test.
+
+The function will catch this API error and throw a new error. You should see an error message in your console similar to this:
+
+```
+Failed to fetch account details. Please provide the right account ID.
+```
+
+This confirms that the validation hook's error path is working correctly. To test the success path, you would need to replace the placeholder `account_id` in `event.json` with a valid account ID from your DevRev organization.

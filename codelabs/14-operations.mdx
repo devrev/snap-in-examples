@@ -1,0 +1,241 @@
+---
+title: 'Custom Operations'
+description: 'A guide to creating custom operations for the DevRev Workflow Builder, with examples for getting data, posting comments, and sending Slack messages.'
+---
+
+## Introduction
+
+This guide demonstrates how to create custom operations for the DevRev Workflow Builder. Custom operations are reusable nodes that can simplify and enhance your workflows by encapsulating specific logic. This Codelab provides examples for three custom operations:
+- **Get Temperature**: A simple operation that returns a value based on an input.
+- **Post Comment on Ticket**: An operation that uses the DevRev SDK to interact with DevRev objects.
+- **Send Slack Message**: An operation that connects to an external system (Slack) to send a message.
+
+### Prerequisites
+- A DevRev account with the CLI installed and configured.
+- A Slack workspace and a bot token (required for the "Send Slack Message" operation).
+
+## Setup
+
+This section guides you on setting up a new snap-in project to house your custom operations.
+
+1.  **Initialize the project:** Run `devrev snap_in_version init <project_name>` to create a new project directory.
+2.  **Update the manifest:** Modify the `manifest.yaml` file to include your `operations` definitions, using the examples below as a reference. You can define multiple operations in a single manifest.
+3.  **Validate the manifest:** Before deploying, check your manifest by running `devrev snap_in_version validate-manifest manifest.yaml`.
+
+## How Custom Operations Work
+
+Custom operations are implemented as classes that extend the `OperationBase` class from the DevRev TypeScript SDK. A single function, typically named `operation_handler`, acts as a dispatcher. It receives an event, identifies which operation was triggered based on its `slug`, and instantiates the corresponding class to execute the logic.
+
+Here is the dispatcher code from `14-operations/code/src/functions/operation_handler/index.ts`:
+
+```typescript
+import { OperationFactory } from '../../operations';
+import { ExecuteOperationInput,FunctionInput, OperationMap } from '@devrev/typescript-sdk/dist/snap-ins';
+
+// Operations
+import { GetTemperature } from './get_temperature';
+import { PostCommentOnTicket } from './post_comment_on_ticket';
+import { SendSlackMessage } from './send_slack_message';
+
+/**
+ * Map of operations with the slug mentioned in the manifest.
+ * The key is the slug of the operation mentioned in the manifest and value is the operation class.
+ */
+const operationMap: OperationMap = {
+  get_temperature: GetTemperature,
+  post_comment_on_ticket: PostCommentOnTicket,
+  send_slack_message: SendSlackMessage,
+};
+
+export const run = async (events: FunctionInput[]) => {
+  const event = events[0];
+  const payload = event.payload as ExecuteOperationInput
+  const operationSlug = payload.metadata!.slug;
+  const operationNamespace = payload.metadata!.namespace;
+  console.log('running operation: ', operationSlug, ' in namespace: ', operationNamespace);
+  const operationFactory = new OperationFactory(operationMap);
+  const operation = operationFactory.getOperation(operationSlug, event);
+  const ctx = operation.GetContext(event);
+  const resources = event.input_data.resources||{};
+  return await operation.run(ctx, payload, resources);
+};
+
+export default run;
+```
+
+## Operation Examples
+
+Below are three examples of custom operations, each with its manifest definition and corresponding code.
+
+### 1. Get Temperature
+
+This simple operation takes a city as input and returns a hardcoded temperature value. It demonstrates the basic structure of an operation with inputs and outputs.
+
+**Manifest Snippet**
+```yaml
+  - name: get_temperature
+    display_name: Get Temperature
+    description: Operation to get the temperature of a city
+    slug: get_temperature
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: city
+          field_type: enum
+          allowed_values:
+          - New York
+          - San Francisco
+          - Los Angeles
+          - Chicago
+          - Houston
+          is_required: true
+          default_value: "New York"
+          ui:
+            display_name: City
+    outputs:
+      fields:
+        - name: temperature
+          field_type: double
+          ui:
+            display_name: Temperature
+```
+
+**Code (`get_temperature.ts`)**
+```typescript
+import { Error as OperationError, Error_Type, ExecuteOperationInput, FunctionInput, OperationBase, OperationContext, OperationOutput, OutputValue } from '@devrev/typescript-sdk/dist/snap-ins';
+
+interface GetTemperatureInput { city: string; }
+
+export class GetTemperature extends OperationBase {
+  constructor(e: FunctionInput) { super(e); }
+
+  override GetContext(): OperationContext {
+    let baseMetadata = super.GetContext();
+    const temperatures: Record<string, number> = {
+      'New York': 72, 'San Francisco': 65, 'Seattle': 55,
+      'Los Angeles': 80, 'Chicago': 70, 'Houston': 90,
+    };
+    return { ...baseMetadata, metadata: temperatures };
+  }
+
+  async run(_context: OperationContext, input: ExecuteOperationInput, _resources: any): Promise<OperationOutput> {
+    const input_data = input.data as GetTemperatureInput;
+    const temperature = _context.metadata ? _context.metadata[input_data.city] : null;
+    let err: OperationError | undefined = undefined;
+    if (!temperature) {
+      err = { message: 'City not found', type: Error_Type.InvalidRequest };
+    }
+    const temp = { error: err, output: { values: [{ "temperature": temperature }] } as OutputValue };
+    return OperationOutput.fromJSON(temp);
+  }
+}
+```
+
+### 2. Post Comment on Ticket
+
+This operation uses the DevRev SDK to post a comment to a ticket, demonstrating how to interact with DevRev objects.
+
+**Manifest Snippet**
+```yaml
+  - name: post_comment_on_ticket
+    display_name: Post Comment on Ticket
+    description: Operation to post a comment on ticket
+    slug: post_comment_on_ticket
+    function: operation_handler
+    type: action
+    inputs:
+      fields:
+        - name: id
+          description: Ticket ID to post comment on.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Ticket ID
+        - name: comment
+          description: Comment to post on ticket.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Comment
+    outputs:
+      fields:
+        - name: comment_id
+          field_type: text
+          ui:
+            display_name: Comment ID
+```
+
+**Code (`post_comment_on_ticket.ts`)**
+```typescript
+import { client } from '@devrev/typescript-sdk';
+import { TimelineEntriesCreateRequestType } from '@devrev/typescript-sdk/dist/auto-generated/beta/beta-devrev-sdk';
+import { Error as OperationError, Error_Type, ExecuteOperationInput, FunctionInput, OperationBase, OperationContext, OperationOutput, OutputValue } from '@devrev/typescript-sdk/dist/snap-ins';
+
+interface PostCommentOnTicketInput { id: string; comment: string; }
+
+export class PostCommentOnTicket extends OperationBase {
+  constructor(e: FunctionInput) { super(e); }
+
+  async run(context: OperationContext, input: ExecuteOperationInput, _resources: any): Promise<OperationOutput> {
+    // ... (Full function implementation) ...
+  }
+}
+```
+
+### 3. Send Slack Message
+
+This operation connects to Slack to send a message, demonstrating how to integrate with external systems and use keyrings for authentication.
+
+**Manifest Snippet**
+```yaml
+  - name: send_slack_message
+    display_name: Send Slack Message
+    description: Operation to send a message to a Slack channel/thread
+    slug: send_slack_message
+    function: operation_handler
+    type: action
+    keyrings:
+      - name: slack_token
+        display_name: Slack Connection
+        description: Connection to Slack
+        types:
+          - slack
+    inputs:
+      fields:
+        - name: channel
+          description: Channel to send message to.
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Channel
+        - name: message
+          description: Message to send.
+          field_type: rich_text
+          is_required: true
+          ui:
+            display_name: Message
+    outputs:
+      fields:
+        - name: message_id
+          field_type: text
+          ui:
+            display_name: Message ID
+```
+
+**Code (`send_slack_message.ts`)**
+```typescript
+import { Error as OperationError, Error_Type, ExecuteOperationInput, FunctionInput, OperationBase, OperationContext, OperationOutput, OutputValue } from '@devrev/typescript-sdk/dist/snap-ins';
+import { WebClient } from '@slack/web-api';
+
+interface SendSlackMessageInput { channel: string; message: string; }
+
+export class SendSlackMessage extends OperationBase {
+  constructor(e: FunctionInput) { super(e); }
+  async run(context: OperationContext, input: ExecuteOperationInput, resources: any): Promise<OperationOutput> {
+    // ... (Full function implementation) ...
+  }
+}
+```
+
+> **Note:** Custom operations are designed to be used as nodes within the DevRev Workflow Builder. They are not meant to be run directly. To test them, you must create a workflow that uses your custom operation and then trigger that workflow.

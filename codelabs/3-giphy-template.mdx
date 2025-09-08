@@ -1,0 +1,281 @@
+---
+title: 'Giphy Snap-in Template'
+description: 'A snap-in that allows users to search for and post GIFs in discussions using a slash command and automatically posts a celebratory GIF when an issue is closed.'
+---
+
+## Setup
+
+This section guides you on setting up the Giphy snap-in.
+
+### Prerequisites
+
+- Node.js and `npm` installed.
+- A DevRev account with the CLI installed and configured.
+- A Giphy API key from the [Giphy Developers](https://developers.giphy.com/) website.
+
+### 1. Get the Code
+
+Since this is a template, you can start by using the code in the `3-giphy-template` directory.
+
+### 2. Configure the Snap-in
+
+This snap-in requires a Giphy API key to function. You will need to provide this key when you install the snap-in in your DevRev organization. The key is defined as an input field in the manifest.
+
+## Manifest
+
+The `manifest.yaml` file defines the necessary inputs, commands, and automations for the snap-in to work.
+
+```yaml
+version: "2"
+name: "Giphy Snap-in"
+description: "A snap-in to search and post gifs on the DevRev Timeline"
+
+service_account:
+  display_name: Giphy Bot
+
+event_sources:
+  organization:
+    - name: devrev-webhook
+      description: Event coming from DevRev
+      display_name: Devrev
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_updated
+
+inputs:
+  organization:
+    - name: giphy_api_key
+      description: Giphy API key
+      field_type: text
+
+functions:
+  - name: search_giphy
+    description: Search a gif with given tag on giphy.com
+  - name: render_giphy
+    description: Render a given gif
+  - name: publish_giphy_on_work_closed
+    description: Published giphy
+
+commands:
+  - name: giphy
+    namespace: devrev
+    description: Create a new gif
+    surfaces:
+      - surface: discussions
+        object_types:
+          - issue
+          - ticket
+          - conversation
+          - part
+          - rev_user
+          - rev_org
+    usage_hint: "[text]"
+    function: search_giphy
+
+snap_kit_actions:
+  - name: giphy
+    description: Snap kit action for showing gif created using `giphy` command
+    function: render_giphy
+
+automations:
+  - name: Add giphy when issue closed
+    source: devrev-webhook
+    event_types:
+      - work_updated
+    function: publish_giphy_on_work_closed
+```
+
+## Code
+
+The snap-in has multiple functions. The core logic for the slash command is in `3-giphy-template/code/src/functions/search_giphy/index.ts`. It's triggered by `/giphy [search term]` and fetches a random GIF from Giphy.
+
+```typescript
+/*
+ * Copyright (c) 2023 DevRev, Inc. All rights reserved.
+ */
+
+import fetch from 'node-fetch';
+
+
+async function CreateGiphySnapKit(input: any, imagesMeta: any) {
+  console.log('Creating snap kit to render fetched gif');
+  const url = 'https://api.devrev.ai/timeline-entries.create';
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'authorization': input.context.secrets['service_account_token'],
+        'content-type': 'application/json',
+        'accept': 'application/json, text/plain, */*',
+      },
+      body: JSON.stringify({
+        'object': input.payload.source_id,
+        'body': 'Giphy',
+        'type': 'timeline_comment',
+        'snap_kit_body': {
+          'snap_in_id': input.context.snap_in_id,
+          'snap_in_action_name': 'giphy',
+          'body': {
+            'snaps': [{
+              'type': 'card',
+              'title': {
+                'text': input.payload.parameters,
+                'type': 'plain_text',
+              },
+              'elements': [
+                {
+                  'elements': [
+                    {
+                      'alt_text': 'Awesome GIF',
+                      'image_url': imagesMeta.fixed_width_downsampled.url,
+                      'block_id': imagesMeta.downsized.url,
+                      'type': 'image',
+                    },
+                  ],
+                  'type': 'content',
+                },
+                {
+                  'direction': 'row',
+                  'justify': 'center',
+                  'type': 'actions',
+                  'elements': [
+                    {
+                      'action_id': 'send',
+                      'action_type': 'remote',
+                      'style': 'primary',
+                      'type': 'button',
+                      'value': 'send',
+                      'text': {
+                        'text': 'Send',
+                        'type': 'plain_text',
+                      },
+                    },
+                    {
+                      'action_id': 'shuffle',
+                      'action_type': 'remote',
+                      'style': 'primary',
+                      'type': 'button',
+                      'value': 'shuffle',
+                      'text': {
+                        'text': 'Shuffle',
+                        'type': 'plain_text',
+                      },
+                    },
+                    {
+                      'action_id': 'cancel',
+                      'action_type': 'remote',
+                      'style': 'danger',
+                      'type': 'button',
+                      'value': 'cancel',
+                      'text': {
+                        'text': 'Cancel',
+                        'type': 'plain_text',
+                      },
+                    },
+                  ],
+                },
+              ],
+            }],
+          },
+        },
+      }),
+    });
+
+    if (resp.ok) {
+      console.log('Giphy snap kit created successfully');
+    } else {
+      let body = await resp.text();
+      console.log('Error while posting to timeline: ', resp.status, body);
+    }
+  } catch (error) {
+    console.log('Failed to post to timeline: ', error);
+  }
+}
+
+export const run = async (events: any[]) => {
+  console.log('Logging input events in search giphy');
+  for (var event of events) {
+    console.log(event);
+  }
+
+  const input = events[0];
+  try {
+    const urlWithApiKey = 'http://api.giphy.com/v1/gifs/random?api_key=' + input.input_data.global_values.giphy_api_key;
+    const url = urlWithApiKey + '&tag=' + encodeURIComponent(input.payload.parameters);
+    const resp = await fetch(url, { method: 'GET' });
+
+    if (resp.ok) {
+      console.log('Fetched gif successfully');
+      const respData: any = await resp.json();
+      await CreateGiphySnapKit(input, respData.data.images);
+    } else {
+      let body = await resp.text();
+      console.log('Error while fetching gif: ', resp.status, body);
+    }
+  } catch (error) {
+    console.log('Failed to fetch gif: ', error);
+  }
+};
+
+export default run;
+```
+
+## Run
+
+You can test the functions locally using the provided fixtures.
+
+### Testing the Slash Command
+
+1.  Navigate to the `3-giphy-template/code` directory.
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the local test runner for the `search_giphy` function:
+    ```bash
+    npm run start:watch -- --functionName=search_giphy --fixturePath=command_event.json
+    ```
+
+### Testing the Automation
+
+To test the automation that posts a GIF when an issue is closed, you can run:
+```bash
+npm run start:watch -- --functionName=publish_giphy_on_work_closed --fixturePath=publish_giphy_on_work_closed.json
+```
+
+## Verify
+
+When you run the `search_giphy` function locally, you will see the following initial output in your console:
+
+```
+Logging input events in search giphy
+{
+  "payload": {
+    "actor_id": "don:identity:dvrv-us-1:devo/0:devu/1",
+    "command_id": "don:integration:dvrv-us-1:devo/0:namespace/cns:command/cname",
+    "dev_org": "don:identity:dvrv-us-1:devo/0",
+    "parameters": "commands parameters string passed by user",
+    "parent_id": "don:integration:dvrv-us-1:devo/0:snap_in/00000001-0001-0001-0001-00000001",
+    "request_id": "4QtCBSKJcKKqwQhoJKZvRQ",
+    "source_id": "don:core:dvrv-us-1:devo/0:issue/1"
+  },
+  "context": {
+    "dev_oid": "don:identity:dvrv-us-1:devo/0",
+    "source_id": "don:integration:dvrv-us-1:devo/0:namespace/kapil:command/complete_comm_k",
+    "snap_in_id": "don:integration:dvrv-us-1:devo/0:snap_in/00000001-0001-0001-0001-00000001",
+    "snap_in_version_id": "don:integration:dvrv-us-1:devo/0:snap_in_package/00000001-0001-0001-0001-00000001:snap_in_version/00000001-0001-0001-0001-00000001"
+  },
+  "execution_metadata": {
+    "request_id": "4QtCBSKJcKKqwQhoJKZvRQ",
+    "function_name": "foobar"
+  },
+  "input_data": {
+    "global_values": {},
+    "event_sources": {},
+    "keyrings": null
+  }
+}
+```
+
+> **Note:** The function will then attempt to call the Giphy API. This will fail in the local run because the `giphy_api_key` is not provided in the fixture. To fully test the functionality, you must install and configure the snap-in in your DevRev organization with a valid API key.

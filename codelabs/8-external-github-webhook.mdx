@@ -1,0 +1,169 @@
+---
+title: 'GitHub Webhook Integration'
+description: 'A snap-in that integrates DevRev with GitHub using webhooks, posting commit messages from a repository to a discussion in DevRev.'
+---
+
+## Setup
+
+This section guides you on setting up the GitHub webhook snap-in.
+
+### Prerequisites
+
+- Node.js and `npm` installed.
+- A DevRev account with the CLI installed and configured.
+- A GitHub repository where you can configure webhooks.
+
+### 1. Get the Code
+
+You can start by using the code in the `8-external-github-webhook` directory.
+
+### 2. Configure the Snap-in
+
+This snap-in requires you to set up a webhook in your GitHub repository.
+1.  After installing the snap-in, DevRev will provide a **Webhook URL** and a **Secret**.
+2.  In your GitHub repository settings, go to **Webhooks** and add a new webhook.
+3.  Paste the URL into the "Payload URL" field.
+4.  Paste the secret into the "Secret" field.
+5.  Set the "Content type" to `application/json`.
+6.  Choose to send `push` events.
+7.  Activate the webhook.
+
+You also need to configure the `part_id` input field in the manifest to specify which part's discussion will receive the commit messages.
+
+## Manifest
+
+The `manifest.yaml` file defines the custom webhook event source, including a Rego policy for validating the webhook signature to ensure the request is from GitHub.
+
+```yaml
+version: "2"
+
+name: GitHub Commit Tracker
+description: Reflects commits that happen on GitHub in DevRev by posting to timeline of a product part.
+
+service_account:
+  display_name: "GitHub-Commit Bot"
+
+inputs:
+  organization:
+    - name: part_id
+      field_type: id
+      default_value: don:core:dvrv-us-1:devo/XXXXXXX:product/1
+      is_required: true
+      id_type:
+        - product
+      description: The default part on which to post commits.
+      ui:
+        display_name: The part on which to post commits.
+
+event_sources:
+  organization:
+    - name: github-app-source
+      type: flow-custom-webhook
+      description: Event coming from Github app.
+      config:
+        policy: |
+          package rego
+          signature := crypto.hmac.sha256(base64.decode(input.request.body_raw), input.parameters.secret)
+          expected_header := sprintf("sha256=%v", [signature])
+          signature_header_name:= "X-Hub-Signature-256"
+          status_code = 200 {
+            input.request.headers[signature_header_name] == expected_header
+          } else = 401 {
+            true
+          }
+          output = {"event": body, "event_key": event_key} {
+            status_code == 200
+            body := input.request.body
+            event_key := "github-event"
+          } else = {"response": response} {
+            response := {"status_code": status_code}
+          }
+        parameters:
+          secret: 6aVqEymevGZvkiUk30oWccVLEKNOqkcP
+      setup_instructions: "Please copy the source URL from here: \n\nURL: `{{ source.trigger_url  }}` \n\nSecret: `{{source.config.parameters.secret}}`."
+
+functions:
+  - name: github_handler
+    description: Function to reflect Github activities on DevRev.
+
+automations:
+  - name: github-commit-tracker
+    source: github-app-source
+    event_types:
+      - custom:github-event
+    function: github_handler
+```
+
+## Code
+
+The `8-external-github-webhook/code/src/functions/github_handler/index.ts` file contains the function triggered by the GitHub webhook. It extracts commit messages from the payload and posts them to the specified part.
+
+```typescript
+import { client, betaSDK } from '@devrev/typescript-sdk';
+
+// Handles the event from GitHub
+async function handleEvent(event: any) {
+  // Extract necessary information from the event
+  const token = event.context.secrets['service_account_token'];
+  const endpoint = event.execution_metadata.devrev_endpoint;
+
+  // Set up the DevRev SDK with the extracted information
+  const devrevSDK = client.setup({
+    endpoint: endpoint,
+    token: token,
+  });
+
+  // Extract the part ID and commits from the event
+  const partID = event.input_data.global_values['part_id'];
+  const commits = event.payload['commits'];
+
+  // Iterate through commits and append the commit message to the body of the comment
+  let bodyComment = 'Commits from GitHub:\n';
+  for (const commit of commits) {
+    bodyComment += commit.message + '\n';
+  }
+
+  // Prepare the body for creating a timeline comment
+  const body: betaSDK.TimelineEntriesCreateRequest = {
+    body: bodyComment,
+    object: partID,
+    type: betaSDK.TimelineEntriesCreateRequestType.TimelineComment,
+  };
+
+  // Create a timeline comment using the DevRev SDK
+  const response = await devrevSDK.timelineEntriesCreate(body);
+
+  // Return the response from the DevRev API
+  return response;
+}
+
+export const run = async (events: any[]) => {
+  for (const event of events) {
+    await handleEvent(event);
+  }
+};
+
+export default run;
+```
+
+## Run
+
+While this snap-in is designed to be triggered by a real GitHub webhook, you can test the `github_handler` function locally using the provided fixture, which simulates a `push` event.
+
+1.  Navigate to the `8-external-github-webhook/code` directory.
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the local test runner:
+    ```bash
+    npm run start:watch -- --functionName=github_handler --fixturePath=github_event.json
+    ```
+
+## Verify
+
+The `github_handler` function does not log any output to the console. It directly calls the DevRev API to create a timeline comment.
+
+To verify that the local run is working, you would need to provide a valid `service_account_token` in the fixture and a valid `part_id` as a global value. After running the command, you would then check the discussion of the specified part in the DevRev UI for a new comment containing the commit messages from the `github_event.json` fixture.
+
+For a live environment, push a commit to your configured GitHub repository and check the part's discussion in DevRev.

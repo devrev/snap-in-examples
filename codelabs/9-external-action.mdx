@@ -1,0 +1,227 @@
+---
+title: 'Create GitHub Issues from DevRev'
+description: 'A snap-in that provides a slash command to create a GitHub issue directly from a DevRev issue.'
+---
+
+## Setup
+
+This section guides you on setting up the GitHub issue creator snap-in.
+
+### Prerequisites
+
+- Node.js and `npm` installed.
+- A DevRev account with the CLI installed and configured.
+- A GitHub Personal Access Token (PAT) with `repo` scope.
+
+### 1. Get the Code
+
+You can start by using the code in the `9-external-action` directory.
+
+### 2. Configure the Snap-in
+
+This snap-in requires a GitHub Personal Access Token (PAT) to authorize issue creation. During installation, you will be prompted to provide this token, which will be stored securely in the `github_connection` keyring defined in the manifest.
+
+## Manifest
+
+The `manifest.yaml` file defines the `/gh_issue` slash command and the `github_connection` keyring for securely storing the GitHub PAT.
+
+```yaml
+version: "2"
+name: "GitHub Issue Creator"
+description: "Create a GitHub issue from work in DevRev."
+
+service_account:
+  display_name: GitHub Issue Creator
+
+keyrings:
+  organization:
+    - name: github_connection
+      display_name: Github Connection
+      description: Github PAT
+      types:
+        - snap_in_secret
+
+functions:
+  - name: command_handler
+    description: function to create a GitHub issue
+
+commands:
+  - name: gh_issue
+    namespace: devrev
+    description: Command to create a GitHub issue.
+    surfaces:
+      - surface: discussions
+        object_types:
+          - issue
+    usage_hint: "[OrgName] [RepoName]"
+    function: command_handler
+```
+
+## Code
+
+The logic for the snap-in is located in `9-external-action/code/src/functions/command_handler/index.ts`. The `run` function is triggered by the `/gh_issue` command. It uses the DevRev SDK to get the details of the source issue and the Octokit library to create a new issue in the specified GitHub repository.
+
+```typescript
+import { client, publicSDK } from '@devrev/typescript-sdk';
+import { Octokit } from '@octokit/core';
+
+type IssueDetails = {
+  description: string | undefined;
+  issueDisplayName: string | undefined;
+  title: string;
+};
+
+// Function to get the title and description of the issue
+const getIssueDetails = async (workId: string, devrevSDK: publicSDK.Api<any>) => {
+  try {
+    // Get the issue details using the `worksGet` method
+    const workItemResp = await devrevSDK.worksGet({
+      id: workId,
+    });
+    const workItem = workItemResp.data.work;
+
+    // Populate the issue details
+    const issueDetails: IssueDetails = {
+      description: workItem.body,
+      issueDisplayName: workItem.display_id,
+      title: workItem.title,
+    };
+    return issueDetails;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to get issue details');
+  }
+};
+
+// Function to retrieve Organisation name and repository name from command parameters
+const getOrgAndRepoNames = (paramString: string): string[] => {
+  const paramList = paramString.split(' ');
+  if (paramList.length !== 2) {
+    throw new Error('Invalid Parameters');
+  }
+  const [orgName, repoName] = paramList;
+  return [orgName, repoName];
+};
+
+// Function to verify if the orgName is valid
+const verifyOrgName = async (orgName: string, octokit: Octokit): Promise<void> => {
+  try {
+    await octokit.request('GET /orgs/{org}', {
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      org: orgName,
+    });
+  } catch (error) {
+    console.error(error);
+    throw new Error('Invalid Organisation Name');
+  }
+};
+
+// Function to verify if the repoName is valid
+const verifyRepoName = async (orgName: string, repoName: string, octokit: Octokit): Promise<void> => {
+  try {
+    await octokit.request('GET /repos/{owner}/{repo}', {
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      owner: orgName,
+      repo: repoName,
+    });
+  } catch (error) {
+    console.error(error);
+    throw new Error('Invalid Repository Name');
+  }
+};
+
+// Function to create an issue
+const createGitHubIssue = async (
+  orgName: string,
+  repoName: string,
+  issueDetails: IssueDetails,
+  octokit: Octokit
+): Promise<void> => {
+  try {
+    await octokit.request('POST /repos/{owner}/{repo}/issues', {
+      body: issueDetails.description,
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      owner: orgName,
+      repo: repoName,
+      title: `[${issueDetails.issueDisplayName}] ${issueDetails.title}`,
+    });
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to create issue');
+  }
+};
+
+// Function to handle the command event
+const handleEvent = async (event: any) => {
+  // Get the github token from the environment variables and initialise the Octokit client.
+  const githubPAT = event.input_data.keyrings['github_connection'];
+  const octokit = new Octokit({
+    auth: githubPAT,
+  });
+
+  // Get the devrev token and initialise the DevRev SDK.
+  const devrevToken = event.context.secrets['service_account_token'];
+  const endpoint = event.execution_metadata.devrev_endpoint;
+  const devrevSDK = client.setup({
+    endpoint: endpoint,
+    token: devrevToken,
+  });
+
+  // Retrieve the Issue Details from the command event.
+  const workId = event.payload['source_id'];
+  const issueDetails = await getIssueDetails(workId, devrevSDK);
+
+  // Get the command parameters from the event
+  const commandParams = event.payload['parameters'];
+  const [orgName, repoName] = getOrgAndRepoNames(commandParams);
+
+  // Verify if orgName is valid
+  await verifyOrgName(orgName, octokit);
+
+  // Verify if repoName is valid
+  await verifyRepoName(orgName, repoName, octokit);
+
+  // Create an issue using the issue details
+  await createGitHubIssue(orgName, repoName, issueDetails, octokit);
+};
+
+export const run = async (events: any[]) => {
+  for (const event of events) {
+    await handleEvent(event);
+  }
+};
+
+export default run;
+```
+
+## Run
+
+While this snap-in is designed to be run from the DevRev UI, you can test the `command_handler` function locally using the provided fixture.
+
+1.  Navigate to the `9-external-action/code` directory.
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the local test runner:
+    ```bash
+    npm run start:watch -- --functionName=command_handler --fixturePath=on_command.json
+    ```
+
+## Verify
+
+The `command_handler` function does not log any output to the console upon successful execution. It will only log errors if an API call fails.
+
+To verify that the local run is working, you would need to provide valid secrets in the `on_command.json` fixture:
+- A valid DevRev `service_account_token`.
+- A valid GitHub PAT in the `github_connection` keyring.
+
+After running the command with valid secrets, you can verify its success by checking the specified GitHub repository for a newly created issue.
+
+For a live environment, run the `/gh_issue <org> <repo>` command on a DevRev issue and check the target repository.

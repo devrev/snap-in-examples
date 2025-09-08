@@ -1,0 +1,118 @@
+---
+title: 'Custom Webhook Integration'
+description: 'A snap-in demonstrating how to integrate DevRev with external systems by receiving and processing events through a custom webhook.'
+---
+
+## Setup
+
+This section guides you on setting up the custom webhook snap-in.
+
+### Prerequisites
+
+- Node.js and `npm` installed.
+- A DevRev account with the CLI installed and configured.
+- An external system capable of sending HTTP POST requests (webhooks).
+
+### 1. Get the Code
+
+You can start by using the code in the `5-custom-webhook` directory.
+
+### 2. Configure the Snap-in
+
+After installing this snap-in, you need to configure your external system to send webhooks to the URL provided during the installation. The `manifest.yaml` provides these instructions in the `setup_instructions` field. The payload should be a JSON object with `work_created` and `body` keys.
+
+## Manifest
+
+The `manifest.yaml` file defines the custom webhook event source and the automation that connects it to the `on_work_creation` function.
+
+```yaml
+version: "1"
+
+name: "External Event Source"
+description: "Sample external event source snap in"
+
+service_account:
+  display_name: "External Event Bot"
+
+event-sources:
+  - name: external-alerts
+    description: Event coming from external source
+    display_name: External Event
+    type: flow-custom-webhook
+    setup_instructions: |
+      ## External Event Webhook
+
+      1. Enter the webhook URL as `{{source.trigger_url}}`
+      2. Enter the webhook PAYLOAD as
+      `{
+        'work_created': <WORK_ID>,
+        'body': <EVENT_BODY>,
+      }`
+    config:
+      policy: |
+        package rego
+        output = {"event": event, "event_key": event_key} {
+          event := input.request.body
+          event_key := "external.alert-event"
+        }
+
+functions:
+  - name: on_work_creation
+    description: Function to send notification to potentially relevant users.
+
+automations:
+  - name: Send notification on External Event alerts
+    source: external-alerts
+    event_types:
+      - custom:external.alert-event
+    function: on_work_creation
+```
+
+## Code
+
+The `5-custom-webhook/code/src/functions/on_work_creation/index.ts` file contains the function triggered by the custom webhook. It extracts the `work_created` ID and `body` from the payload to create a new timeline comment.
+
+```typescript
+async function handleEvent(
+  event: any,
+) {
+  const devrevPAT = event.context.secrets.service_account_token;
+  const API_BASE = event.execution_metadata.devrev_endpoint;
+  const workCreated = event.payload.work_created;
+  const bodyComment = event.payload.body;
+  const body = {
+    object: workCreated,
+    type: 'timeline_comment',
+    body: bodyComment,
+  }
+  const response = await postCallAPI(API_BASE + '/timeline-entries.create', body, devrevPAT);
+  if (!response.success) {
+    console.log(response.errMessage);
+    return response;
+  }
+  console.log(response.data);
+  return response;
+}
+```
+
+## Run
+
+You can test the function locally using the provided fixture.
+
+1.  Navigate to the `5-custom-webhook/code` directory.
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the local test runner:
+    ```bash
+    npm run start:watch -- --functionName=on_work_creation --fixturePath=on_work_created_event.json
+    ```
+
+## Verify
+
+When you run the function locally, it will attempt to post a timeline comment to the work item specified in the fixture (`don:core:dvrv-us-1:devo/XXXX:issue/25`).
+
+The function logs the response from the DevRev API. The exact output will vary, but a successful run will log the data of the newly created timeline entry. If the API call fails (for example, due to an invalid token or work ID), an error message will be logged instead.
+
+To fully verify, you can check the timeline of the specified work item in the DevRev UI for the new comment.
