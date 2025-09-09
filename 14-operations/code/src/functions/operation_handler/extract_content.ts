@@ -40,7 +40,7 @@ export class ExtractContent extends OperationBase {
 
   private async createExtractedContentArtifact(context: OperationContext, content: string): Promise<any> {
     const req = {
-      file_name: 'Extracted Content',
+      file_name: 'extracted_content.txt',
     };
 
     let artifactPrepareResponse: any;
@@ -81,7 +81,7 @@ export class ExtractContent extends OperationBase {
     try {
       const contentBuffer = Buffer.from(content, 'utf-8');
       formData.append('file', contentBuffer, {
-        filename: 'Extracted Content',
+        filename: 'extracted_content.txt',
         contentType: 'text/plain',
       });
     } catch (err) {
@@ -266,6 +266,11 @@ export class ExtractContent extends OperationBase {
                   // Only concatenate if we're under the limit
                   accumulatedContent += data.extracted_text;
                   currentBytes = newTotalBytes;
+                } else if(data.debug_message) {
+                  console.error(`Error extracting content: ${data.debug_message}`);
+                  cleanup();
+                  reject(new Error(data.debug_message));
+                  return;
                 }
               } catch (e) {
                 console.error(`Error parsing JSON: ${e}`);
