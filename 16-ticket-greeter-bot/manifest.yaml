@@ -1,0 +1,52 @@
+version: "2"
+name: "Ticket Greeter Bot"
+description: "A bot that greets users when they create a ticket"
+
+service_account:
+  display_name: Ticket Greeter Bot
+
+event_sources:
+  organization:
+    - name: devrev-webhook
+      description: Event coming from DevRev
+      display_name: Devrev
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_created
+          - work_updated
+
+inputs:
+  organization:
+    - name: use_motivating_message
+      description: Choose between happy message (unchecked) or motivating message (checked)
+      field_type: bool
+      default_value: False
+      ui:
+        display_name: Use motivating message instead of happy message
+    
+    - name: happy_message
+      description: The happy message to greet the user with when ticket is created
+      field_type: text
+      default_value: "(default happy message)Welcome! Thank you for creating a ticket. I'll be happy to help you with your request."
+      ui:
+        display_name: Happy Message
+    
+    - name: motivating_message
+      description: The motivating message to greet the user with when ticket is created
+      field_type: text
+      default_value: "(default motivating message) You got this!! Fighting!"
+      ui:
+        display_name: Motivating Message
+
+functions:
+  - name: greet_ticket
+    description: Function to greet the user when they create a ticket
+
+automations:
+  - name: greet_ticket_automation
+    source: devrev-webhook
+    event_types:
+      - work_created
+      - work_updated
+    function: greet_ticket
