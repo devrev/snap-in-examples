@@ -1,0 +1,69 @@
+[
+    {
+      "payload": {
+        "id": "don:integration:dvrv-us-1:devo/XXXXXX:webhook/ovtfa4mg:webhook_event/uzX6Pqe9tQc",
+        "timestamp": "2023-08-03T06:03:21.932268Z",
+        "type": "work_created",
+        "unique_key": "XXXX=",
+        "webhook_id": "don:integration:dvrv-us-1:devo/XXXXXX:webhook/ovtfa4mg",
+        "work_created": {
+          "work": {
+            "type": "ticket",
+            "display_id": "TKT-123",
+            "id": "don:core:dvrv-us-1:devo/XXXXXX:ticket/123",
+            "priority": "p0",
+            "title": "Test Ticket for Greeter Bot",
+            "body": "This is a test ticket",
+            "created_by": {
+              "type": "dev_user",
+              "display_handle": "test-user",
+              "display_id": "DEVU-100",
+              "id": "don:identity:dvrv-us-1:devo/XXXXXX:devu/100"
+            },
+            "owned_by": [
+              {
+                "type": "dev_user",
+                "display_handle": "owner-user",
+                "id": "don:identity:dvrv-us-1:devo/XXXXXX:devu/200"
+              }
+            ],
+            "applies_to_part": {
+              "type": "product",
+              "display_id": "PROD-1",
+              "id": "don:core:dvrv-us-1:devo/XXXXXX:product/1"
+            },
+            "state": "open"
+          }
+        }
+      },
+      "context": {
+        "dev_oid": "don:identity:dvrv-us-1:devo/XXXXXX",
+        "automation_id": "don:integration:dvrv-us-1:devo/XXXXXX:automation/test-123",
+        "source_id": "don:integration:dvrv-us-1:devo/XXXXXX:automation/test-123",
+        "snap_in_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in/test-123",
+        "snap_in_version_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in_package/test:snap_in_version/test-123",
+        "service_account_id": "don:identity:dvrv-us-1:devo/XXXXXX:svcacc/10",
+        "secrets": {
+          "service_account_token": "TEST-TOKEN-PLACEHOLDER"
+        }
+      },
+      "execution_metadata": {
+        "request_id": "",
+        "function_name": "greet_ticket",
+        "event_type": "work_created",
+        "devrev_endpoint": "https://api.devrev.ai"
+      },
+      "input_data": {
+        "global_values": {
+          "use_motivating_message": false,
+          "happy_message": "Welcome! Thank you for creating a ticket. I'll be happy to help you with your request.",
+          "motivating_message": "You got this!! Fighting!"
+        },
+        "event_sources": {
+          "devrev-webhook": "don:integration:dvrv-us-1:devo/XXXXXX:event_source/test-123"
+        },
+        "keyrings": null,
+        "resources": { "keyrings": {}, "tags": {} }
+      }
+    }
+  ]
