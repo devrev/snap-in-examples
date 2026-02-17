@@ -1,0 +1,46 @@
+[
+  {
+    "payload": {
+      "actor_id": "don:identity:dvrv-us-1:devo/XXXXXX:devu/2",
+      "command_id": "don:integration:dvrv-us-1:devo/XXXXXX:namespace/devrev:command/gh_issue",
+      "dev_org": "don:identity:dvrv-us-1:devo/XXXXXX",
+      "parameters": "orgName repoName",
+      "parent_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in/e5a5aa9f-c66e-4f77-b59d-913f38c2dfba",
+      "request_id": "XXXXXXX",
+      "source_id": "don:core:dvrv-us-1:devo/XXXXXX:issue/18",
+      "surface": "display:discussions"
+    },
+    "context": {
+      "dev_oid": "don:identity:dvrv-us-1:devo/XXXXXX",
+      "automation_id": "",
+      "source_id": "don:integration:dvrv-us-1:devo/XXXXXX:namespace/devrev:command/gh_issue",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in/e5a5aa9f-c66e-4f77-b59d-913f38c2dfba",
+      "snap_in_version_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in_package/3ceaa221-14a6-4591-b700-17825de54728:snap_in_version/34dcaf39-4950-4619-80cf-c94a19e8a024",
+      "service_account_id": "don:identity:dvrv-us-1:devo/XXXXXX:svcacc/63",
+      "secrets": {
+        "actor_session_token": "TEST-TOKEN",
+        "service_account_token": "TEST-TOKEN"
+      },
+      "user_id": ""
+    },
+    "execution_metadata": {
+      "request_id": "XXXXXXX",
+      "function_name": "command_handler",
+      "devrev_endpoint": "https://api.devrev.ai"
+    },
+    "input_data": {
+      "global_values": { "sample_value": "primary" },
+      "event_sources": {},
+      "keyrings": { "github_connection": "ghp_PAT" },
+      "resources": {
+        "keyrings": {
+          "github_connection": {
+            "id": "don:integration:dvrv-us-1:devo/XXXXXX:keyring/870f287a-a5af-4b95-ba32-9395e4127d1d",
+            "secret": "ghp_PAT"
+          }
+        },
+        "tags": {}
+      }
+    }
+  }
+]
