@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@devrev/typescript-sdk": "^1.1.17",
-    "@langchain/community": "1.1.15",
+    "@langchain/community": "1.1.18",
     "axios": "1.13.5",
     "dotenv": "^16.0.3",
     "google-play-scraper": "^10.0.0",
