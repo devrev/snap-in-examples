@@ -55,11 +55,11 @@
   },
   "dependencies": {
     "@devrev/typescript-sdk": "^1.1.17",
-    "@langchain/community": "1.1.15",
+    "@langchain/community": "1.1.28",
     "axios": "1.15.0",
     "dotenv": "^16.0.3",
     "google-play-scraper": "^10.0.0",
-    "langchain": "1.2.24",
+    "langchain": "1.4.0",
     "yargs": "^17.6.2"
   }
 }
