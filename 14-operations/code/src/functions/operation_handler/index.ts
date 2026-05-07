@@ -5,6 +5,7 @@ import { ExecuteOperationInput,FunctionInput, OperationMap } from '@devrev/types
 import { GetTemperature } from './get_temperature';
 import { PostCommentOnTicket } from './post_comment_on_ticket';
 import { SendSlackMessage } from './send_slack_message';
+import { GenerateFormalDocument } from './generate_formal_document';
 
 /**
  * Map of operations with the slug mentioned in the manifest.
@@ -14,6 +15,7 @@ const operationMap: OperationMap = {
   get_temperature: GetTemperature,
   post_comment_on_ticket: PostCommentOnTicket,
   send_slack_message: SendSlackMessage,
+  generate_formal_document: GenerateFormalDocument,
 };
 
 export const run = async (events: FunctionInput[]) => {
