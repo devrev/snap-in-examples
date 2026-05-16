@@ -55,6 +55,6 @@
   },
   "dependencies": {
     "@devrev/typescript-sdk": "^1.1.17",
-    "axios": "1.15.0"
+    "axios": "1.16.1"
   }
 }
