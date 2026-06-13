@@ -2,3 +2,4 @@
 audit-fix-force.sh
 check-audit.sh
 update-typescript-sdk.sh
+npm-install-all.sh
