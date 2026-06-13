@@ -54,7 +54,7 @@
     "yargs": "^17.6.2"
   },
   "dependencies": {
-    "@devrev/typescript-sdk": "1.1.77",
+    "@devrev/typescript-sdk": "^1.1.77",
     "@octokit/core": "^6.1.5",
     "axios": "1.17.0",
     "dotenv": "^16.0.3",
