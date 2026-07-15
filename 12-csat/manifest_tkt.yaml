@@ -5,6 +5,8 @@ description: "Capture the satisfaction level for customer tickets on support por
 
 service_account:
   display_name: "DevRev Bot"
+  scopes:
+    self:
 
 event-sources:
   - name: devrev-webhook

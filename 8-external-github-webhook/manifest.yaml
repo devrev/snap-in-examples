@@ -5,6 +5,8 @@ description: Reflects commits that happen on GitHub in DevRev by posting to time
 
 service_account:
   display_name: "GitHub-Commit Bot"
+  scopes:
+    self:
 
 inputs:
   organization:

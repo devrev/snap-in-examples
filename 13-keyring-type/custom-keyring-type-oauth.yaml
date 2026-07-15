@@ -5,6 +5,8 @@ description: "Creating custom keyring type for GitLab OAuth connection"
 # This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
 service_account:
   display_name: DevRev Bot
+  scopes:
+    self:
 
 # Developer keyrings are used to store sensitive information like OAuth secrets.
 developer_keyrings:

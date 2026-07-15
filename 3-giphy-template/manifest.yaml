@@ -4,6 +4,8 @@ description: "Snap-In to search and post gif on DevRev Timeline"
 
 service_account:
   display_name: Giphy Bot
+  scopes:
+    self:
 
 event_sources:
   organization:

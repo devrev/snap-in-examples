@@ -8,7 +8,9 @@ description: "Snap-in to create ticket every 10 minutes"
 
 # This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
 service_account:
-    display_name: Automatic Ticket Creator Bot
+  display_name: Automatic Ticket Creator Bot
+  scopes:
+    self:
 
 event_sources:
     organization:

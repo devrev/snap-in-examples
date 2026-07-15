@@ -4,6 +4,8 @@ description: "Pack of operations"
 
 service_account:
   display_name: Operations Bot
+  scopes:
+    self:
 
 functions:
   - name: operation_handler
@@ -15,6 +17,8 @@ operations:
     description: Operation to get the temperature of a city
     slug: get_temperature
     function: operation_handler
+    static_scopes:
+      self:
     type: action
     # Inputs to the operation.
     inputs:
@@ -46,6 +50,8 @@ operations:
     description: Operation to post a comment on ticket
     slug: post_comment_on_ticket
     function: operation_handler
+    static_scopes:
+      self:
     type: action
     inputs:
       fields:
@@ -72,6 +78,8 @@ operations:
     description: Operation to send a message to a Slack channel/thread
     slug: send_slack_message
     function: operation_handler
+    static_scopes:
+      self:
     type: action
     keyrings:
       - name: slack_token

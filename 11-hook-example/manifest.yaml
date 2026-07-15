@@ -5,6 +5,8 @@ description: Gets information about a revorg from an account.
 
 service_account:
   display_name: 'RevOrg Bot'
+  scopes:
+    self:
 
 inputs:
   organization:

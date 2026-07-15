@@ -4,6 +4,8 @@ description: "Creates tickets from Google playstore reviews and categorize them 
 
 service_account:
   display_name: Google Playstore Reviews Snap-in
+  scopes:
+    self:
 
 keyrings:
   organization:

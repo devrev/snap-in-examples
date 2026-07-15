@@ -5,6 +5,8 @@ description: "Create a GitHub issue from work in DevRev."
 # This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
 service_account:
   display_name: GitHub Issue Creator
+  scopes:
+    self:
 
 keyrings:
   organization:
