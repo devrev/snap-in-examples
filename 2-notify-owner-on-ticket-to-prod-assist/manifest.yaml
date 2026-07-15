@@ -4,6 +4,8 @@ description: "Snap-In to post a comment on a ticket when its stage changes to 'A
 
 service_account:
   display_name: "DevRev Bot"
+  scopes:
+    self:
 
 event_sources:
   organization:

@@ -4,6 +4,8 @@ description: "Respond with a custom message when on vacation"
 
 service_account:
   display_name: Vacation Responder Bot
+  scopes:
+    self:
 
 # Add input values
 inputs:

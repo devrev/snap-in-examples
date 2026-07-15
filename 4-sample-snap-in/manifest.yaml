@@ -5,6 +5,8 @@ description: Snap In to add Comments for demonstration purpose.
 
 service_account:
   display_name: "DevRev Bot"
+  scopes:
+    self:
 
 event_sources:
   organization:

@@ -5,6 +5,8 @@ description: "Sample external event source snap in"
 
 service_account:
   display_name: "External Event Bot"
+  scopes:
+    self:
 
 event-sources:
   - name: external-alerts
