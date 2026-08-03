@@ -57,9 +57,14 @@
     "@devrev/typescript-sdk": "^1.1.77",
     "@types/node-fetch": "^2.6.2",
     "@types/yargs": "^17.0.22",
-    "axios": "1.17.0",
+    "axios": "1.18.0",
     "dotenv": "^16.0.3",
     "node-fetch": "2.6.7",
     "yargs": "^17.6.2"
+  },
+  "overrides": {
+    "@devrev/typescript-sdk": {
+      "axios": ">=1.18.0"
+    }
   }
 }
