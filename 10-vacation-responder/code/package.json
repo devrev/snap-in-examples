@@ -55,6 +55,11 @@
   },
   "dependencies": {
     "@devrev/typescript-sdk": "^1.1.77",
-    "axios": "1.17.0"
+    "axios": "1.18.0"
+  },
+  "overrides": {
+    "@devrev/typescript-sdk": {
+      "axios": ">=1.18.0"
+    }
   }
 }

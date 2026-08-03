@@ -56,8 +56,13 @@
   "dependencies": {
     "@devrev/typescript-sdk": "^1.1.77",
     "@octokit/core": "^6.1.5",
-    "axios": "1.17.0",
+    "axios": "1.18.0",
     "dotenv": "^16.0.3",
     "yargs": "^17.6.2"
+  },
+  "overrides": {
+    "@devrev/typescript-sdk": {
+      "axios": ">=1.18.0"
+    }
   }
 }
