@@ -1,0 +1,102 @@
+version: "2"
+name: "GitHub Repo Details"
+description: "Get details of a GitHub Repo."
+
+# This is the name displayed in DevRev where the Snap-In takes actions using the token of this service account.
+service_account:
+  display_name: GitHub Repo Details
+
+keyrings:
+  organization:
+    - name: github_connection
+      display_name: Github Connection
+      description: Github PAT
+      types:
+        - snap_in_secret
+
+functions:
+  - name: command_handler
+    description: function to get details of a GitHub Repo
+  - name: operation_handler
+    description: function to get details of a GitHub Repo
+
+commands:
+  - name: repo_details
+    namespace: devrev
+    description: Command to get details of a Repo.
+    surfaces:
+      - surface: discussions
+        object_types:
+          - part
+    usage_hint: "[Repo_URL]"
+    function: command_handler
+
+operations:
+  - name: get_repository
+    display_name: Get Repository Details
+    description: Operation to get details of a GitHub repository
+    slug: get_repository
+    function: operation_handler
+    type: action
+    keyrings:
+      - name: github_token
+        display_name: Github Connection
+        description: Github PAT
+        types:
+          - snap_in_secret
+    inputs:
+      fields:
+        - name: repository_url
+          description: URL of the GitHub repository
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Repository URL
+    outputs:
+      fields:
+        - name: description
+          field_type: text
+          ui:
+            display_name: Repository Description
+        - name: forks_count
+          field_type: int
+          ui:
+            display_name: Number of Forks
+        - name: stargazers_count
+          field_type: int
+          ui:
+            display_name: Number of Stargazers
+  - name: get_pull_request
+    display_name: Get Pull Request Details
+    description: Operation to get details of a GitHub pull request
+    slug: get_pull_request
+    function: operation_handler
+    type: action
+    keyrings:
+      - name: github_token
+        display_name: Github Connection
+        description: Github PAT
+        types:
+          - snap_in_secret
+    inputs:
+      fields:
+        - name: pr_url
+          description: URL of the GitHub pull request
+          field_type: text
+          is_required: true
+          ui:
+            display_name: Pull Request URL
+    outputs:
+      fields:
+        - name: title
+          field_type: text
+          ui:
+            display_name: Pull Request Title
+        - name: body
+          field_type: text
+          ui:
+            display_name: Pull Request Description
+        - name: created_at
+          field_type: timestamp
+          ui:
+            display_name: Created At
