@@ -1,47 +1,28 @@
-## Timer Ticket Creator Snap-in
+# Timer ticket creator snap-in
 
-Snap-in that creates a new ticket after every 10 minutes.
+This example creates one ticket for every ten-minute timer tick. It was ported from the legacy TypeScript snap-in template to the local Effect runtime and typed-manifest packages in `vendor/snap-in-effect`.
 
-### Testing locally
+## Preserved behavior
 
-You can test your code by adding test events under `src/fixtures` similar to the example event provided. You can add keyring values to the event payload to test API calls as well.
+- The `timer-event-source` event source still runs on `*/10 * * * *` with `ten_minute_event` metadata.
+- The `ticket_creator` function remains bound to `periodic_ticket_creator` for `timer.tick`.
+- Each accepted event creates one ticket with a timestamped title and body.
+- The ticket still uses `PROD-1` and `DEVU-1`.
+- The service account remains `Automatic Ticket Creator Bot` with `self` scope only.
 
-Once you have added the event, you can test your code by running:
+A completed handler can be delivered again, which creates another ticket. This is intentionally unchanged from the original example: ticket creation has no idempotency key and the runtime does not retry the write inline.
 
-```
-npm install
-npm run start -- --functionName=on_work_creation --fixturePath=on_work_created_event.json
-```
+## Verify locally
 
-### Adding external dependencies
+The locally built runtime packages are checked in under `code/vendor/packages`:
 
-You can also add dependencies on external packages in package.json under the “dependencies” key. These dependencies will be made available to your function at runtime and testing.
-
-### Packaging the code
-
-Once you are done with the testing,
-Run
-
-```
-npm install
+```bash
+cd 6-timer-ticket-creator/code
+npm ci
+npm run typecheck
+npm test
+npm run manifest
 npm run build
-npm run package
 ```
 
-and ensure it succeeds.
-
-You will see a `build.tar.gz` file is created and you can provide it while creating the snap_in_version.
-
-### Linting
-
-To check for lint errors, run the following command:
-
-```bash
-npm run lint
-```
-
-To automatically fix fixable lint errors, run:
-
-```bash
-npm run lint:fix
-```
+`npm run demo` invokes the handler with an offline SDK transport and never sends a DevRev request. The generated `manifest.yaml` is the reviewed deployment manifest. This migration does not deploy, install, or activate the snap-in.

@@ -1,30 +1,43 @@
-import { client, publicSDK } from '@devrev/typescript-sdk';
+import {
+  automation,
+  decodePayload,
+  DevRev,
+  type SnapInEvent,
+} from "@devrev-internal/snap-in-effect";
+import { publicSDK } from "@devrev/typescript-sdk";
+import { Effect, Schema } from "effect";
 
-export const run = async (events: any[]) => {
-  for (const event of events) {
-    const endpoint = event.execution_metadata.devrev_endpoint;
-    const token = event.context.secrets.service_account_token;
+const TimerTick = Schema.Struct({
+  metadata: Schema.Struct({ event_key: Schema.Literal("ten_minute_event") }),
+  scheduled_time: Schema.Number,
+});
 
-    // Initialize the public SDK client
-    const devrevSDK = client.setup({ endpoint, token });
+export const ticketTimestamp = (date: Date) => date.toLocaleString();
 
-    // Create a ticket. Name the ticket using the current date and time.
-    const date = new Date();
-    const ticketName = `Ticket created at ${date.toLocaleString()}`;
-    const ticketBody = `This ticket was created by a snap-in at ${date.toLocaleString()}`;
+export const programWithClock = (now: () => Date = () => new Date()) =>
+  (event: SnapInEvent) => Effect.gen(function* () {
+    yield* decodePayload(TimerTick, event);
 
-    const reponse = await devrevSDK.worksCreate({
-      title: ticketName,
-      body: ticketBody,
-      // The ticket will be created in the PROD-1 part. Rename this to match your part.
-      applies_to_part: 'PROD-1',
-      // The ticket will be owned by the DEVU-1 team. Rename this to match the required user.
-      owned_by: ['DEVU-1'],
-      type: publicSDK.WorkType.Ticket,
-    });
+    const timestamp = ticketTimestamp(now());
+    const devrev = yield* DevRev;
+    yield* devrev.call(
+      "worksCreate",
+      (sdk, requestParams) =>
+        sdk.worksCreate(
+          {
+            title: `Ticket created at ${timestamp}`,
+            body: `This ticket was created by a snap-in at ${timestamp}`,
+            applies_to_part: "PROD-1",
+            owned_by: ["DEVU-1"],
+            type: publicSDK.WorkType.Ticket,
+          },
+          requestParams,
+        ),
+    );
+  });
 
-    console.log(reponse);
-  }
-};
+export const program = programWithClock();
+
+export const run = automation(program);
 
 export default run;
