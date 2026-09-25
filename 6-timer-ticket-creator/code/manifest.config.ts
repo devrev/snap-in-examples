@@ -1,0 +1,41 @@
+import { Manifest } from "@devrev-internal/snap-in-manifest";
+import { functionFactory } from "./src";
+
+export default Manifest.defineManifest(functionFactory, {
+  version: "2",
+  name: "Timely Ticketer",
+  description: "Snap-in to create ticket every 10 minutes",
+  service_account: {
+    display_name: "Automatic Ticket Creator Bot",
+    scopes: { self: [] },
+  },
+  event_sources: {
+    organization: [
+      {
+        name: "timer-event-source",
+        description: "Event source that sends events every 10 minutes.",
+        display_name: "Timer Event Source",
+        type: "timer-events",
+        config: {
+          cron: "*/10 * * * *",
+          metadata: { event_key: "ten_minute_event" },
+        },
+      },
+    ],
+  },
+  functions: [
+    {
+      name: "ticket_creator",
+      description: "Function to create a new ticket when triggered.",
+    },
+  ],
+  automations: [
+    {
+      name: "periodic_ticket_creator",
+      description: "Automation to create a ticket every 10 minutes",
+      source: "timer-event-source",
+      event_types: ["timer.tick"],
+      function: "ticket_creator",
+    },
+  ],
+});
