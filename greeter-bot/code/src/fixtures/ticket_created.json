@@ -1,0 +1,116 @@
+[
+  {
+    "payload": {
+      "id": "don:integration:dvrv-us-1:devo/XXXXXX:webhook/ovtfa4mg:webhook_event/uzX6Pqe9tQc",
+      "timestamp": "2023-08-03T06:03:21.932268Z",
+      "type": "work_created",
+      "unique_key": "XXXX=",
+      "webhook_id": "don:integration:dvrv-us-1:devo/XXXXXX:webhook/ovtfa4mg",
+      "work_created": {
+        "work": {
+          "type": "ticket",
+          "age_days": 0,
+          "applies_to_part": {
+            "type": "product",
+            "display_id": "PROD-4",
+            "id": "don:core:dvrv-us-1:devo/XXXXXX:product/4",
+            "id_v1": "don:DEV-XXXXXX:product:4",
+            "name": "Sample Product"
+          },
+          "body": "I need help with my account",
+          "created_by": {
+            "type": "dev_user",
+            "display_handle": "john-doe",
+            "display_id": "DEVU-1046",
+            "display_name": "john-doe",
+            "email": "john.doe@gmail.com",
+            "full_name": "John Doe",
+            "id": "don:identity:dvrv-us-1:devo/XXXXXX:devu/1046",
+            "id_v1": "don:DEV-XXXXXX:dev_user:DEVU-1046",
+            "state": "active",
+            "thumbnail": "https://api.devrev.ai/internal/display-picture/john%20doe.svg"
+          },
+          "created_date": "2023-08-04T17:09:39.278Z",
+          "display_id": "TKT-123",
+          "id": "don:core:dvrv-us-1:devo/XXXXXX:ticket/123",
+          "id_v1": "don:DEV-XXXXXX:ticket:123",
+          "modified_by": {
+            "type": "dev_user",
+            "display_handle": "john-doe",
+            "display_id": "DEVU-1046",
+            "display_name": "john-doe",
+            "email": "john.doe@gmail.com",
+            "full_name": "John Doe",
+            "id": "don:identity:dvrv-us-1:devo/XXXXXX:devu/1046",
+            "id_v1": "don:DEV-XXXXXX:dev_user:DEVU-1046",
+            "state": "active",
+            "thumbnail": "https://api.devrev.ai/internal/display-picture/john%20doe.svg"
+          },
+          "modified_date": "2023-08-04T17:09:39.278Z",
+          "owned_by": [
+            {
+              "type": "dev_user",
+              "display_handle": "support-agent",
+              "display_id": "DEVU-2588",
+              "display_name": "support-agent",
+              "email": "support@example.com",
+              "full_name": "Support Agent",
+              "id": "don:identity:dvrv-us-1:devo/XXXXXX:devu/2588",
+              "id_v1": "don:DEV-XXXXXX:dev_user:DEVU-2588",
+              "state": "active",
+              "thumbnail": "https://api.devrev.ai/internal/display-picture/support%20agent.svg"
+            }
+          ],
+          "severity": "medium",
+          "stage": {
+            "name": "queued",
+            "notes": "Open",
+            "ordinal": 1000,
+            "stage": {
+              "id": "don:core:dvrv-us-1:devo/XXXXXX:custom_stage/1"
+            },
+            "state": {
+              "id": "don:core:dvrv-us-1:devo/XXXXXX:custom_state/1"
+            }
+          },
+          "state": "open",
+          "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/5597",
+          "tags": [],
+          "title": "Need help with account access"
+        }
+      }
+    },
+    "context": {
+      "dev_oid": "don:identity:dvrv-us-1:devo/XXXXXX",
+      "automation_id": "don:integration:dvrv-us-1:devo/XXXXXX:automation/d6776732-c90e-4dd0-aa21-3f7115dc965f",
+      "source_id": "don:integration:dvrv-us-1:devo/XXXXXX:automation/d6776732-c90e-4dd0-aa21-3f7115dc965f",
+      "snap_in_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in/6525667a-7e10-4c13-bb21-a69f779fabcd",
+      "snap_in_version_id": "don:integration:dvrv-us-1:devo/XXXXXX:snap_in_package/401582f8-c516-4b74-9783-da592989e220:snap_in_version/20b7f15b-3f58-4806-b124-b86953b90bb1",
+      "service_account_id": "don:identity:dvrv-us-1:devo/XXXXXX:svcacc/10",
+      "secrets": {
+        "service_account_token": "secret-account-token-value"
+      }
+    },
+    "execution_metadata": {
+      "request_id": "",
+      "function_name": "ticket_greeter",
+      "event_type": "work_created",
+      "devrev_endpoint": "https://api.devrev.ai"
+    },
+    "input_data": {
+      "global_values": {
+        "welcome_message_type": "happy",
+        "happy_message": "Welcome! We're excited to help you with ticket %ticket_id%. Our team is here to assist you!",
+        "motivating_message": "Thanks for reaching out! Ticket %ticket_id% is in good hands. We'll work together to get this resolved!",
+        "default_message": "Hello! Thank you for creating ticket %ticket_id%. We've received your request and will get back to you soon.",
+        "greet_by_priority": false,
+        "high_priority_message": "High Priority: We're prioritizing ticket %ticket_id% and will address it urgently!"
+      },
+      "event_sources": {
+        "devrev-webhook": "don:integration:dvrv-us-1:devo/XXXXXX:event_source/62d7cea0-7529-42a2-949d-550e0c93ac6a"
+      },
+      "keyrings": null,
+      "resources": { "keyrings": {}, "tags": {} }
+    }
+  }
+]

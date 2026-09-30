@@ -1,0 +1,86 @@
+version: "2"
+name: "Ticket Greeter Bot"
+description: "Snap-In that posts a welcome comment when a new ticket is created"
+
+service_account:
+  display_name: "Ticket Greeter Bot"
+
+inputs:
+  organization:
+    - name: welcome_message_type
+      description: Type of welcome message to use
+      field_type: enum
+      allowed_values:
+        - "happy"
+        - "motivating"
+        - "default"
+      default_value: "default"
+      ui:
+        display_name: Welcome Message Type
+    
+    - name: happy_message
+      description: Custom happy welcome message (use %ticket_id% as placeholder for ticket ID)
+      field_type: text
+      default_value: "Welcome! We're excited to help you with ticket %ticket_id%. Our team is here to assist you!"
+      ui:
+        display_name: Happy Message
+    
+    - name: motivating_message
+      description: Custom motivating welcome message (use %ticket_id% as placeholder for ticket ID)
+      field_type: text
+      default_value: "Thanks for reaching out! Ticket %ticket_id% is in good hands. We'll work together to get this resolved!"
+      ui:
+        display_name: Motivating Message
+    
+    - name: default_message
+      description: Default welcome message (use %ticket_id% as placeholder for ticket ID)
+      field_type: text
+      default_value: "Hello! Thank you for creating ticket %ticket_id%. We've received your request and will get back to you soon."
+      ui:
+        display_name: Default Message
+    
+    - name: greet_by_priority
+      description: Enable different messages based on ticket priority
+      field_type: bool
+      default_value: false
+      ui:
+        display_name: Greet by Priority
+    
+    - name: high_priority_message
+      description: Message for high priority tickets
+      field_type: text
+      default_value: "High Priority: We're prioritizing ticket %ticket_id% and will address it urgently!"
+      ui:
+        display_name: High Priority Message
+
+event_sources:
+  organization:
+    - name: devrev-webhook
+      description: Source listening for work_created events from DevRev
+      display_name: DevRev Webhook
+      type: devrev-webhook
+      config:
+        event_types:
+          - work_created
+
+      filter:
+        jq_query: |
+          if .type == "work_created" then
+            if .work_created.work.type == "ticket" then true
+            else false
+            end
+          else false
+          end
+
+
+functions:
+  - name: ticket_greeter
+    description: Function to post a welcome comment on newly created tickets
+
+automations:
+  - name: greet_new_ticket
+    source: devrev-webhook
+    event_types:
+      - work_created
+    function: ticket_greeter
+
