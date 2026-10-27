@@ -1,21 +1,12 @@
 version: '2'
 
-name: Sample Snap-Ins for Execution
-description: Snap In to add comments for testing.
+name: Sample Snap-Ins for DevRev Hackathon
+description: Snap In to add Comments for demonstration purpose.
 
 service_account:
   display_name: "DevRev Bot"
   scopes:
     self:
-      - scope: issue:write
-        optional: true
-        reason: "To write timeline entry"
-      - scope: ticket:write
-        optional: true
-        reason: "To write timeline entry"
-      - scope: command:all
-        optional: true
-        reason: 'To read and write commands'
 
 event_sources:
   organization:
